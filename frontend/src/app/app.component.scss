@@ -1,0 +1,18 @@
+@import "../styles-variables";
+
+app-header {
+    display: block;
+    height: $barheight;
+}
+
+app-placeholder-content {
+    display: block;
+    min-height: calc(100% - #{$barheight});
+    padding-bottom: $barheight;
+}
+
+app-footer {
+    display: block;
+    height: $barheight;
+    margin-top: -$barheight;
+}
