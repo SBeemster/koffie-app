@@ -2,19 +2,23 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './header/header.component';
-import { FooterComponent } from './footer/footer.component';
-import { PlaceholderContentComponent } from './placeholder-content/placeholder-content.component';
+import { AppRoutingModule } from './/app-routing.module';
+import { CoreModule } from './core/core.module';
+import { PagesModule } from './pages/pages.module';
+import { SharedModule } from './shared/shared.module';
+import { PagesComponent } from './pages/pages.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
-    FooterComponent,
-    PlaceholderContentComponent
+    PagesComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    AppRoutingModule,
+    CoreModule,
+    PagesModule,
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]
