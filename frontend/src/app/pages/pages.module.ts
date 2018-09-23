@@ -1,16 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PagesRouterModule } from './pages-router.module';
-import { OrderModule } from './order/order.module';
-import { UserModule } from './user/user.module';
+
+import { PagesRoutingModule, routedComponents } from './/pages-routing.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    PagesRouterModule,
-    OrderModule,
-    UserModule,
-  ],
-  declarations: []
+    imports: [
+        CommonModule,
+        PagesRoutingModule,
+    ],
+    declarations: [...routedComponents]
 })
 export class PagesModule { }
