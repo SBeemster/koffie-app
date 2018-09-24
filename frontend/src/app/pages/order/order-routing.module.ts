@@ -6,8 +6,8 @@ import { PlaceComponent } from './place/place.component';
 import { OverviewComponent } from './overview/overview.component';
 
 const routes: Routes = [
-    { 
-        path: '', 
+    {
+        path: '',
         component: OrderComponent,
         children: [
             { path: 'place', component: PlaceComponent },
@@ -27,4 +27,4 @@ export const routedComponents = [
     OrderComponent,
     PlaceComponent,
     OverviewComponent
-]
+];
