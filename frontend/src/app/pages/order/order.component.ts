@@ -1,7 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Product } from '../../../core/classes/product';
-import { AvailableCoffeeService } from '../../../core/services/available-coffee.service';
-
 
 @Component({
   selector: 'app-order',
@@ -10,30 +7,8 @@ import { AvailableCoffeeService } from '../../../core/services/available-coffee.
 })
 export class OrderComponent implements OnInit {
 
-  bestellingen = [];
-  availableCoffees;
-  constructor(private availableCoffeeService: AvailableCoffeeService) { }
+  constructor() { }
 
-  ngOnInit() {
-    this.availableCoffees = this.availableCoffeeService.getCoffee();
-  }
+  ngOnInit() { }
 
-  addToOrder(product: string, aantal: number): void {
-    for (const s of this.bestellingen) {
-      if (s.name === product) {
-        s.aantal++;
-        return;
-      }
-    }
-    const newProduct = new Product(product ? product : 'Koffie', aantal ? aantal : 1);
-    this.bestellingen.push(newProduct);
-  }
-
-  deleteFromOrder(bestelling: Product) {
-    this.bestellingen.splice(this.bestellingen.indexOf(bestelling), 1);
-  }
-
-  clearCart(): void {
-    this.bestellingen = [];
-  }
 }
