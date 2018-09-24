@@ -38,26 +38,7 @@
   </div>
 </div>
 
-<!--
-<div class="col-sm-9" *ngIf="!item.edit">
-    <div class="checkbox pointer" (click)="checkItem(item)" [ngClass]="item.checked ? 'text-checked' : ''">
-        <input type="checkbox" name="state" [(ngModel)]="item.checked">
-        <span class="form-control"><strong>{{ item.count }}</strong> x {{ item.name }}</span>
-    </div>
-</div>
-<div class="col-sm-9" *ngIf="item.edit">
-    <form>
-        <div class="form-row">
-            <div class="col">
-                <input type="text" class="form-control" name="itemName" [(ngModel)]="item.name" placeholder="Boodschap">
-            </div>
-            <div class="col">
-                <input type="number" class="form-control" name="itemCount" [(ngModel)]="item.count" placeholder="Aantal">
-            </div>
-        </div>
-    </form>
-</div>
--->
+
 <!-- Bootstrap modal for messages -->
 <div #myModal class="modal fade" role="dialog">
     <div class="modal-dialog">
