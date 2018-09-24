@@ -13,6 +13,7 @@ export class GroupComponent implements OnInit {
   availableGroups;
   messageHeader;
   message;
+  newName;
   constructor(private availableGroupsService: AvailableGroupsService) { }
 
   ngOnInit() {
