@@ -19,11 +19,15 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-sm-4">
+  <div class="col-sm-12 col-lg-5">
       <ul class="list-group list-group-flush">
-          <li class="list-group-item" *ngFor="let order of orders">
+          <ng-container *ngFor="let order of orders">
+          <li class="list-group-item" *ngIf="!order.verwerkt">
+              
               {{order.aantal}}x {{order.name}} <button class="float-right btn btn-danger" (click)="deleteFromOrder(order)"><i class="fa fa-trash"></i> </button>
-          </li>
+
+            </li>
+        </ng-container>
       </ul>
   </div>
 </div>

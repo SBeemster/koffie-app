@@ -1,13 +1,22 @@
 import { Injectable } from '@angular/core';
 import { OrderLine } from '../classes/orderLine';
 
+
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService {
-  orders =[];
-
-  placeOrder(product: string, aantal: number, verbruiker: string): void{
+  orders = [];
+  getOrders(): Array<OrderLine> {
+   
+    return this.orders;
+  }
+  gaHalen(): void{
+    for(let s of this.orders){
+      s.verwerkt = true;
+    }
+  }
+  placeOrder(product: string, aantal: number, verbruiker: string): void {
     for (const s of this.orders) {
       if (s.name === product && s.verbruiker === verbruiker) {
         s.aantal++;

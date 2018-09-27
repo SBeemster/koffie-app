@@ -1,3 +1,29 @@
-<p>
-  overview works!
-</p>
+<div class="row">
+  <div class="col-sm-12">
+      <h3>Kies uw drank</h3>
+  </div>
+</div>
+<div class="row">
+  <div class="d-flex justify-content-between">
+      <div class="col-sm-12">
+          <button class="btn btn-outline-success" (click)="gaHalen();">IK GA KOFFIE HALEN</button>
+          
+         
+      </div>
+  </div>
+</div>
+<hr>
+<div class="row">
+  <div class="col-sm-4">
+      <h3>Bestellingen overzicht</h3>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-4">
+      <ul class="list-group list-group-flush">
+          <li class="list-group-item" *ngFor="let order of orders">
+              {{order.aantal}}x {{order.name}} <span class="float-right">{{order.verbruiker }}</span>
+          </li>
+      </ul>
+  </div>
+</div>

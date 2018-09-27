@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
+import { OrderService } from '../../../core/services/order.service';
+import { OrderLine } from '../../../core/classes/orderLine';
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.component.html',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OverviewComponent implements OnInit {
 
-  constructor() { }
+  orders=[];
+  constructor(private OrderService: OrderService) { }
 
   ngOnInit() {
+    this.orders = this.OrderService.getOrders();
   }
 
+  gaHalen = this.OrderService.gaHalen;
+  
 }
