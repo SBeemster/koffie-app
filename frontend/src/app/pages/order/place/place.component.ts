@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Product } from '../../../core/classes/product';
 import { AvailableCoffeeService } from '../../../core/services/available-coffee.service';
 import { OrderService } from '../../../core/services/order.service';
 
@@ -22,7 +21,6 @@ export class PlaceComponent implements OnInit {
 
   deleteFromOrder=this.OrderService.deleteFromOrder;
    
-  clearCart(): void {
-    this.orders = [];
-  }
+  clearCart=this.OrderService.clearCart;
+  
 }
