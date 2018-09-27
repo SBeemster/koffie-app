@@ -9,7 +9,8 @@ const routes: Routes = [
         path: '',
         component: UserComponent,
         children: [
-            { path: 'group', component: GroupComponent }
+            { path: 'group', component: GroupComponent },
+            { path: '', redirectTo: 'group', pathMatch: 'full' }
         ]
     },
 ];
