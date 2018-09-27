@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from '../../../core/classes/product';
 import { AvailableCoffeeService } from '../../../core/services/available-coffee.service';
+import { OrderService } from '../../../core/services/order.service';
 
 @Component({
   selector: 'app-place',
@@ -9,30 +10,19 @@ import { AvailableCoffeeService } from '../../../core/services/available-coffee.
 })
 export class PlaceComponent implements OnInit {
 
-  bestellingen = [];
+  orders=this.OrderService.orders;
   availableCoffees;
-  constructor(private availableCoffeeService: AvailableCoffeeService) { }
+  constructor(private availableCoffeeService: AvailableCoffeeService, private OrderService: OrderService) { }
 
   ngOnInit() {
     this.availableCoffees = this.availableCoffeeService.getCoffee();
   }
 
-  addToOrder(product: string, aantal: number): void {
-    for (const s of this.bestellingen) {
-      if (s.name === product) {
-        s.aantal++;
-        return;
-      }
-    }
-    const newProduct = new Product(product ? product : 'Koffie', aantal ? aantal : 1);
-    this.bestellingen.push(newProduct);
-  }
+  addToOrder=this.OrderService.placeOrder;
 
-  deleteFromOrder(bestelling: Product) {
-    this.bestellingen.splice(this.bestellingen.indexOf(bestelling), 1);
-  }
-
+  deleteFromOrder=this.OrderService.deleteFromOrder;
+   
   clearCart(): void {
-    this.bestellingen = [];
+    this.orders = [];
   }
 }

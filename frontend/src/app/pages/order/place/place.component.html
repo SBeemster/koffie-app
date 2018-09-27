@@ -6,7 +6,7 @@
 <div class="row">
   <div class="d-flex justify-content-between">
       <div class="col-sm-12">
-          <button class="btn btn-outline-success" *ngFor="let availableCoffee of availableCoffees" (click)="addToOrder(availableCoffee, newAantal);">{{availableCoffee}}</button>
+          <button class="btn btn-outline-success" *ngFor="let availableCoffee of availableCoffees" (click)="addToOrder(availableCoffee, newAantal, 'Wilrik');">{{availableCoffee}}</button>
           
          
       </div>
@@ -21,8 +21,8 @@
 <div class="row">
   <div class="col-sm-4">
       <ul class="list-group list-group-flush">
-          <li class="list-group-item" *ngFor="let bestelling of bestellingen">
-              {{bestelling.aantal}}x {{bestelling.name}} <button class="float-right btn btn-danger" (click)="deleteFromOrder(bestelling)"><i class="fa fa-trash"></i> </button>
+          <li class="list-group-item" *ngFor="let order of orders">
+              {{order.aantal}}x {{order.name}} <button class="float-right btn btn-danger" (click)="deleteFromOrder(order)"><i class="fa fa-trash"></i> </button>
           </li>
       </ul>
   </div>
