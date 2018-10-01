@@ -11,6 +11,7 @@ const routes: Routes = [
         children: [
             { path: 'order', loadChildren: './order/order.module#OrderModule' },
             { path: 'user', loadChildren: './user/user.module#UserModule' },
+            { path: '', redirectTo: 'order', pathMatch: 'full' },
             { path: '**', component: NotFoundComponent }
         ]
     },

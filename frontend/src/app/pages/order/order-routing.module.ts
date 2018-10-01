@@ -12,6 +12,7 @@ const routes: Routes = [
         children: [
             { path: 'place', component: PlaceComponent },
             { path: 'overview', component: OverviewComponent },
+            { path: '', redirectTo: 'place', pathMatch: 'full' }
         ]
     },
 ];
