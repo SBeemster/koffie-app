@@ -1,9 +1,12 @@
-<nav class="navbar navbar-light bg-light">
-    <form class="form-inline">
-        <div *ngFor="let item of menu">
-            <button class="btn btn-outline-success mr-1" type="button" routerLink="{{ item.link }}">{{ item.title }}</button>
-            <button class="btn btn-sm btn-outline-secondary mr-1" type="button" *ngFor="let child of item.children"
-                routerLink="{{ child.link }}">{{ child.title }}</button>
-        </div>
-    </form>
-</nav>
+<div class="row">
+    <div class="col-sm-12">
+        <form class="form-inline">
+            <div *ngFor="let item of menu">
+                <button class="btn btn-outline-success mr-1" type="button" routerLink="{{ item.link }}">{{
+                    item.title }}</button>
+                <button class="btn btn-sm btn-outline-secondary mr-1" type="button" *ngFor="let child of item.children"
+                    routerLink="{{ child.link }}">{{ child.title }}</button>
+            </div>
+        </form>
+    </div>
+</div>
