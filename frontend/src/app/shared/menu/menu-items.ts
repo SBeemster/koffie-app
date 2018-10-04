@@ -6,27 +6,15 @@ export class MenuItem {
 
 export const MENU_ITEMS: MenuItem[] = [
     {
-        title: 'Order',
-        link: 'order',
-        children: [
-            {
-                title: 'Place',
-                link: 'order/place'
-            },
-            {
-                title: 'Overview',
-                link: 'order/overview'
-            }
-        ]
+        title: 'Plaats Order',
+        link: 'order/place'
     },
     {
-        title: 'User',
-        link: 'user',
-        children: [
-            {
-                title: 'Group',
-                link: 'user/group'
-            }
-        ]
+        title: 'Order Overzicht',
+        link: 'order/overview'
+    },
+    {
+        title: 'Groepen',
+        link: 'user/group'
     }
 ]
