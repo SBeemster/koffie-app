@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { RouterTestingModule } from "@angular/router/testing";
 import { PagesComponent } from "./pages.component";
+import { SharedModule } from "../shared/shared.module";
 
 describe("PagesComponent", () => {
   let component: PagesComponent;
@@ -8,7 +9,7 @@ describe("PagesComponent", () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule, SharedModule],
       declarations: [PagesComponent]
     }).compileComponents();
   }));
