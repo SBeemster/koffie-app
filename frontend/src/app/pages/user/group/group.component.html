@@ -1,0 +1,65 @@
+<form (ngSubmit)="newGroup(newName); newName='';">
+    <div class="form-row row">
+        <div class="col-md-4">
+            <input type="text" class="form-control" placeholder="Voer naam in" [(ngModel)]="newName" name="groupname">
+        </div>
+        <div class="col-md-3">
+            <button class="btn btn-outline-success">
+                Toevoegen
+            </button>
+        </div>
+    </div>
+</form>
+<hr>
+
+<div class="row">
+    <div class="col-sm-2">
+        <h3>Koffiegroepen</h3>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-6">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item" *ngFor="let availableGroup of availableGroups">
+                <span *ngIf="!availableGroup.edit">
+                    {{availableGroup.name}}
+                </span>
+                <span *ngIf="availableGroup.edit">
+                    <input type="text" [(ngModel)]="availableGroup.newName" name="groupname">
+                </span>
+                <button class="float-right btn btn-danger" (click)="deleteGroup(availableGroup)">
+                    <i class="fa fa-fw fa-trash"></i>
+                </button>
+                <button class="float-right btn btn-secondary mr-1" (click)="availableGroup.edit = true" *ngIf="!availableGroup.edit">
+                    <i class="fa fa-fw fa-edit"></i> 
+                </button>
+                <button class="float-right btn btn-secondary mr-1" (click)="editGroup(availableGroup)" *ngIf="availableGroup.edit">
+                    <i class="fa fa-fw fa-save"></i>
+                </button>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!-- Bootstrap modal for messages -->
+<div #myModal class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    {{messageHeader}}
+                </h4>
+            </div>
+            <div class="modal-body">
+                <p>{{message}}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" (click)="closeModal()">
+                    Sluiten
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

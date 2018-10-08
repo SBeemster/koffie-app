@@ -1,0 +1,38 @@
+<div class="row">
+    <div class="d-flex justify-content-between">
+        <div class="col-sm-12">
+            <button class="btn btn-outline-success" (click)="gaHalen();">
+                IK GA KOFFIE HALEN
+            </button>
+        </div>
+    </div>
+</div>
+<hr>
+
+<div class="row">
+    <div class="col-sm-7">
+        <h3>Haal overzicht</h3>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-4">
+        <ul class="list-group list-group-flush">
+            <ng-container *ngFor="let order of ordersGrouped">
+                <li class="list-group-item" *ngIf="order[1] > 0" (click)="getUserOrderType(order[0])">
+                    {{order[1]}} x {{order[0]}}
+                    <ng-container *ngFor="let userOrder of ordersPerUserAndType">
+                        <ul *ngIf="userOrder.name===order[0]">
+                            <li>
+                                {{userOrder.aantal}} x 
+                                <span class="float-right">
+                                    {{userOrder.verbruiker }}
+                                </span>
+                            </li>
+                        </ul>
+                    </ng-container>
+                </li>
+            </ng-container>
+        </ul>
+    </div>
+</div>
