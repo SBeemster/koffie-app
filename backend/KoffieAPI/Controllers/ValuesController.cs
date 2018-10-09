@@ -3,18 +3,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using System.Web.Configuration;
+using System.Data.SqlClient; 
+using System.Data;
 
 namespace KoffieAPI.Controllers
 {
+    
+
     [Route("api/[controller]")]
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        SqlConnection con = new SqlConnection(
+        WebConfigurationManager.ConnectionStrings["connKoffieData"].ConnectionString);
+
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            return new string[] { "value1", "value2" };
+           
+            String queryString = "SELECT * FROM tblTest";
+            SqlDataAdapter adapter = new SqlDataAdapter(queryString, con);  
+            DataSet test = new DataSet();  
+            adapter.Fill(test, "Test");  
+            
+            return new string[] { test.Tables("Test").Rows(0).Item("test"),  test.Tables("Test").Rows(0).Item("test2") };
         }
 
         // GET api/values/5
