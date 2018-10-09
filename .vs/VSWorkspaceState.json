@@ -7,6 +7,6 @@
     "\\backend\\KoffieAPI\\bin\\Release",
     "\\backend\\KoffieAPI\\bin\\Release\\publish"
   ],
-  "SelectedNode": "\\backend\\KoffieAPI\\bin\\Release\\publish",
+  "SelectedNode": "\\backend\\KoffieAPI\\bin\\Release\\publish\\web.config",
   "PreviewInSolutionExplorer": false
 }
