@@ -2,11 +2,8 @@
   "ExpandedNodes": [
     "",
     "\\backend",
-    "\\backend\\KoffieAPI",
-    "\\backend\\KoffieAPI\\bin",
-    "\\backend\\KoffieAPI\\bin\\Release",
-    "\\backend\\KoffieAPI\\bin\\Release\\publish"
+    "\\backend\\KoffieAPI"
   ],
-  "SelectedNode": "\\backend\\KoffieAPI\\bin\\Release\\publish\\web.config",
+  "SelectedNode": "\\backend\\KoffieAPI.sln",
   "PreviewInSolutionExplorer": false
 }

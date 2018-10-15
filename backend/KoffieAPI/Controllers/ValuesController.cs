@@ -3,34 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using System.Data.SqlClient; 
+using System.Data.SqlClient;
 using System.Data;
+using KoffieAPI.Models;
 
 namespace KoffieAPI.Controllers
 {
-    
+
 
     [Route("api/[controller]")]
     [ApiController]
     public class ValuesController : ControllerBase
     {
-        private readonly string connectionString = "Server=tcp:koffiedata.database.windows.net,1433;Initial Catalog=koffiedata;Persist Security Info=False;User ID=KoffieWeb;Password=K0Ff13W3b!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"; 
-        private SqlConnection sqlConnection;
-
+        private readonly DatabaseContext _context;
+        public ValuesController(DatabaseContext context)
+        {
+            _context = context;
+        }
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public ActionResult<List<tblTest>> GetAll()
         {
-            using (var sqlConnection = new SqlConnection(connectionString))
-            {
-
-                String queryString = "SELECT * FROM tblTest";
-                SqlDataAdapter adapter = new SqlDataAdapter(queryString, sqlConnection);
-                DataSet test = new DataSet();
-                adapter.Fill(test, "Test");
-
-                return new string[] { test.Tables["Test"].Rows[0]["test"].ToString(), test.Tables["Test"].Rows[0]["test2"].ToString() };
-            }
+            return _context.tblTest.ToList();
         }
 
         // GET api/values/5
@@ -59,3 +53,5 @@ namespace KoffieAPI.Controllers
         }
     }
 }
+
+

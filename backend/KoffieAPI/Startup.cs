@@ -10,7 +10,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Swagger;
-
+using KoffieAPI.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace KoffieAPI
 {
@@ -32,8 +33,10 @@ namespace KoffieAPI
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+           
+            services.AddDbContext<DatabaseContext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("KoffieDatabase")));
 
-            
 
         }
 
