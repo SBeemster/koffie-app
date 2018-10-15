@@ -3,27 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using System.Data;
-using KoffieAPI.Models;
 
-namespace KoffieAPI.Controllers
+namespace CoffeeAPI.Controllers
 {
-
-
     [Route("api/[controller]")]
     [ApiController]
     public class ValuesController : ControllerBase
     {
-        private readonly DatabaseContext _context;
-        public ValuesController(DatabaseContext context)
-        {
-            _context = context;
-        }
         // GET api/values
         [HttpGet]
-        public ActionResult<List<tblTest>> GetAll()
+        public ActionResult<IEnumerable<string>> Get()
         {
-            return _context.tblTest.ToList();
+            return new string[] { "value1", "value2" };
         }
 
         // GET api/values/5
@@ -52,5 +43,3 @@ namespace KoffieAPI.Controllers
         }
     }
 }
-
-

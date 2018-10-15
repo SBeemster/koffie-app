@@ -1,19 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using CoffeeAPI.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Swashbuckle.AspNetCore.Swagger;
-using KoffieAPI.Models;
-using Microsoft.EntityFrameworkCore;
 
-namespace KoffieAPI
+namespace CoffeeAPI
 {
     public class Startup
     {
@@ -27,33 +20,26 @@ namespace KoffieAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new Info { Title = "Koffie API", Version = "v1" });
-            });
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-           
-            services.AddDbContext<DatabaseContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("KoffieDatabase")));
 
-
+            //var connection = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=TestDB;Integrated Security=True;Connect Timeout=30;";
+            var connection = Configuration.GetConnectionString("KoffieDatabase");
+            services.AddDbContext<CoffeeContext>(options => options.UseSqlServer(connection));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Koffie API V1");
-            });
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                app.UseHsts();
+            }
 
+            app.UseHttpsRedirection();
             app.UseMvc();
         }
     }
