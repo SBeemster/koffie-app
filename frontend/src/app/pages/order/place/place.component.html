@@ -1,4 +1,4 @@
-<div class="row">
+<!-- <div class="row">
     <div class="col-sm-12">
         <h3>Kies uw drank</h3>
     </div>
@@ -42,4 +42,14 @@
             Legen
         </button>
     </div>
-</div>
+</div> -->
+
+<div class="row">
+    <div class="col-sm-6 mb-4" *ngFor="let availableCoffee of availableCoffees">
+        <a [routerLink]="['../choice']">
+            <!--<img src="https://i.imgur.com/EQLOCji.jpg" alt="Koffie plaatje" title="The title of this image"
+            style="width:540px; height:540px;">-->
+            <div style="background-color: white; border:solid black 2px; height: 500px;"></div>
+        </a>
+    </div>
+</div>​
