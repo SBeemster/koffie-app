@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CoffeeAPI.Models
@@ -8,13 +7,8 @@ namespace CoffeeAPI.Models
     {
         public int UserId { get; set; }
 
-        [Required]
-        public string UserName { get; set; }
-        [Required]
-        public string Salt { get; set; }
-        [Required]
-        public string Password { get; set; }
-
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public Drink Prefrence { get; set; }
         public ICollection<UserGroup> UserGroups { get; set; }
         public ICollection<UserRole> UserRoles { get; set; }
