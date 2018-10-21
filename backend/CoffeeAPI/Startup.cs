@@ -35,22 +35,21 @@ namespace CoffeeAPI
             {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    // Clock skew compensates for server time drift
+                    // clock skew compensates for server time drift
                     ClockSkew = TimeSpan.FromMinutes(5),
-                    // Specify the key used to sign the token
+                    // specify the key used to sign the token
                     IssuerSigningKey = new SymmetricSecurityKey(AuthHelper.SecurityKey),
-                    // Ensure the token is signed
+                    // ensure the token is signed
                     RequireSignedTokens = true,
-                    // Ensure the token has an expiration time
+                    // ensure the token has an expiration time
                     RequireExpirationTime = true,
-                    // Ensure the token hasn't expired
+                    // ensure the token hasn't expired
                     ValidateLifetime = true,
-                    // Ensure the token audience matches our audience value
-                    ValidateAudience = true,
-                    ValidAudience = "api://default",
-                    // Ensure the token was issued by a trusted authorization server
+                    // do not validate the audience
+                    ValidateAudience = false,
+                    // ensure the token was issued by a trusted server
                     ValidateIssuer = true,
-                    ValidIssuer = "https://{yourOktaDomain}/oauth2/default"
+                    ValidIssuer = "https://jorisvdinther.nl"
                 };
             });
         }
