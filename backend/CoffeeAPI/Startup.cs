@@ -1,5 +1,5 @@
-﻿using CoffeeAPI.Models;
-using CoffeeAPI.Helpers;
+﻿using CoffeeAPI.Helpers;
+using CoffeeAPI.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -24,6 +24,8 @@ namespace CoffeeAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(); // DEZE SHIT MOET WEG IN DE SERVER BUILDS!!!
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             var connection = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=TestDB;Integrated Security=True;Connect Timeout=30;";
@@ -60,6 +62,10 @@ namespace CoffeeAPI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+            
+                app.UseCors( // DEZE SHIT MOET WEG IN DE SERVER BUILDS!!!
+                    options => options.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader()
+                );
             }
             else
             {
