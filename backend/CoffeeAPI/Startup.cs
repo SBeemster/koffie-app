@@ -38,7 +38,7 @@ namespace CoffeeAPI
                     // Clock skew compensates for server time drift
                     ClockSkew = TimeSpan.FromMinutes(5),
                     // Specify the key used to sign the token
-                    IssuerSigningKey = new SymmetricSecurityKey(AuthenticationHelper.SecurityKey),
+                    IssuerSigningKey = new SymmetricSecurityKey(AuthHelper.SecurityKey),
                     // Ensure the token is signed
                     RequireSignedTokens = true,
                     // Ensure the token has an expiration time

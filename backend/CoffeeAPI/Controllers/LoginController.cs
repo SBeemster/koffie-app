@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CoffeeAPI.Models;
 using System.Text;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
 
 namespace CoffeeAPI.Controllers
 {
@@ -107,19 +110,48 @@ namespace CoffeeAPI.Controllers
             // check supplied password with saved salt against saved password
             var attemptPassword = Encoding.UTF8.GetBytes(loginAttempt.Password);
             var savedPasswordSalt = credentials.PasswordSalt;
-            var attemptPasswordHash = AuthenticationHelper.GenerateSaltedHash(attemptPassword, savedPasswordSalt);
+            var attemptPasswordHash = AuthHelper.GenerateSaltedHash(attemptPassword, savedPasswordSalt);
             var savedPasswordHash = credentials.PasswordHash;
-            if (!AuthenticationHelper.Authenticate(attemptPasswordHash, savedPasswordHash))
+            if (!AuthHelper.Authenticate(attemptPasswordHash, savedPasswordHash))
             {
                 // wrong password
                 return Unauthorized();
             }
 
             // fetch a new jwt
-            var token = AuthenticationHelper.SecurityToken(credentials.User.UserId, credentials.UserName);
-            var result = Ok(token);
+            var fingerPrint = Encoding.UTF8.GetString(AuthHelper.GetRandom());
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = new SymmetricSecurityKey(AuthHelper.SecurityKey);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Issuer = "",
+                Audience = "",
+                Expires = DateTime.UtcNow.AddDays(7),
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim(ClaimTypes.NameIdentifier, credentials.User.UserId.ToString()),
+                    new Claim(ClaimTypes.GivenName, credentials.User.FirstName),
+                    new Claim(ClaimTypes.Surname, credentials.User.LastName),
+                    new Claim(ClaimTypes.Name, credentials.UserName),
+                    new Claim("fngrPrnt","")
+                }),
+                SigningCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature)
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            return result;
+            // create and append fingerprint cookie
+            var cookieOptions = new CookieOptions
+            {
+                Expires = DateTime.UtcNow.AddDays(7),
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                HttpOnly = true,
+                MaxAge = TimeSpan.FromDays(7),
+                IsEssential = true
+            };
+            Response.Cookies.Append("fingerPrint", "blabla", cookieOptions);
+
+            return Ok(token);
         }
 
         // DELETE: api/Login/5
