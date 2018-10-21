@@ -52,6 +52,7 @@ export class LoginComponent {
 
     removeToken(): void {
         localStorage.removeItem("authToken");
+        this.response = { "token": localStorage.getItem("authToken") };
     }
 
     getRequest(): void {
