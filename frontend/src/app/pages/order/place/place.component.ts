@@ -13,9 +13,7 @@ export class PlaceComponent implements OnInit {
   availableCoffees;
   constructor(
     private availableCoffeeService: AvailableCoffeeService,
-    private OrderService: OrderService,
-    private router: Router,
-    private activatedRoute: ActivatedRoute
+    private OrderService: OrderService
   ) {}
 
   ngOnInit() {
@@ -27,8 +25,4 @@ export class PlaceComponent implements OnInit {
   deleteFromOrder = this.OrderService.deleteFromOrder;
 
   clearCart = this.OrderService.clearCart;
-
-  routeToChoice() {
-    this.router.navigate(["../choice"], { relativeTo: this.activatedRoute });
-  }
 }
