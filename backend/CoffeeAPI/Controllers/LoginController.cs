@@ -71,7 +71,7 @@ namespace CoffeeAPI.Controllers
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            return Ok(new { token = tokenHandler.WriteToken(token) });
+            return Ok(new { idToken = tokenHandler.WriteToken(token) });
         }
     }
 }

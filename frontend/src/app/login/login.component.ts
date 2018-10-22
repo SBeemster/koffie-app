@@ -45,14 +45,14 @@ export class LoginComponent {
             )
     }
 
-    setToken(token: object) {
-        localStorage.setItem("authToken", token["token"]);
-        console.log(localStorage.getItem("authToken"));
+    setToken(authResponse: object) {
+        localStorage.setItem("id_token", authResponse["idToken"]);
+        console.log(localStorage.getItem("id_token"));
     }
 
     removeToken(): void {
-        localStorage.removeItem("authToken");
-        this.response = { "token": localStorage.getItem("authToken") };
+        localStorage.removeItem("id_token");
+        this.response = { "token": localStorage.getItem("id_token") };
     }
 
     getRequest(): void {
@@ -60,7 +60,7 @@ export class LoginComponent {
 
         let httpOptions = {
             headers: new HttpHeaders({
-                'Authorization': `Bearer ${localStorage.getItem("authToken")}`
+                'Authorization': `Bearer ${localStorage.getItem("id_token")}`
             })
         };
 
