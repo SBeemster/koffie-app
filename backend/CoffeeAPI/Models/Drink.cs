@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace CoffeeAPI.Models
 {
     public class Drink
     {
-        public int DrinkId { get; set; }
+        public Guid DrinkId { get; set; }
         [Required]
         public string DrinkName { get; set; }
         public bool Available { get; set; }
