@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -22,7 +21,7 @@ namespace CoffeeAPI.Controllers
 
         // GET: api/Drinks
         [HttpGet]
-        public IEnumerable<Drink> GetDrinks(Boolean available=true)
+        public IEnumerable<Drink> GetDrinks(bool? available)
         {
             switch (available)
             {
@@ -30,9 +29,8 @@ namespace CoffeeAPI.Controllers
                     return _context.Drinks.Where(d => d.Available == true);
                 case false:
                     return _context.Drinks.Where(d => d.Available == false);
-                default:
-                    return _context.Drinks;
-            }    
+            }
+            return _context.Drinks;
         }
 
         // GET: api/Drinks/5
