@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { AuthService } from "./auth.service";
+import { ApiService } from "../core/services/api.service";
 
 @Component({
     selector: 'app-login',
@@ -14,7 +15,7 @@ export class LoginComponent {
     username: string = "jaap";
     password: string = "password";
 
-    constructor(private http: HttpClient) { }
+    constructor(private api: ApiService, private auth: AuthService) { }
 
     togglePassword(): void {
         if (this.passType === "password") {
@@ -25,49 +26,17 @@ export class LoginComponent {
     }
 
     login(): void {
-        let requestUrl = "https://localhost:44399/api/login";
-
-        let requestBody = {
-            "UserName": this.username,
-            "Password": this.password
-        }
-
-        let httpOptions = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json'
-            })
-        };
-
-        this.http.post(requestUrl, requestBody, httpOptions)
-            .subscribe(
-                res => { this.response = res; this.setToken(res); }, //success
-                res => { this.response = res; }, //error
-            )
-    }
-
-    setToken(authResponse: object) {
-        localStorage.setItem("id_token", authResponse["idToken"]);
-        console.log(localStorage.getItem("id_token"));
+        this.auth.login(this.username, this.password);
     }
 
     removeToken(): void {
-        localStorage.removeItem("id_token");
-        this.response = { "token": localStorage.getItem("id_token") };
+        this.auth.logout();
     }
 
-    getRequest(): void {
-        let requestUrl = "https://localhost:44399/api/users";
-
-        let httpOptions = {
-            headers: new HttpHeaders({
-                'Authorization': `Bearer ${localStorage.getItem("id_token")}`
-            })
-        };
-
-        this.http.get(requestUrl, httpOptions)
-            .subscribe(
-                res => { this.response = res; }, //success
-                res => { this.response = res; }, //error
-            )
+    getRequest() {
+        this.api.get("/users").subscribe(
+            res => { this.response = res; }, //success
+            res => { this.response = res; } //error
+        )
     }
 }
