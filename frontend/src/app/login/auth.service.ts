@@ -1,16 +1,18 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from "../core/services/api.service";
+import { JwtHelperService  } from '@auth0/angular-jwt';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
 
-    constructor(private api: ApiService) { }
-
-    // https://github.com/auth0/angular2-jwt
-
+    private helper = new JwtHelperService();
+    
+    constructor(private api: ApiService ) { }
+    
     login(username: string, password: string) {
+        console.log(`isLoggedIn ${this.isLoggedIn()}, isLoggedOut ${this.isLoggedOut()}, getExpiration ${this.getExpiration()}`)
         return this.api.post('/login', { "UserName": username, "Password": password })
             .subscribe(this.setSession);
     }
@@ -19,16 +21,20 @@ export class AuthService {
         localStorage.removeItem("id_token");
     }
 
-    isLoggedIn() {
-        
+    isLoggedOut(): boolean {
+        return this.helper.isTokenExpired(localStorage.getItem("id_token"));
     }
 
-    isLoggedOut() {
-        
+    isLoggedIn(): boolean {
+        return !this.isLoggedOut();
     }
 
-    getExpiration() {
-        
+    getExpiration(): Date {
+        if (!this.isLoggedOut()) {
+            return this.helper.getTokenExpirationDate(localStorage.getItem("id_token"));
+        } else {
+            return new Date();
+        }
     }
 
     private setSession(authResult) {
