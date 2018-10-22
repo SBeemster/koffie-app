@@ -61,7 +61,7 @@ namespace CoffeeAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != drink.DrinkId)
+            if (!drink.DrinkId.Equals(id))
             {
                 return BadRequest();
             }
@@ -125,7 +125,7 @@ namespace CoffeeAPI.Controllers
 
         private bool DrinkExists(int id)
         {
-            return _context.Drinks.Any(e => e.DrinkId == id);
+            return _context.Drinks.Any(e => e.DrinkId.Equals(id));
         }
     }
 }

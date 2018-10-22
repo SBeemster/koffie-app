@@ -32,12 +32,22 @@ namespace CoffeeAPI.Models
             var userId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(
                 new { UserId = userId, FirstName = "Jaap", LastName = "Schaap" });
-
+            
             var salt = AuthHelper.GetRandom();
             var password = Encoding.UTF8.GetBytes("password");
             var hashedPassword = AuthHelper.GenerateSaltedHash(password, salt);
             modelBuilder.Entity<Login>().HasData(
                 new { LoginId = Guid.NewGuid(), UserName = "jaap", PasswordSalt = salt, PasswordHash = hashedPassword, UserId = userId});
+
+            //seed first drinks
+            String[] drinkArray = { "Koffie", "Cappuccino", "Latte Macchiato", "Espresso", "Thee" };
+            foreach (var drank in drinkArray)
+            {
+                var drankId = Guid.NewGuid();
+                modelBuilder.Entity<Drink>().HasData(
+                    new { DrinkId = drankId, DrinkName = drank, Available = true });
+            }
+
         }
     }
 }

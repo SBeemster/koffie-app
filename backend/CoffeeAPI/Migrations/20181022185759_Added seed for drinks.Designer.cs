@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CoffeeAPI.Migrations
 {
     [DbContext(typeof(CoffeeContext))]
-    [Migration("20181021092820_test")]
-    partial class test
+    [Migration("20181022185759_Added seed for drinks")]
+    partial class Addedseedfordrinks
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,16 +26,24 @@ namespace CoffeeAPI.Migrations
                     b.Property<Guid>("DrinkId")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<bool>("Available");
+
                     b.Property<string>("DrinkName")
                         .IsRequired();
 
                     b.Property<string>("ImageUrl");
 
-                    b.Property<int>("Stock");
-
                     b.HasKey("DrinkId");
 
                     b.ToTable("Drinks");
+
+                    b.HasData(
+                        new { DrinkId = new Guid("ada4a5b0-a7b0-4b85-991d-79ccf32f6bf6"), Available = true, DrinkName = "Koffie" },
+                        new { DrinkId = new Guid("0e4d6221-fbbe-4cf9-bac0-61f971fcd982"), Available = true, DrinkName = "Cappuccino" },
+                        new { DrinkId = new Guid("86d62434-b026-4f71-a1ec-44c0463d2cab"), Available = true, DrinkName = "Latte Macchiato" },
+                        new { DrinkId = new Guid("1882ae32-74b0-486c-b5e4-c92e886ca622"), Available = true, DrinkName = "Espresso" },
+                        new { DrinkId = new Guid("06d1171d-a007-4629-8209-5e4f7779da7e"), Available = true, DrinkName = "Thee" }
+                    );
                 });
 
             modelBuilder.Entity("CoffeeAPI.Models.Group", b =>
@@ -77,7 +85,7 @@ namespace CoffeeAPI.Migrations
                     b.ToTable("Logins");
 
                     b.HasData(
-                        new { LoginId = new Guid("3cde8c2e-228d-41c8-8f6f-6a6b6328dc0e"), PasswordHash = new byte[] { 73, 226, 12, 97, 170, 91, 110, 235, 36, 199, 80, 246, 41, 118, 250, 142, 181, 60, 72, 172, 89, 112, 127, 117, 189, 242, 130, 245, 153, 58, 203, 208 }, PasswordSalt = new byte[] { 225, 218, 201, 10, 9, 115, 222, 110, 116, 202, 34, 32, 44, 58, 181, 43, 154, 223, 112, 142, 105, 108, 15, 210, 202, 115, 80, 208, 86, 158, 182, 34 }, UserId = new Guid("5e0e3a30-7bce-4966-a35b-3bcee9a81a0b"), UserName = "jaap" }
+                        new { LoginId = new Guid("3889953b-13af-4345-a112-4a5692240177"), PasswordHash = new byte[] { 189, 30, 12, 207, 199, 24, 38, 173, 39, 243, 220, 123, 103, 118, 200, 175, 133, 207, 50, 58, 90, 23, 50, 34, 213, 63, 101, 197, 142, 28, 156, 141 }, PasswordSalt = new byte[] { 23, 69, 242, 248, 67, 140, 153, 151, 198, 225, 166, 223, 149, 253, 18, 109, 29, 177, 171, 55, 247, 45, 187, 202, 35, 116, 194, 146, 20, 174, 210, 33 }, UserId = new Guid("5d25ed34-916a-45cf-a919-dea2873a9b47"), UserName = "jaap" }
                     );
                 });
 
@@ -155,7 +163,7 @@ namespace CoffeeAPI.Migrations
                     b.ToTable("Users");
 
                     b.HasData(
-                        new { UserId = new Guid("5e0e3a30-7bce-4966-a35b-3bcee9a81a0b"), FirstName = "Jaap", LastName = "Schaap" }
+                        new { UserId = new Guid("5d25ed34-916a-45cf-a919-dea2873a9b47"), FirstName = "Jaap", LastName = "Schaap" }
                     );
                 });
 

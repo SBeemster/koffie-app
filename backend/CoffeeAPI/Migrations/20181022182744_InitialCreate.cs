@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CoffeeAPI.Migrations
 {
-    public partial class test : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,7 +13,7 @@ namespace CoffeeAPI.Migrations
                 {
                     DrinkId = table.Column<Guid>(nullable: false),
                     DrinkName = table.Column<string>(nullable: false),
-                    Stock = table.Column<int>(nullable: false),
+                    Available = table.Column<bool>(nullable: false),
                     ImageUrl = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -192,12 +192,12 @@ namespace CoffeeAPI.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "UserId", "FirstName", "LastName", "PrefrenceDrinkId" },
-                values: new object[] { new Guid("5e0e3a30-7bce-4966-a35b-3bcee9a81a0b"), "Jaap", "Schaap", null });
+                values: new object[] { new Guid("63d6d67d-02a8-472d-ab55-0f890b0dc590"), "Jaap", "Schaap", null });
 
             migrationBuilder.InsertData(
                 table: "Logins",
                 columns: new[] { "LoginId", "PasswordHash", "PasswordSalt", "UserId", "UserName" },
-                values: new object[] { new Guid("3cde8c2e-228d-41c8-8f6f-6a6b6328dc0e"), new byte[] { 73, 226, 12, 97, 170, 91, 110, 235, 36, 199, 80, 246, 41, 118, 250, 142, 181, 60, 72, 172, 89, 112, 127, 117, 189, 242, 130, 245, 153, 58, 203, 208 }, new byte[] { 225, 218, 201, 10, 9, 115, 222, 110, 116, 202, 34, 32, 44, 58, 181, 43, 154, 223, 112, 142, 105, 108, 15, 210, 202, 115, 80, 208, 86, 158, 182, 34 }, new Guid("5e0e3a30-7bce-4966-a35b-3bcee9a81a0b"), "jaap" });
+                values: new object[] { new Guid("58dc3f30-e1c5-407b-a971-e0d4b0869069"), new byte[] { 206, 58, 32, 174, 83, 9, 251, 100, 83, 229, 219, 122, 39, 12, 45, 88, 187, 176, 245, 143, 39, 210, 209, 73, 200, 78, 44, 25, 39, 41, 87, 160 }, new byte[] { 115, 243, 62, 108, 238, 214, 54, 172, 34, 164, 118, 102, 70, 227, 16, 232, 59, 41, 252, 190, 4, 222, 88, 26, 108, 57, 49, 74, 162, 135, 175, 86 }, new Guid("63d6d67d-02a8-472d-ab55-0f890b0dc590"), "jaap" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Logins_UserId",

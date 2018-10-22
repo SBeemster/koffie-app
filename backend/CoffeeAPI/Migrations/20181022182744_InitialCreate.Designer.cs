@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CoffeeAPI.Migrations
 {
     [DbContext(typeof(CoffeeContext))]
-    [Migration("20181018075717_ReplacedStockForAvailableinDrinks")]
-    partial class ReplacedStockForAvailableinDrinks
+    [Migration("20181022182744_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,9 +23,8 @@ namespace CoffeeAPI.Migrations
 
             modelBuilder.Entity("CoffeeAPI.Models.Drink", b =>
                 {
-                    b.Property<int>("DrinkId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<Guid>("DrinkId")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<bool>("Available");
 
@@ -41,9 +40,8 @@ namespace CoffeeAPI.Migrations
 
             modelBuilder.Entity("CoffeeAPI.Models.Group", b =>
                 {
-                    b.Property<int>("GroupId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<Guid>("GroupId")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("GroupName")
                         .IsRequired();
@@ -53,21 +51,50 @@ namespace CoffeeAPI.Migrations
                     b.ToTable("Groups");
                 });
 
+            modelBuilder.Entity("CoffeeAPI.Models.Login", b =>
+                {
+                    b.Property<Guid>("LoginId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<byte[]>("PasswordHash")
+                        .IsRequired();
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .IsRequired();
+
+                    b.Property<Guid?>("UserId");
+
+                    b.Property<string>("UserName")
+                        .IsRequired();
+
+                    b.HasKey("LoginId");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("UserName")
+                        .IsUnique();
+
+                    b.ToTable("Logins");
+
+                    b.HasData(
+                        new { LoginId = new Guid("58dc3f30-e1c5-407b-a971-e0d4b0869069"), PasswordHash = new byte[] { 206, 58, 32, 174, 83, 9, 251, 100, 83, 229, 219, 122, 39, 12, 45, 88, 187, 176, 245, 143, 39, 210, 209, 73, 200, 78, 44, 25, 39, 41, 87, 160 }, PasswordSalt = new byte[] { 115, 243, 62, 108, 238, 214, 54, 172, 34, 164, 118, 102, 70, 227, 16, 232, 59, 41, 252, 190, 4, 222, 88, 26, 108, 57, 49, 74, 162, 135, 175, 86 }, UserId = new Guid("63d6d67d-02a8-472d-ab55-0f890b0dc590"), UserName = "jaap" }
+                    );
+                });
+
             modelBuilder.Entity("CoffeeAPI.Models.OrderLine", b =>
                 {
-                    b.Property<int>("OrderLineId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<Guid>("OrderLineId")
+                        .ValueGeneratedOnAdd();
 
-                    b.Property<int>("CustomerUserId");
+                    b.Property<Guid>("CustomerUserId");
 
-                    b.Property<int>("DrinkId");
+                    b.Property<Guid>("DrinkId");
 
                     b.Property<int>("Milk");
 
-                    b.Property<int?>("OrderStatusId");
+                    b.Property<Guid?>("OrderStatusId");
 
-                    b.Property<int?>("ServerUserId");
+                    b.Property<Guid?>("ServerUserId");
 
                     b.Property<int>("Sugar");
 
@@ -86,9 +113,8 @@ namespace CoffeeAPI.Migrations
 
             modelBuilder.Entity("CoffeeAPI.Models.OrderStatus", b =>
                 {
-                    b.Property<int>("OrderStatusId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<Guid>("OrderStatusId")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("StatusName")
                         .IsRequired();
@@ -100,9 +126,8 @@ namespace CoffeeAPI.Migrations
 
             modelBuilder.Entity("CoffeeAPI.Models.Role", b =>
                 {
-                    b.Property<int>("RoleId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<Guid>("RoleId")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("RoleName")
                         .IsRequired();
@@ -114,37 +139,34 @@ namespace CoffeeAPI.Migrations
 
             modelBuilder.Entity("CoffeeAPI.Models.User", b =>
                 {
-                    b.Property<int>("UserId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<Guid>("UserId")
+                        .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Password")
-                        .IsRequired();
+                    b.Property<string>("FirstName");
 
-                    b.Property<int?>("PrefrenceDrinkId");
+                    b.Property<string>("LastName");
 
-                    b.Property<string>("Salt")
-                        .IsRequired();
-
-                    b.Property<string>("UserName")
-                        .IsRequired();
+                    b.Property<Guid?>("PrefrenceDrinkId");
 
                     b.HasKey("UserId");
 
                     b.HasIndex("PrefrenceDrinkId");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new { UserId = new Guid("63d6d67d-02a8-472d-ab55-0f890b0dc590"), FirstName = "Jaap", LastName = "Schaap" }
+                    );
                 });
 
             modelBuilder.Entity("CoffeeAPI.Models.UserGroup", b =>
                 {
-                    b.Property<int>("UserGroupId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<Guid>("UserGroupId")
+                        .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("GroupId");
+                    b.Property<Guid?>("GroupId");
 
-                    b.Property<int?>("UserId");
+                    b.Property<Guid?>("UserId");
 
                     b.HasKey("UserGroupId");
 
@@ -157,13 +179,12 @@ namespace CoffeeAPI.Migrations
 
             modelBuilder.Entity("CoffeeAPI.Models.UserRole", b =>
                 {
-                    b.Property<int>("UserRoleId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<Guid>("UserRoleId")
+                        .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("RoleId");
+                    b.Property<Guid?>("RoleId");
 
-                    b.Property<int?>("UserId");
+                    b.Property<Guid?>("UserId");
 
                     b.HasKey("UserRoleId");
 
@@ -172,6 +193,13 @@ namespace CoffeeAPI.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserRoles");
+                });
+
+            modelBuilder.Entity("CoffeeAPI.Models.Login", b =>
+                {
+                    b.HasOne("CoffeeAPI.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("CoffeeAPI.Models.OrderLine", b =>

@@ -7,6 +7,7 @@ namespace CoffeeAPI.Models
     public class Drink
     {
         public Guid DrinkId { get; set; }
+
         [Required]
         public string DrinkName { get; set; }
         public bool Available { get; set; }
