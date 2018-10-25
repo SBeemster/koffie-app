@@ -17,7 +17,13 @@ export class OrderService {
       }
     }
   }
-  placeOrder(product: string, aantal: number, verbruiker: string): void {
+  placeOrder(
+    product: string,
+    aantal: number,
+    verbruiker: string,
+    melk: number,
+    suiker: number
+  ): void {
     for (const s of this.orders) {
       if (
         s.name === product &&
@@ -31,7 +37,9 @@ export class OrderService {
     const newProduct = new OrderLine(
       product ? product : "Koffie",
       aantal ? aantal : 1,
-      verbruiker ? verbruiker : ""
+      verbruiker ? verbruiker : "",
+      melk ? melk : 0,
+      suiker ? suiker : 0
     );
     this.orders.push(newProduct);
   }

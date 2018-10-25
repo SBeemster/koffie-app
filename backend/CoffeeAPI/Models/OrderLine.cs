@@ -1,10 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace CoffeeAPI.Models
 {
     public class OrderLine
     {
-        public int OrderLineId { get; set; }
+        public Guid OrderLineId { get; set; }
 
         [Required]
         public User Customer { get; set; }

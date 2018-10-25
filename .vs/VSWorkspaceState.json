@@ -2,8 +2,10 @@
   "ExpandedNodes": [
     "",
     "\\backend",
-    "\\backend\\KoffieAPI"
+    "\\backend\\CoffeeAPI",
+    "\\backend\\CoffeeAPI\\Controllers",
+    "\\backend\\CoffeeAPI\\Models"
   ],
-  "SelectedNode": "\\backend\\KoffieAPI.sln",
+  "SelectedNode": "\\backend\\CoffeeAPI.sln",
   "PreviewInSolutionExplorer": false
 }

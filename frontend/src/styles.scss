@@ -1,31 +1,32 @@
 @import "./styles-variables";
-@import '~bootstrap/scss/bootstrap-reboot';
-@import '~bootstrap/scss/bootstrap-grid';
-@import '~bootstrap/scss/bootstrap';
-@import '~font-awesome/scss/font-awesome';
+@import "~bootstrap/scss/bootstrap-reboot";
+@import "~bootstrap/scss/bootstrap-grid";
+@import "~bootstrap/scss/bootstrap";
+@import "~font-awesome/scss/font-awesome";
 
 html,
 body {
-    height: 100%;
-    margin: 0;
+  height: 100%;
+  margin: 0;
+  background-color: darkslateblue;
 }
 
 app-root {
-    display: block;
-    height: 100%;
-    margin: 0;
+  display: block;
+  height: 100%;
+  margin: 0;
 }
 
 app-pages {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 
 .content {
-    flex: 1 0 auto;
+  flex: 1 0 auto;
 }
 
 app-footer {
-    flex-shrink: 0;
+  flex-shrink: 0;
 }

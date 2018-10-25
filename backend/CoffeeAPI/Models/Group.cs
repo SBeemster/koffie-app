@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace CoffeeAPI.Models
 {
     public class Group
     {
-        public int GroupId { get; set; }
+        public Guid GroupId { get; set; }
         [Required]
         public string GroupName { get; set; }
 
