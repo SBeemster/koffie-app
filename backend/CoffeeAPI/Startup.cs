@@ -28,8 +28,8 @@ namespace CoffeeAPI
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            var connection = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=TestDB;Integrated Security=True;Connect Timeout=30;";
-            //var connection = Configuration.GetConnectionString("KoffieDatabase");
+            
+            var connection = Configuration.GetConnectionString("KoffieDatabase");
             services.AddDbContext<CoffeeContext>(options => options.UseSqlServer(connection));
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
