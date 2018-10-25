@@ -4,9 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace CoffeeAPI.Controllers
@@ -26,7 +24,6 @@ namespace CoffeeAPI.Controllers
         [HttpGet]
         public IEnumerable<User> GetUsers()
         {
-            Debug.WriteLine("UserId: {0}", new Guid(User.FindFirst(ClaimTypes.NameIdentifier).Value));
             return _context.Users;
         }
 

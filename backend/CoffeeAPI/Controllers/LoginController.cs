@@ -1,6 +1,7 @@
 ﻿using CoffeeAPI.Helpers;
 using CoffeeAPI.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -34,7 +35,10 @@ namespace CoffeeAPI.Controllers
             // fetch username from logins table
             try
             {
-                credentials = _context.Logins.Single(login => login.UserName == loginAttempt.UserName);
+                credentials = _context.Logins
+                    .Where(login => login.UserName == loginAttempt.UserName)
+                    .Include(l => l.User)
+                    .Single();
             }
             catch
             {
@@ -53,20 +57,36 @@ namespace CoffeeAPI.Controllers
                 return Unauthorized();
             }
 
+            // Gather refrences
+            var user = _context.Users
+                .Single(u => u == credentials.User);
+            var userRoles = _context.UserRoles
+                .Include(ur => ur.User)
+                .Where(ur => ur.User == user)
+                .ToList();
+            var roles = _context.UserRoles
+                .Where(ur => userRoles.Contains(ur))
+                .Include(ur => ur.Role)
+                .Select(ur => ur.Role)
+                .ToList();
+
+            // Compile user claims
+            var tokenClaims = new ClaimsIdentity();
+            tokenClaims.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()));
+            foreach (var roleName in roles.Select(r => r.RoleName))
+            {
+                tokenClaims.AddClaim(new Claim(ClaimTypes.Role, roleName));
+            }
+
             // create a new jwt
             var fingerPrint = Encoding.UTF8.GetString(AuthHelper.GetRandom());
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = new SymmetricSecurityKey(AuthHelper.SecurityKey);
-            var user = _context.Entry(credentials).Reference(login => login.User);
-            user.Load();
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Issuer = "https://jorisvdinther.nl",
                 Expires = DateTime.UtcNow.AddDays(7),
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.NameIdentifier, user.CurrentValue.UserId.ToString())
-                }),
+                Subject = tokenClaims,
                 SigningCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);

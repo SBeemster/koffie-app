@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CoffeeAPI.Migrations
 {
-    public partial class test : Migration
+    public partial class ImplementedRoles : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -190,14 +190,34 @@ namespace CoffeeAPI.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Roles",
+                columns: new[] { "RoleId", "RoleName" },
+                values: new object[,]
+                {
+                    { new Guid("1457e51b-b0da-40c4-bbd9-531ee1edd7b8"), "User" },
+                    { new Guid("cf1b3516-56ce-44e2-99d1-a5adad93dde2"), "Manager" },
+                    { new Guid("633209f9-4d9c-4c7d-81b7-2b71f71ea558"), "Admin" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "UserId", "FirstName", "LastName", "PrefrenceDrinkId" },
-                values: new object[] { new Guid("5e0e3a30-7bce-4966-a35b-3bcee9a81a0b"), "Jaap", "Schaap", null });
+                values: new object[] { new Guid("234cf4d5-7315-4bd6-afae-83f2e6f72049"), "Jaap", "Schaap", null });
 
             migrationBuilder.InsertData(
                 table: "Logins",
                 columns: new[] { "LoginId", "PasswordHash", "PasswordSalt", "UserId", "UserName" },
-                values: new object[] { new Guid("3cde8c2e-228d-41c8-8f6f-6a6b6328dc0e"), new byte[] { 73, 226, 12, 97, 170, 91, 110, 235, 36, 199, 80, 246, 41, 118, 250, 142, 181, 60, 72, 172, 89, 112, 127, 117, 189, 242, 130, 245, 153, 58, 203, 208 }, new byte[] { 225, 218, 201, 10, 9, 115, 222, 110, 116, 202, 34, 32, 44, 58, 181, 43, 154, 223, 112, 142, 105, 108, 15, 210, 202, 115, 80, 208, 86, 158, 182, 34 }, new Guid("5e0e3a30-7bce-4966-a35b-3bcee9a81a0b"), "jaap" });
+                values: new object[] { new Guid("1df175f8-28b8-4d61-ac91-eab9fc17c325"), new byte[] { 86, 60, 2, 190, 83, 144, 135, 43, 52, 101, 214, 249, 119, 99, 204, 251, 5, 98, 188, 93, 86, 193, 48, 174, 90, 53, 18, 179, 204, 193, 31, 254 }, new byte[] { 252, 243, 190, 47, 201, 170, 85, 118, 23, 25, 71, 212, 10, 210, 208, 82, 123, 243, 30, 34, 122, 202, 151, 48, 165, 8, 148, 23, 189, 182, 51, 243 }, new Guid("234cf4d5-7315-4bd6-afae-83f2e6f72049"), "jaap" });
+
+            migrationBuilder.InsertData(
+                table: "UserRoles",
+                columns: new[] { "UserRoleId", "RoleId", "UserId" },
+                values: new object[] { new Guid("9912e051-dafa-4044-8d4e-55eea160290e"), new Guid("1457e51b-b0da-40c4-bbd9-531ee1edd7b8"), new Guid("234cf4d5-7315-4bd6-afae-83f2e6f72049") });
+
+            migrationBuilder.InsertData(
+                table: "UserRoles",
+                columns: new[] { "UserRoleId", "RoleId", "UserId" },
+                values: new object[] { new Guid("ad183b56-7f5f-4732-b669-15d204697f8d"), new Guid("cf1b3516-56ce-44e2-99d1-a5adad93dde2"), new Guid("234cf4d5-7315-4bd6-afae-83f2e6f72049") });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Logins_UserId",
