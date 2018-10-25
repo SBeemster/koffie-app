@@ -6,9 +6,9 @@ import { forEach } from '@angular/router/src/utils/collection';
     providedIn: "root"
 })
 export class AvailableCoffeeService {
-    availableCoffee: String[] = [];
+    availableCoffee: string[] = [];
     response: object = { "response": "no response yet..." };
-    getCoffee(): Array<String> {
+    getCoffee(): Array<string> {
 
         return this.availableCoffee;
 
@@ -34,7 +34,7 @@ export class AvailableCoffeeService {
         //}
     }
 
-    getSingleCoffee(id: string): String {
+    getSingleCoffee(id: string): string {
         return this.availableCoffee.find(result => id === result);
     }
 }

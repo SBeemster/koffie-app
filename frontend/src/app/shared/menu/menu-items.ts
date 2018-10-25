@@ -1,6 +1,6 @@
 export class MenuItem {
-    title: String;
-    link: String;
+    title: string;
+    link: string;
     children?: MenuItem[];
 }
 

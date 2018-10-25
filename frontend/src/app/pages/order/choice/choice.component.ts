@@ -11,8 +11,9 @@ import { ActivatedRoute } from "@angular/router";
 export class ChoiceComponent implements OnInit {
   melkcnt: number = 0;
   suikercnt: number = 0;
+  newAantal: number = 1;
   orders = this.OrderService.orders;
-  availableCoffee: String;
+  availableCoffee: string;
   constructor(
     private availableCoffeeService: AvailableCoffeeService,
     private OrderService: OrderService,
