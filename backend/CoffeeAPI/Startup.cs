@@ -63,13 +63,17 @@ namespace CoffeeAPI
             {
                 app.UseDeveloperExceptionPage();
             
-                app.UseCors( // DEZE SHIT MOET WEG IN DE SERVER BUILDS!!!
+                app.UseCors(
                     options => options.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader()
                 );
             }
             else
             {
                 app.UseHsts();
+
+                app.UseCors(
+                    options => options.WithOrigins("http://acceptatie-koffie-app.jorisvdinther.nl").AllowAnyMethod().AllowAnyHeader()
+                );
             }
 
             app.UseAuthentication();
