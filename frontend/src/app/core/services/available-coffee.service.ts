@@ -16,5 +16,9 @@ export class AvailableCoffeeService {
   getCoffee(): Array<String> {
     return this.availableCoffee;
   }
+
+  getSingleCoffee(id: string): String {
+    return this.availableCoffee.find(result => id === result);
+  }
   constructor() {}
 }

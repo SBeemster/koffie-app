@@ -12,7 +12,7 @@ const routes: Routes = [
     children: [
       { path: "place", component: PlaceComponent },
       { path: "overview", component: OverviewComponent },
-      { path: "choice", component: ChoiceComponent },
+      { path: "choice/:coffeeId", component: ChoiceComponent },
       { path: "", redirectTo: "place", pathMatch: "full" }
     ]
   }

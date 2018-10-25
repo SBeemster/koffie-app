@@ -1,7 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { AvailableCoffeeService } from "../../../core/services/available-coffee.service";
 import { OrderService } from "../../../core/services/order.service";
-import { Router, ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "app-place",
@@ -20,9 +19,9 @@ export class PlaceComponent implements OnInit {
     this.availableCoffees = this.availableCoffeeService.getCoffee();
   }
 
-  addToOrder = this.OrderService.placeOrder;
+  //addToOrder = this.OrderService.placeOrder;
 
-  deleteFromOrder = this.OrderService.deleteFromOrder;
+  //deleteFromOrder = this.OrderService.deleteFromOrder;
 
-  clearCart = this.OrderService.clearCart;
+  //clearCart = this.OrderService.clearCart;
 }

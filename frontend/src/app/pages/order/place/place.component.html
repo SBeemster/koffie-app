@@ -46,10 +46,9 @@
 
 <div class="row">
     <div class="col-sm-6 mb-4" *ngFor="let availableCoffee of availableCoffees">
-        <a [routerLink]="['../choice']">
-            <!--<img src="https://i.imgur.com/EQLOCji.jpg" alt="Koffie plaatje" title="The title of this image"
-            style="width:540px; height:540px;">-->
-            <div style="background-color: white; border:solid black 2px; height: 500px;"></div>
+        <h4>{{availableCoffee}}</h4>
+        <a [routerLink]="['../choice', availableCoffee]">
+            <img src="https://i.imgur.com/EQLOCji.jpg" class="img-fluid" alt="Responsive image" title="The title of this image">
         </a>
     </div>
 </div>​
