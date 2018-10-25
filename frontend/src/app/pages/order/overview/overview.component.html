@@ -20,7 +20,7 @@
         <ul class="list-group list-group-flush">
             <ng-container *ngFor="let order of ordersGrouped">
                 <li class="list-group-item" *ngIf="order[1] > 0" (click)="getUserOrderType(order[0])">
-                    {{order[1]}} x {{order[0]}} {{order.melk}}
+                    {{order[1]}} x {{order[0]}}
                     <ng-container *ngFor="let userOrder of ordersPerUserAndType">
                         <ul *ngIf="userOrder.name===order[0]">
                             <li>

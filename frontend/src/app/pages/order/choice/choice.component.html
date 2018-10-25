@@ -5,14 +5,12 @@
         <h3 class="card-title">{{availableCoffee}}</h3>
         <p class="card-text">Een overheerlijk bakje {{availableCoffee}}!</p>
         <div>
-            <h4>Melk
-                <button type="button" class="btn btn-primary" (click)="melkCountDown()">-</button>
-                <button type="button" class="btn btn-primary" (click)="melkCountUp()">+</button>{{melkcnt}}</h4>
+            <button type="button" style="float: left;" class="btn btn-primary" (click)="melkCountDown()">-</button>
+            <button type="button" style="float: right;" class="btn btn-primary" (click)="melkCountUp()">+</button>{{melkcnt}}
         </div>
         <div>
-            <h4>Suiker
-                <button type="button" class="btn btn-primary" (click)="suikerCountDown()">-</button>
-                <button type="button" class="btn btn-primary" (click)="suikerCountUp()">+</button>{{suikercnt}}</h4>
+            <button type="button" style="float: left;" class="btn btn-primary" (click)="suikerCountDown()">-</button>
+            <button type="button" style="float: right;" class="btn btn-primary" (click)="suikerCountUp()">+</button>{{suikercnt}}
         </div>
         <button type="button" class="btn btn-success btn-lg" style="float: right;" (click)="addToOrder(availableCoffee, newAantal, 'Wilrik', suikercnt, melkcnt);">Bestellen</button>
     </div>
