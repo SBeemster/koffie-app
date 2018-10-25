@@ -1,28 +1,32 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from "../core/services/api.service";
 import { JwtHelperService  } from '@auth0/angular-jwt';
+import { map } from "rxjs/operators";
+import { Observable } from "rxjs";
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
-
-    private helper = new JwtHelperService();
     
     constructor(private api: ApiService ) { }
     
-    login(username: string, password: string) {
+    login(username: string, password: string): Observable<object> {
         console.log(`isLoggedIn ${this.isLoggedIn()}, isLoggedOut ${this.isLoggedOut()}, getExpiration ${this.getExpiration()}`)
         return this.api.post('/login', { "UserName": username, "Password": password })
-            .subscribe(this.setSession);
+            .pipe(map((response) => {
+                this.setSession(response)
+                return response;
+            }));
     }
 
-    logout() {
+    logout(): void {
         localStorage.removeItem("id_token");
     }
 
     isLoggedOut(): boolean {
-        return this.helper.isTokenExpired(localStorage.getItem("id_token"));
+        let helper = new JwtHelperService();
+        return helper.isTokenExpired(localStorage.getItem("id_token"));
     }
 
     isLoggedIn(): boolean {
@@ -31,13 +35,16 @@ export class AuthService {
 
     getExpiration(): Date {
         if (!this.isLoggedOut()) {
-            return this.helper.getTokenExpirationDate(localStorage.getItem("id_token"));
+            let helper = new JwtHelperService();
+            return helper.getTokenExpirationDate(localStorage.getItem("id_token"));
         } else {
             return new Date();
         }
     }
 
-    private setSession(authResult) {
+    private setSession(authResult): void {
+        let helper = new JwtHelperService();
         localStorage.setItem("id_token", authResult.idToken);
+        console.log(helper.decodeToken(authResult.idToken));
     }
 }

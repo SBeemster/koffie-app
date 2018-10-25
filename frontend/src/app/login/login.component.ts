@@ -9,13 +9,17 @@ import { ApiService } from "../core/services/api.service";
 })
 export class LoginComponent {
 
-    response: object = { "response": "no response yet..." };
+    response: object[] = [];
     passType: string = "password"
 
     username: string = "jaap";
     password: string = "password";
 
     constructor(private api: ApiService, private auth: AuthService) { }
+
+    awaitingResponse(): boolean {
+        return this.api.awaitingResponse;
+    }
 
     togglePassword(): void {
         if (this.passType === "password") {
@@ -26,17 +30,35 @@ export class LoginComponent {
     }
 
     login(): void {
-        this.auth.login(this.username, this.password);
+        this.auth.login(this.username, this.password).subscribe(
+            res => { this.response.unshift(res); }, //success
+            res => { this.response.unshift(res); } //error
+        )
     }
 
-    removeToken(): void {
+    logout(): void {
         this.auth.logout();
+        this.response.unshift({ "idToken": null });
     }
 
-    getRequest() {
-        this.api.get("/users").subscribe(
-            res => { this.response = res; }, //success
-            res => { this.response = res; } //error
+    userPing() {
+        this.api.get("/ping/user").subscribe(
+            res => { this.response.unshift(res); }, //success
+            res => { this.response.unshift(res); } //error
+        )
+    }
+
+    managerPing() {
+        this.api.get("/ping/manager").subscribe(
+            res => { this.response.unshift(res); }, //success
+            res => { this.response.unshift(res); } //error
+        )
+    }
+
+    adminPing() {
+        this.api.get("/ping/admin").subscribe(
+            res => { this.response.unshift(res); }, //success
+            res => { this.response.unshift(res); } //error
         )
     }
 }

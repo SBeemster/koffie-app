@@ -15,9 +15,13 @@
                         <input type="{{ passType }}" class="form-control" name="password" [(ngModel)]="password" placeholder="password">
                     </div>
                     <div class="form-group">
-                            <button type="button" (mousedown)="togglePassword()" (mouseup)="togglePassword()" class="btn btn-block btn-outline-secondary">Show Password</button>
+                            <button type="button" (mousedown)="togglePassword()" (mouseup)="togglePassword()" 
+                                class="btn btn-block btn-outline-secondary">Show Password</button>
                     </div>
-                    <button type="button" (click)="login()" class="btn btn-block btn-primary">Submit</button>
+                    <button type="button" (click)="login()" class="btn btn-block btn-success" 
+                        [attr.disabled]="awaitingResponse() ? '' : null">Login</button>
+                    <button type="button" (click)="logout()" class="btn btn-block btn-danger" 
+                        [attr.disabled]="awaitingResponse() ? '' : null">Logout</button>
                 </form>
             </div>
         </div>
@@ -29,13 +33,17 @@
             </div>
             <div class="card-body">
                 <form>
-                    <button type="button" (click)="getRequest()" class="btn btn-block btn-primary">Get Users</button>
-                    <button type="button" (click)="removeToken()" class="btn btn-block btn-primary">Remove saved token</button>
+                    <button type="button" (click)="userPing()" class="btn btn-block btn-secondary" 
+                        [attr.disabled]="awaitingResponse() ? '' : null">Ping as User</button>
+                    <button type="button" (click)="managerPing()" class="btn btn-block btn-secondary" 
+                        [attr.disabled]="awaitingResponse() ? '' : null">Ping as Manager</button>
+                    <button type="button" (click)="adminPing()" class="btn btn-block btn-secondary" 
+                        [attr.disabled]="awaitingResponse() ? '' : null">Ping as Admin</button>
                 </form>
             </div>
         </div>
     </div>
     <div class="row">
-        <pre>{{ response | json }}</pre>
+        <pre class="border border-secondary rounded w-100 mt-4">{{ response | json }}</pre>
     </div>
 </div>
