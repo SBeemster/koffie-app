@@ -16,7 +16,8 @@ describe("AvailableCoffeeService", () => {
     }
   ));
 
-  it("should not be empty", () => {
+  it("should be de same as count from API GET methode", () => {
+    //TODO code aanpassen voor test API
     const result = AvailableCoffeeService;
     expect(result).not.toBeNull();
   });
