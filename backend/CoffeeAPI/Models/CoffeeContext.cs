@@ -38,6 +38,17 @@ namespace CoffeeAPI.Models
             var hashedPassword = AuthHelper.GenerateSaltedHash(password, salt);
             modelBuilder.Entity<Login>().HasData(
                 new { LoginId = Guid.NewGuid(), UserName = "jaap", PasswordSalt = salt, PasswordHash = hashedPassword, UserId = userId});
+
+            var roleUserId = Guid.NewGuid();
+            var roleManagerId = Guid.NewGuid();
+            modelBuilder.Entity<Role>().HasData(
+                new { RoleId = roleUserId, RoleName = "User" },
+                new { RoleId = roleManagerId, RoleName = "Manager" },
+                new { RoleId = Guid.NewGuid(), RoleName = "Admin" });
+
+            modelBuilder.Entity<UserRole>().HasData(
+                new { UserRoleId = Guid.NewGuid(), UserId = userId, RoleId = roleUserId },
+                new { UserRoleId = Guid.NewGuid(), UserId = userId, RoleId = roleManagerId });
         }
     }
 }
