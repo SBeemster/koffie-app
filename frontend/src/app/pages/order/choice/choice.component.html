@@ -4,14 +4,34 @@
     <div class="card-body">
         <h3 class="card-title">{{availableCoffee}}</h3>
         <p class="card-text">Een overheerlijk bakje {{availableCoffee}}!</p>
-        <div>
-            <button type="button" style="float: left;" class="btn btn-primary" (click)="melkCountDown()">-</button>
-            <button type="button" style="float: right;" class="btn btn-primary" (click)="melkCountUp()">+</button>{{melkcnt}}
+
+        <div class="row">
+            <div class="col-lg-12">
+                <button class="btn btn-primary btn-lg float-left" (click)="melkCountDown()">-</button>
+                <p align="center">Aantal
+                    <button class="btn btn-primary btn-lg float-right" (click)="melkCountUp()">+</button>
+                </p>
+            </div>
         </div>
-        <div>
-            <button type="button" style="float: left;" class="btn btn-primary" (click)="suikerCountDown()">-</button>
-            <button type="button" style="float: right;" class="btn btn-primary" (click)="suikerCountUp()">+</button>{{suikercnt}}
+
+        <div class="row">
+            <div class="col-lg-12">
+                <button class="btn btn-primary btn-lg float-left" (click)="melkCountDown()">-</button>
+                <p align="center">Melk{{melkcnt}}
+                    <button class="btn btn-primary btn-lg float-right" (click)="melkCountUp()">+</button>
+                </p>
+            </div>
         </div>
-        <button type="button" class="btn btn-success btn-lg" style="float: right;" (click)="addToOrder(availableCoffee, newAantal, 'Wilrik', suikercnt, melkcnt);">Bestellen</button>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <button class="btn btn-primary btn-lg float-left" (click)="suikerCountDown()">-</button>
+                <p align="center">Suiker{{suikercnt}}
+                    <button class="btn btn-primary btn-lg float-right" (click)="suikerCountUp()">+</button>
+                </p>
+            </div>
+        </div>
+
     </div>
+    <button class="btn btn-success btn-lg">Bestellen!</button>
 </div>
