@@ -1,19 +1,45 @@
-<button type="button" class="btn btn-dark" routerLink="../../">X</button>
+
+
+<div class="row">
+    <div class="col-sm-4 col-center">
 <div class="card">
-    <img class="card-img-top" src="https://i.imgur.com/EQLOCji.jpg" alt="Card image cap">
+    <p>
+        <button type="button" class="btn btn-dark float-right btn-close" routerLink="../../">X</button>
+    </p>
+    <img class="card-img-top" src="{{availableCoffee.imageUrl}}" alt="Card image cap">
     <div class="card-body">
-        <h3 class="card-title">{{availableCoffee}}</h3>
-        <p class="card-text">Een overheerlijk bakje {{availableCoffee}}!</p>
-        <div>
-            <h4>Melk
-                <button type="button" class="btn btn-primary" (click)="melkCountDown()">-</button>
-                <button type="button" class="btn btn-primary" (click)="melkCountUp()">+</button>{{melkcnt}}</h4>
+        <h3 class="card-title">{{availableCoffee.drinkName}}</h3>
+        <p class="card-text">Een overheerlijk bakje {{availableCoffee.drinkName}}!</p>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <button class="btn btn-primary btn-lg float-left" (click)="drinkCountDown()">-</button>
+                <p align="center">Aantal {{newAantal}}
+                    <button class="btn btn-primary btn-lg float-right" (click)="drinkCountUp()">+</button>
+                </p>
+            </div>
         </div>
-        <div>
-            <h4>Suiker
-                <button type="button" class="btn btn-primary" (click)="suikerCountDown()">-</button>
-                <button type="button" class="btn btn-primary" (click)="suikerCountUp()">+</button>{{suikercnt}}</h4>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <button class="btn btn-primary btn-lg float-left" (click)="melkCountDown()">-</button>
+                <p align="center">Melk {{melkcnt}}
+                    <button class="btn btn-primary btn-lg float-right" (click)="melkCountUp()">+</button>
+                </p>
+            </div>
         </div>
-        <button type="button" class="btn btn-success btn-lg" style="float: right;" (click)="addToOrder(availableCoffee, newAantal, 'Wilrik', suikercnt, melkcnt);">Bestellen</button>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <button class="btn btn-primary btn-lg float-left" (click)="suikerCountDown()">-</button>
+                <p align="center">Suiker {{suikercnt}}
+                    <button class="btn btn-primary btn-lg float-right" (click)="suikerCountUp()">+</button>
+                </p>
+            </div>
+        </div>
+
     </div>
+    <button class="btn btn-success btn-lg btn-block" (click)="addToOrder(availableCoffee, newAantal, 'Verbruiker', suikercnt, melkcnt);">Bestellen!</button>
+</div>
+</div>
 </div>

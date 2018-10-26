@@ -1,5 +1,17 @@
 img {
   max-width: 100%;
-  height: auto;
+  max-height: 20em;
+}
+.card {
   border: solid black 2px;
+}
+.image {
+  display: flex;
+  align-items: center; /*Aligns vertically center */
+  justify-content: center; /*Aligns horizontally center */
+  height: 100%;
+}
+div {
+  margin-left: 2%;
+  margin-right: 2%;
 }

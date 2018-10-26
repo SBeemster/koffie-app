@@ -1,7 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { AvailableCoffeeService } from "../../../core/services/available-coffee.service";
 import { OrderService } from "../../../core/services/order.service";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
+import { Drink } from "../../../core/classes/drink";
 
 @Component({
   selector: "app-choice",
@@ -13,11 +14,12 @@ export class ChoiceComponent implements OnInit {
   suikercnt: number = 0;
   newAantal: number = 1;
   orders = this.OrderService.orders;
-  availableCoffee: string;
+  availableCoffee: Drink;
   constructor(
     private availableCoffeeService: AvailableCoffeeService,
     private OrderService: OrderService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -25,7 +27,16 @@ export class ChoiceComponent implements OnInit {
     this.availableCoffee = this.availableCoffeeService.getSingleCoffee(id);
   }
 
-  addToOrder = this.OrderService.placeOrder;
+  addToOrder(
+    product: Drink,
+    aantal: number,
+    verbruiker: string,
+    melk: number,
+    suiker: number
+  ){
+    this.OrderService.placeOrder(product,aantal,verbruiker,melk,suiker);
+    this.router.navigate(["place"]);
+  } 
 
   melkCountUp() {
     if (this.melkcnt < 3) this.melkcnt++;
@@ -38,5 +49,11 @@ export class ChoiceComponent implements OnInit {
   }
   suikerCountDown() {
     if (this.suikercnt >= 1) this.suikercnt--;
+  }
+  drinkCountUp() {
+    this.newAantal++;
+  }
+  drinkCountDown() {
+    if (this.newAantal > 1) this.newAantal--;
   }
 }

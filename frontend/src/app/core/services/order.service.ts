@@ -1,13 +1,19 @@
 import { Injectable } from "@angular/core";
 import { OrderLine } from "../classes/orderLine";
+import { Drink } from "../classes/drink";
 
 @Injectable({
   providedIn: "root"
 })
 export class OrderService {
   orders = [];
+  mergedOrders = [];
   getOrders(): Array<OrderLine> {
     return this.orders;
+  }
+  getNewOrders(): Array<OrderLine> {
+    return this.orders
+    .filter(order => order.verwerkt === false)
   }
   gaHalen(): void {
     for (let s of this.orders) {
@@ -18,24 +24,28 @@ export class OrderService {
     }
   }
   placeOrder(
-    product: string,
+    product: Drink,
     aantal: number,
     verbruiker: string,
     melk: number,
     suiker: number
   ): void {
+    var i = Math.round(Math.random());
+    verbruiker = verbruiker + i;
     for (const s of this.orders) {
       if (
-        s.name === product &&
+        s.drink.drinkName === product.drinkName &&
         s.verbruiker === verbruiker &&
-        s.verwerkt === false
+        s.verwerkt === false &&
+        s.melk === melk &&
+        s.suiker === suiker
       ) {
         s.aantal++;
         return;
       }
     }
     const newProduct = new OrderLine(
-      product ? product : "Koffie",
+      product = product,
       aantal ? aantal : 1,
       verbruiker ? verbruiker : "",
       melk ? melk : 0,
