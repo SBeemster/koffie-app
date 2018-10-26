@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable, throwError, pipe } from "rxjs";
 import { catchError, finalize } from 'rxjs/operators';
 import { HttpOptions } from "../classes/http-options";
+import { Router } from "@angular/router";
 
 @Injectable({
     providedIn: 'root'
@@ -13,7 +14,7 @@ export class ApiService {
     apiUrl = environment.apiUrl;
     awaitingResponse = false;
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private router: Router) { }
 
     get(endpoint: string, options?: HttpOptions): Observable<object> {
         this.awaitingResponse = true;
@@ -50,6 +51,7 @@ export class ApiService {
             catchError((error: Response) => {
                 if (error.status === 401 || error.status === 403) {
                     localStorage.removeItem("id_token");
+                    this.router.navigate(['/']);
                 }
                 return throwError(error);
             }),

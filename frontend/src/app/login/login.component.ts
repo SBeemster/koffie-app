@@ -1,13 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from "./auth.service";
 import { ApiService } from "../core/services/api.service";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 
     response: object[] = [];
     passType: string = "password"
@@ -15,7 +16,17 @@ export class LoginComponent {
     username: string = "jaap";
     password: string = "password";
 
-    constructor(private api: ApiService, private auth: AuthService) { }
+    returnUrl: string;
+
+    constructor(
+        private route: ActivatedRoute,
+        private router: Router,
+        private api: ApiService, 
+        private auth: AuthService) { }
+
+    ngOnInit() {
+        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    }
 
     awaitingResponse(): boolean {
         return this.api.awaitingResponse;
@@ -31,7 +42,10 @@ export class LoginComponent {
 
     login(): void {
         this.auth.login(this.username, this.password).subscribe(
-            res => { this.response.unshift(res); }, //success
+            res => { //success
+                this.response.unshift(res);
+                this.router.navigateByUrl(this.returnUrl);
+            }, 
             res => { this.response.unshift(res); } //error
         )
     }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from "../core/services/api.service";
-import { JwtHelperService  } from '@auth0/angular-jwt';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { map } from "rxjs/operators";
 import { Observable } from "rxjs";
 
@@ -8,9 +8,9 @@ import { Observable } from "rxjs";
     providedIn: 'root'
 })
 export class AuthService {
-    
-    constructor(private api: ApiService ) { }
-    
+
+    constructor(private api: ApiService) { }
+
     login(username: string, password: string): Observable<object> {
         console.log(`isLoggedIn ${this.isLoggedIn()}, isLoggedOut ${this.isLoggedOut()}, getExpiration ${this.getExpiration()}`)
         return this.api.post('/login', { "UserName": username, "Password": password })
