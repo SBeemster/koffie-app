@@ -1,5 +1,7 @@
+import { Drink } from "./drink";
+
 export class OrderLine {
-  name: string;
+  drink: Drink;
   aantal: number;
   verbruiker: string;
   verwerkt: boolean;
@@ -8,13 +10,13 @@ export class OrderLine {
   suiker: number;
 
   constructor(
-    newName: string,
+    drink: Drink,
     aantal: number,
     verbruiker: string,
     melk: number,
     suiker: number
   ) {
-    this.name = newName;
+    this.drink = drink;
     this.aantal = aantal;
     this.verbruiker = verbruiker;
     this.verwerkt = false;

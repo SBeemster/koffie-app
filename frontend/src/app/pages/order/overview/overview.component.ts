@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { OrderService } from "../../../core/services/order.service";
 import { AvailableCoffeeService } from "../../../core/services/available-coffee.service";
 import { OrderLine } from "../../../core/classes/orderLine";
+import { Drink } from "src/app/core/classes/drink";
 
 @Component({
   selector: "app-overview",
@@ -11,7 +12,7 @@ import { OrderLine } from "../../../core/classes/orderLine";
 export class OverviewComponent implements OnInit {
   orders: OrderLine[] = [];
   ordersGrouped = [];
-  availableCoffees = [];
+  availableCoffees: Drink[] = [];
   ordersPerUserAndType = [];
   constructor(
     private OrderService: OrderService,
@@ -28,10 +29,10 @@ export class OverviewComponent implements OnInit {
     this.ordersGrouped = [];
     for (let i = 0; i < this.availableCoffees.length; i++) {
       this.ordersGrouped.push([
-        this.availableCoffees[i],
+        this.availableCoffees[i].drinkName,
         this.orders.reduce(
           (acc, order) =>
-            order.name === this.availableCoffees[i] && order.verwerkt === false
+            order.drink.drinkName === this.availableCoffees[i].drinkName && order.verwerkt === false
               ? acc + order.aantal
               : acc,
           0
@@ -42,7 +43,7 @@ export class OverviewComponent implements OnInit {
   getUserOrderType(drink: string): void {
     this.ordersPerUserAndType = [];
     this.ordersPerUserAndType = this.orders.filter(
-      order => order.name === drink && order.halen === true
+      order => order.drink.drinkName === drink && order.halen === true
     );
   }
   gaHalen = this.OrderService.gaHalen;

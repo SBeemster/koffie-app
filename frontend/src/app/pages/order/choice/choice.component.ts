@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { AvailableCoffeeService } from "../../../core/services/available-coffee.service";
 import { OrderService } from "../../../core/services/order.service";
 import { ActivatedRoute } from "@angular/router";
+import { Drink } from "../../../core/classes/drink";
 
 @Component({
   selector: "app-choice",
@@ -13,7 +14,7 @@ export class ChoiceComponent implements OnInit {
   suikercnt: number = 0;
   newAantal: number = 1;
   orders = this.OrderService.orders;
-  availableCoffee: string;
+  availableCoffee: Drink;
   constructor(
     private availableCoffeeService: AvailableCoffeeService,
     private OrderService: OrderService,
@@ -22,6 +23,7 @@ export class ChoiceComponent implements OnInit {
 
   ngOnInit() {
     const id = this.activatedRoute.snapshot.params["coffeeId"];
+    console.log(id);
     this.availableCoffee = this.availableCoffeeService.getSingleCoffee(id);
   }
 

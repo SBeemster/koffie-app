@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { OrderLine } from "../classes/orderLine";
+import { Drink } from "../classes/drink";
 
 @Injectable({
   providedIn: "root"
@@ -18,7 +19,7 @@ export class OrderService {
     }
   }
   placeOrder(
-    product: string,
+    product: Drink,
     aantal: number,
     verbruiker: string,
     melk: number,
@@ -26,7 +27,7 @@ export class OrderService {
   ): void {
     for (const s of this.orders) {
       if (
-        s.name === product &&
+        s.drink.drinkName === product.drinkName &&
         s.verbruiker === verbruiker &&
         s.verwerkt === false
       ) {
@@ -35,7 +36,7 @@ export class OrderService {
       }
     }
     const newProduct = new OrderLine(
-      product ? product : "Koffie",
+      product = product,
       aantal ? aantal : 1,
       verbruiker ? verbruiker : "",
       melk ? melk : 0,
