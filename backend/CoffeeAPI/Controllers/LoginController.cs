@@ -79,7 +79,6 @@ namespace CoffeeAPI.Controllers
             }
 
             // create a new jwt
-            var fingerPrint = Encoding.UTF8.GetString(AuthHelper.GetRandom());
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = new SymmetricSecurityKey(AuthHelper.SecurityKey);
             var tokenDescriptor = new SecurityTokenDescriptor
