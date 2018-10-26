@@ -1,11 +1,11 @@
 export class Drink {
-    drinkID: string;
+    drinkId: string;
     drinkName: string;
     available: boolean;
     imageUrl: string;
 
-    constructor(drinkID: string, drinkName: string, available: boolean = true, imageUrl: string = "/assets/Images/Latte Macchiato.jpg") {
-        this.drinkID = drinkID;
+    constructor(drinkId: string, drinkName: string, available: boolean = true, imageUrl: string = "/assets/Images/Latte Macchiato.jpg") {
+        this.drinkId = drinkId;
         this.drinkName = drinkName;
         this.available = available;
         if (imageUrl != null && imageUrl != "") {
