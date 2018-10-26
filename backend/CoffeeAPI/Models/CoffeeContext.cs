@@ -51,12 +51,12 @@ namespace CoffeeAPI.Models
                 new { UserRoleId = Guid.NewGuid(), UserId = userId, RoleId = roleManagerId });
                 
             //seed first drinks
-            String[] drinkArray = { "Koffie", "Cappuccino", "Latte Macchiato", "Espresso", "Thee" };
-            foreach (var drank in drinkArray)
+            String[,] drinkArray = new string[5, 2] { { "Koffie", null }, { "Cappuccino", "/assets/Images/Cappuccino.jpg"}, { "Latte Macchiato", "/assets/Images/Latte Macchiato.jpg" }, { "Espresso", null }, { "Thee", "/assets/Images/Thee.jpg" } };
+            for (int i =0; i < drinkArray.GetLength(0); i++)
             {
                 var drankId = Guid.NewGuid();
                 modelBuilder.Entity<Drink>().HasData(
-                    new { DrinkId = drankId, DrinkName = drank, Available = true });
+                    new { DrinkId = drankId, DrinkName = drinkArray[i,0], Available = true, ImageUrl = drinkArray[i,1] });
             }
 
         }
