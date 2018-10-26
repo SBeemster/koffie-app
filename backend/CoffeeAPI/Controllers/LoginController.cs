@@ -26,7 +26,7 @@ namespace CoffeeAPI.Controllers
         [HttpPost]
         public IActionResult PostLogin([FromBody] LoginAttempt loginAttempt)
         {
-            Login credentials;
+            Login login;
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -35,9 +35,9 @@ namespace CoffeeAPI.Controllers
             // fetch username from logins table
             try
             {
-                credentials = _context.Logins
-                    .Where(login => login.UserName == loginAttempt.UserName)
+                login = _context.Logins
                     .Include(l => l.User)
+                    .Where(l => l.UserName == loginAttempt.UserName)
                     .Single();
             }
             catch
@@ -48,29 +48,25 @@ namespace CoffeeAPI.Controllers
 
             // check supplied password with saved salt against saved password
             var attemptPassword = Encoding.UTF8.GetBytes(loginAttempt.Password);
-            var savedPasswordSalt = credentials.PasswordSalt;
+            var savedPasswordSalt = login.PasswordSalt;
             var attemptPasswordHash = AuthHelper.GenerateSaltedHash(attemptPassword, savedPasswordSalt);
-            var savedPasswordHash = credentials.PasswordHash;
+            var savedPasswordHash = login.PasswordHash;
             if (!AuthHelper.Authenticate(attemptPasswordHash, savedPasswordHash))
             {
                 // wrong password
                 return Unauthorized();
             }
 
-            // Gather refrences
-            var user = _context.Users
-                .Single(u => u == credentials.User);
-            var userRoles = _context.UserRoles
-                .Include(ur => ur.User)
-                .Where(ur => ur.User == user)
-                .ToList();
+            // gather refrences
+            var user = login.User;
             var roles = _context.UserRoles
-                .Where(ur => userRoles.Contains(ur))
+                .Include(ur => ur.User)
                 .Include(ur => ur.Role)
+                .Where(ur => ur.User == user)
                 .Select(ur => ur.Role)
                 .ToList();
 
-            // Compile user claims
+            // compile user claims
             var tokenClaims = new ClaimsIdentity();
             tokenClaims.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()));
             foreach (var roleName in roles.Select(r => r.RoleName))
