@@ -45,10 +45,12 @@
 </div> -->
 
 <div class="row">
-    <div class="col-sm-6 mb-4" *ngFor="let availableCoffee of availableCoffees">
+    <div class="col-sm-6 mb-4 card" *ngFor="let availableCoffee of availableCoffees">
         <h4>{{availableCoffee.drinkName}}</h4>
-        <a [routerLink]="['../choice', availableCoffee.drinkId]">
-            <img src="{{availableCoffee.imageUrl}}" class="img-fluid" alt="Responsive image" title="The title of this image">
-        </a>
+        <div class="image align-bottom">
+            <a [routerLink]="['../choice', availableCoffee.drinkId]">
+                <img src="{{availableCoffee.imageUrl}}" class="img-fluid" alt="Responsive image" title="The title of this image">
+            </a>
+        </div>
     </div>
 </div>​
