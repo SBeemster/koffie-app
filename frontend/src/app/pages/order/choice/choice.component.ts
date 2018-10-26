@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { AvailableCoffeeService } from "../../../core/services/available-coffee.service";
 import { OrderService } from "../../../core/services/order.service";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Drink } from "../../../core/classes/drink";
 
 @Component({
@@ -18,16 +18,25 @@ export class ChoiceComponent implements OnInit {
   constructor(
     private availableCoffeeService: AvailableCoffeeService,
     private OrderService: OrderService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit() {
     const id = this.activatedRoute.snapshot.params["coffeeId"];
-    console.log(id);
     this.availableCoffee = this.availableCoffeeService.getSingleCoffee(id);
   }
 
-  addToOrder = this.OrderService.placeOrder;
+  addToOrder(
+    product: Drink,
+    aantal: number,
+    verbruiker: string,
+    melk: number,
+    suiker: number
+  ){
+    this.OrderService.placeOrder(product,aantal,verbruiker,melk,suiker);
+    this.router.navigate(["place"]);
+  } 
 
   melkCountUp() {
     if (this.melkcnt < 3) this.melkcnt++;
