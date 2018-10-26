@@ -51,7 +51,7 @@ namespace CoffeeAPI.Models
                 new { UserRoleId = Guid.NewGuid(), UserId = userId, RoleId = roleManagerId });
                 
             //seed first drinks
-            String[,] drinkArray = new string[5, 2] { { "Koffie", null }, { "Cappuccino", "/assets/Images/Cappuccino.jpg"}, { "Latte Macchiato", "/assets/Images/Latte Macchiato.jpg" }, { "Espresso", null }, { "Thee", "/assets/Images/Thee.jpg" } };
+            String[,] drinkArray = new string[6, 2] { { "Koffie", "/assets/Images/Koffie.jpg" }, { "Cappuccino", "/assets/Images/Cappuccino.jpg"}, { "Latte Macchiato", "/assets/Images/Latte Macchiato.jpg" }, { "Espresso", "/assets/Images/Espresso.png" }, { "Thee", "/assets/Images/Thee.jpg" }, { "Water", "/assets/Images/Water.jpg" } };
             for (int i =0; i < drinkArray.GetLength(0); i++)
             {
                 var drankId = Guid.NewGuid();

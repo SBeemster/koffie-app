@@ -10,7 +10,6 @@ export class AvailableCoffeeService {
     availableCoffee: Drink[] = [];
     response: object = { "response": "no response yet..." };
     getCoffee(): Array<Drink> {
-
         return this.availableCoffee;
 
     }
