@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ApiService } from "../core/services/api.service";
+import { ApiService } from "./api.service";
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { map } from "rxjs/operators";
 import { Observable } from "rxjs";
