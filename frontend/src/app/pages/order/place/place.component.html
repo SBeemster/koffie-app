@@ -8,7 +8,7 @@
     <div class="d-flex justify-content-between">
         <div class="col-sm-12">
             <button class="btn btn-outline-success mr-1" *ngFor="let availableCoffee of availableCoffees" (click)="addToOrder(availableCoffee, newAantal, 'Wilrik');">
-                {{availableCoffee}}
+                {{availableCoffee.drinkName}}
             </button>
         </div>
     </div>
@@ -46,9 +46,9 @@
 
 <div class="row">
     <div class="col-sm-6 mb-4" *ngFor="let availableCoffee of availableCoffees">
-        <h4>{{availableCoffee}}</h4>
-        <a [routerLink]="['../choice', availableCoffee]">
-            <img src="/assets/Images/Latte Macchiato.jpg" class="img-fluid" alt="Responsive image" title="The title of this image">
+        <h4>{{availableCoffee.drinkName}}</h4>
+        <a [routerLink]="['../choice', availableCoffee.drinkID]">
+            <img src="{{availableCoffee.imageUrl}}" class="img-fluid" alt="Responsive image" title="The title of this image">
         </a>
     </div>
 </div>​
