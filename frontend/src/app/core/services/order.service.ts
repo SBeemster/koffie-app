@@ -10,6 +10,9 @@ export class OrderService {
   getOrders(): Array<OrderLine> {
     return this.orders;
   }
+  getNewOrders(): Array<OrderLine> {
+    return this.orders.filter(order => order.verwerkt === false);
+  }
   gaHalen(): void {
     for (let s of this.orders) {
       if (!s.verwerkt) {
@@ -29,7 +32,9 @@ export class OrderService {
       if (
         s.drink.drinkName === product.drinkName &&
         s.verbruiker === verbruiker &&
-        s.verwerkt === false
+        s.verwerkt === false &&
+        s.melk === melk &&
+        s.suiker === suiker
       ) {
         s.aantal++;
         return;

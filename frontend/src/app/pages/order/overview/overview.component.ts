@@ -20,7 +20,7 @@ export class OverviewComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.orders = this.OrderService.getOrders();
+    this.orders = this.OrderService.getNewOrders();
     this.availableCoffees = this.availableCoffeeService.getCoffee();
     this.getGroupedByCoffee();
     this.OrderService.setHalenFalse();
@@ -32,7 +32,7 @@ export class OverviewComponent implements OnInit {
         this.availableCoffees[i].drinkName,
         this.orders.reduce(
           (acc, order) =>
-            order.drink.drinkName === this.availableCoffees[i].drinkName && order.verwerkt === false
+            order.drink.drinkName === this.availableCoffees[i].drinkName && order.verwerkt === false && order.melk === order.melk
               ? acc + order.aantal
               : acc,
           0
