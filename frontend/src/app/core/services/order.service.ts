@@ -7,11 +7,13 @@ import { Drink } from "../classes/drink";
 })
 export class OrderService {
   orders = [];
+  mergedOrders = [];
   getOrders(): Array<OrderLine> {
     return this.orders;
   }
   getNewOrders(): Array<OrderLine> {
-    return this.orders.filter(order => order.verwerkt === false);
+    return this.orders
+    .filter(order => order.verwerkt === false)
   }
   gaHalen(): void {
     for (let s of this.orders) {
@@ -28,6 +30,8 @@ export class OrderService {
     melk: number,
     suiker: number
   ): void {
+    var i = Math.round(Math.random());
+    verbruiker = verbruiker + i;
     for (const s of this.orders) {
       if (
         s.drink.drinkName === product.drinkName &&

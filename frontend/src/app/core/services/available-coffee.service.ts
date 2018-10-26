@@ -29,13 +29,9 @@ export class AvailableCoffeeService {
 
         )
 
-        //for(let s of this.response.Drink)
-        //{
-        //this.availableCoffee.push(s.drinkName);
-        //}
     }
 
     getSingleCoffee(id: string): Drink {
-        return this.availableCoffee.find(result => id === result.drinkID);
+        return this.availableCoffee.find(result => id === result.drinkId);
     }
 }

@@ -1,15 +1,15 @@
 <button type="button" class="btn btn-dark" routerLink="../../">X</button>
 <div class="card">
-    <img class="card-img-top" src="https://i.imgur.com/EQLOCji.jpg" alt="Card image cap">
+    <img class="card-img-top" src="{{availableCoffee.imageUrl}}" alt="Card image cap">
     <div class="card-body">
-        <h3 class="card-title">{{availableCoffee}}</h3>
-        <p class="card-text">Een overheerlijk bakje {{availableCoffee}}!</p>
+        <h3 class="card-title">{{availableCoffee.drinkName}}</h3>
+        <p class="card-text">Een overheerlijk bakje {{availableCoffee.drinkName}}!</p>
 
         <div class="row">
             <div class="col-lg-12">
-                <button class="btn btn-primary btn-lg float-left" (click)="melkCountDown()">-</button>
+                <button class="btn btn-primary btn-lg float-left" (click)="drinkCountDown()">-</button>
                 <p align="center">Aantal
-                    <button class="btn btn-primary btn-lg float-right" (click)="melkCountUp()">+</button>
+                    <button class="btn btn-primary btn-lg float-right" (click)="drinkCountUp()">+</button>
                 </p>
             </div>
         </div>
@@ -33,5 +33,5 @@
         </div>
 
     </div>
-    <button class="btn btn-success btn-lg">Bestellen!</button>
+    <button class="btn btn-success btn-lg" (click)="addToOrder(availableCoffee, newAantal, 'Verbruiker', suikercnt, melkcnt);" >Bestellen!</button>
 </div>
