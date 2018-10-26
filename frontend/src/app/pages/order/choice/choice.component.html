@@ -1,5 +1,11 @@
-<button type="button" class="btn btn-dark" routerLink="../../">X</button>
+
+
+<div class="row">
+    <div class="col-sm-4 col-center">
 <div class="card">
+    <p>
+        <button type="button" class="btn btn-dark float-right btn-close" routerLink="../../">X</button>
+    </p>
     <img class="card-img-top" src="{{availableCoffee.imageUrl}}" alt="Card image cap">
     <div class="card-body">
         <h3 class="card-title">{{availableCoffee.drinkName}}</h3>
@@ -8,7 +14,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <button class="btn btn-primary btn-lg float-left" (click)="drinkCountDown()">-</button>
-                <p align="center">Aantal
+                <p align="center">Aantal {{newAantal}}
                     <button class="btn btn-primary btn-lg float-right" (click)="drinkCountUp()">+</button>
                 </p>
             </div>
@@ -33,5 +39,7 @@
         </div>
 
     </div>
-    <button class="btn btn-success btn-lg" (click)="addToOrder(availableCoffee, newAantal, 'Verbruiker', suikercnt, melkcnt);">Bestellen!</button>
+    <button class="btn btn-success btn-lg btn-block" (click)="addToOrder(availableCoffee, newAantal, 'Verbruiker', suikercnt, melkcnt);">Bestellen!</button>
+</div>
+</div>
 </div>

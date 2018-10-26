@@ -42,9 +42,9 @@ export class ChoiceComponent implements OnInit {
     if (this.suikercnt >= 1) this.suikercnt--;
   }
   drinkCountUp() {
-    this.suikercnt++;
+    this.newAantal++;
   }
   drinkCountDown() {
-    if (this.suikercnt >= 1) this.suikercnt--;
+    if (this.newAantal > 1) this.newAantal--;
   }
 }
