@@ -26,24 +26,4 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="card mx-auto mt-4">
-            <div class="card-header">
-                Test shizzle
-            </div>
-            <div class="card-body">
-                <form>
-                    <button type="button" (click)="userPing()" class="btn btn-block btn-secondary" 
-                        [attr.disabled]="awaitingResponse() ? '' : null">Ping as User</button>
-                    <button type="button" (click)="managerPing()" class="btn btn-block btn-secondary" 
-                        [attr.disabled]="awaitingResponse() ? '' : null">Ping as Manager</button>
-                    <button type="button" (click)="adminPing()" class="btn btn-block btn-secondary" 
-                        [attr.disabled]="awaitingResponse() ? '' : null">Ping as Admin</button>
-                </form>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <pre class="border border-secondary rounded w-100 mt-4">{{ response | json }}</pre>
-    </div>
 </div>

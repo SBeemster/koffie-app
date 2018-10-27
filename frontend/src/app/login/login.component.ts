@@ -10,7 +10,6 @@ import { ActivatedRoute, Router } from "@angular/router";
 })
 export class LoginComponent implements OnInit {
 
-    response: object[] = [];
     passType: string = "password"
 
     username: string = "jaap";
@@ -42,37 +41,11 @@ export class LoginComponent implements OnInit {
 
     login(): void {
         this.auth.login(this.username, this.password).subscribe(
-            res => { //success
-                this.response.unshift(res);
+            () => { //success
                 this.router.navigateByUrl(this.returnUrl);
-            }, 
-            res => { this.response.unshift(res); } //error
+            }
         )
     }
 
-    logout(): void {
-        this.auth.logout();
-        this.response.unshift({ "idToken": null });
-    }
-
-    userPing() {
-        this.api.get("/ping/user").subscribe(
-            res => { this.response.unshift(res); }, //success
-            res => { this.response.unshift(res); } //error
-        )
-    }
-
-    managerPing() {
-        this.api.get("/ping/manager").subscribe(
-            res => { this.response.unshift(res); }, //success
-            res => { this.response.unshift(res); } //error
-        )
-    }
-
-    adminPing() {
-        this.api.get("/ping/admin").subscribe(
-            res => { this.response.unshift(res); }, //success
-            res => { this.response.unshift(res); } //error
-        )
-    }
+    logout = this.auth.logout;
 }

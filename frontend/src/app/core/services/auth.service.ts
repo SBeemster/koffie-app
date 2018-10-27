@@ -12,7 +12,6 @@ export class AuthService {
     constructor(private api: ApiService) { }
 
     login(username: string, password: string): Observable<object> {
-        console.log(`isLoggedIn ${this.isLoggedIn()}, isLoggedOut ${this.isLoggedOut()}, getExpiration ${this.getExpiration()}`)
         return this.api.post('/login', { "UserName": username, "Password": password })
             .pipe(map((response) => {
                 this.setSession(response)
