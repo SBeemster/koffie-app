@@ -41,6 +41,11 @@ export class AuthService {
         }
     }
 
+    getDecodedToken(): object {
+        let helper = new JwtHelperService();
+        return helper.decodeToken(localStorage.getItem("id_token"));
+    }
+
     private setSession(authResult): void {
         let helper = new JwtHelperService();
         localStorage.setItem("id_token", authResult.idToken);
