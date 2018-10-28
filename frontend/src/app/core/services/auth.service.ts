@@ -32,6 +32,19 @@ export class AuthService {
         return !this.isLoggedOut();
     }
 
+    hasRole(role: string): boolean {
+        if (this.isLoggedOut()) {
+            return false;
+        }
+
+        let token = this.getDecodedToken();
+        if (token.hasOwnProperty("role")) {
+            return token["role"].indexOf(role) > 1;
+        }
+
+        return false;
+    }
+
     getExpiration(): Date {
         if (!this.isLoggedOut()) {
             let helper = new JwtHelperService();
@@ -49,6 +62,6 @@ export class AuthService {
     private setSession(authResult): void {
         let helper = new JwtHelperService();
         localStorage.setItem("id_token", authResult.idToken);
-        console.log(helper.decodeToken(authResult.idToken));
+        console.log(this.getDecodedToken());
     }
 }

@@ -10,10 +10,10 @@ import { ActivatedRoute, Router } from "@angular/router";
 })
 export class LoginComponent implements OnInit {
 
-    passType: string = "password"
+    passType: string = "password";
 
-    username: string = "jaap";
-    password: string = "password";
+    username: string = "admin";
+    password: string = "admin";
 
     returnUrl: string;
 

@@ -16,5 +16,9 @@ export const MENU_ITEMS: MenuItem[] = [
     {
         title: 'Groepen',
         link: 'user/group'
+    },
+    {
+        title: 'Nieuwe Gebruiker',
+        link: 'user/create'
     }
 ]

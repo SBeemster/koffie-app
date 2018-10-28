@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { UserComponent } from './user.component';
 import { GroupComponent } from './group/group.component';
+import { CreateComponent } from './create/create.component';
 
 const routes: Routes = [
     {
@@ -10,6 +11,7 @@ const routes: Routes = [
         component: UserComponent,
         children: [
             { path: 'group', component: GroupComponent },
+            { path: 'create', component: CreateComponent },
             { path: '', redirectTo: 'group', pathMatch: 'full' }
         ]
     },
@@ -24,5 +26,6 @@ export class UserRoutingModule { }
 
 export const routedComponents = [
     UserComponent,
-    GroupComponent
+    GroupComponent,
+    CreateComponent
 ]
