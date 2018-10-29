@@ -11,18 +11,24 @@ export class AvailableCoffeeService {
     response: object = { "response": "no response yet..." };
     getCoffee(): Array<Drink> {
         return this.availableCoffee;
-
     }
     constructor(private api: ApiService) {
         this.api.get("/drinks?available=true").subscribe(
-                res => {
-                this.response = res;
-                    let i = 0;
-                    for (var s in this.response) {
-                        var drank = new Drink (this.response[i].drinkId, this.response[i].drinkName, this.response[i].available, this.response[i].imageUrl, this.response[i].additions);
-                        this.availableCoffee.push(drank);
-                        i++;
-                    }                         
+            res => {
+                for (let i in res) {
+                    let drank = new Drink(res[i].drinkId, res[i].drinkName, res[i].available, res[i].imageUrl, res[i].additions);
+                    this.availableCoffee.push(drank);
+                }
+                this.availableCoffee = this.availableCoffee.sort((a, b) => {
+                    console.log(a.drinkName);
+                    if (a.drinkName.toLowerCase > b.drinkName.toLowerCase) {
+                        return 1;
+                    }
+                    if (b.drinkName.toLowerCase > a.drinkName.toLowerCase) {
+                        return -1;
+                    }
+                    return 0;
+                })
             }, //success
             res => { this.response = res; } //error
 
