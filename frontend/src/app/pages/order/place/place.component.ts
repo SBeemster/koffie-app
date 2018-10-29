@@ -16,7 +16,17 @@ export class PlaceComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.availableCoffees = this.availableCoffeeService.getCoffee();
+    this.availableCoffees = this.availableCoffeeService.getCoffee().sort((a, b) => { 
+      console.log(a.drinkName);
+      if (a.drinkName.toLowerCase > b.drinkName.toLowerCase) {
+          return 1;
+      }
+      if (b.drinkName.toLowerCase > a.drinkName.toLowerCase) {
+          return -1;
+      }
+      return 0; 
+  });
+  console.log(this.availableCoffees);
   }
 
   //addToOrder = this.OrderService.placeOrder;

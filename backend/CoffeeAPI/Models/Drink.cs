@@ -12,6 +12,7 @@ namespace CoffeeAPI.Models
         public string DrinkName { get; set; }
         public bool Available { get; set; }
         public string ImageUrl { get; set; }
+        public bool Additions { get; set; }
 
         public ICollection<OrderLine> OrderLines { get; set; }
     }

@@ -19,7 +19,7 @@ export class AvailableCoffeeService {
                 this.response = res;
                     let i = 0;
                     for (var s in this.response) {
-                        var drank = new Drink (this.response[i].drinkId, this.response[i].drinkName, this.response[i].available, this.response[i].imageUrl);
+                        var drank = new Drink (this.response[i].drinkId, this.response[i].drinkName, this.response[i].available, this.response[i].imageUrl, this.response[i].additions);
                         this.availableCoffee.push(drank);
                         i++;
                     }                         
