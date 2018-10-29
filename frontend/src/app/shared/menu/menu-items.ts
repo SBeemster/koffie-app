@@ -1,6 +1,7 @@
 export class MenuItem {
     title: string;
     link: string;
+    role?: string;
     children?: MenuItem[];
 }
 
@@ -19,6 +20,12 @@ export const MENU_ITEMS: MenuItem[] = [
     },
     {
         title: 'Nieuwe Gebruiker',
-        link: 'user/create'
+        link: 'user/create',
+        role: 'Admin'
+    },
+    {
+        title: 'Bewerk Gebruiker',
+        link: 'user/select',
+        role: 'Admin'
     }
 ]

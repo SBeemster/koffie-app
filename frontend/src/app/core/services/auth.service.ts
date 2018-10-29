@@ -39,7 +39,7 @@ export class AuthService {
 
         let token = this.getDecodedToken();
         if (token.hasOwnProperty("role")) {
-            return token["role"].indexOf(role) > 1;
+            return token["role"].indexOf(role) > -1;
         }
 
         return false;

@@ -2,6 +2,6 @@
     <div class="container">
         <app-menu></app-menu>
         <button type="button" (click)="logout()" class="btn btn-outline-danger float-right"
-            [attr.disabled]="awaitingResponse() ? '' : null">Logout</button>
+            [attr.disabled]="awaitingResponse() ? '' : null">Logout: {{ username }}</button>
     </div>
 </nav>

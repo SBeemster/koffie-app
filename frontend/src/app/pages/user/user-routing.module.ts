@@ -4,6 +4,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { UserComponent } from './user.component';
 import { GroupComponent } from './group/group.component';
 import { CreateComponent } from './create/create.component';
+import { EditComponent } from './edit/edit.component';
+import { SelectComponent } from './select/select.component';
 
 const routes: Routes = [
     {
@@ -12,6 +14,8 @@ const routes: Routes = [
         children: [
             { path: 'group', component: GroupComponent },
             { path: 'create', component: CreateComponent },
+            { path: 'select', component: SelectComponent },
+            { path: 'edit/:userId', component: EditComponent },
             { path: '', redirectTo: 'group', pathMatch: 'full' }
         ]
     },
@@ -27,5 +31,7 @@ export class UserRoutingModule { }
 export const routedComponents = [
     UserComponent,
     GroupComponent,
-    CreateComponent
+    CreateComponent,
+    EditComponent,
+    SelectComponent
 ]
