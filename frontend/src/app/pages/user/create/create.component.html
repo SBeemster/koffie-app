@@ -1,0 +1,32 @@
+<div class="row">
+    <div class="card mx-auto mt-4">
+        <div class="card-header">
+            Nieuwe Gebruiker
+        </div>
+        <div class="card-body">
+            <form (keydown.enter)="createUser()">
+                <div class="form-group">
+                    <label>Gebruikersnaam</label>
+                    <input type="text" class="form-control" name="username" [(ngModel)]="userName" autocomplete="username">
+                </div>
+                <div class="form-group">
+                    <label>Wachtwoord</label>
+                    <input type="{{ passType }}" class="form-control" name="password" [(ngModel)]="password"
+                        autocomplete="current-password">
+                </div>
+                <button type="button" (mousedown)="togglePassword()" (mouseup)="togglePassword()" tabindex="-1" class="btn btn-block btn-outline-secondary">Show
+                    Password</button>
+                <hr>
+                <div class="form-group">
+                    <label>Voornaam</label>
+                    <input type="text" class="form-control" name="firstName" [(ngModel)]="firstName" autocomplete="given-name">
+                </div>
+                <div class="form-group">
+                    <label>Achternaam</label>
+                    <input type="text" class="form-control" name="lastName" [(ngModel)]="lastName" autocomplete="family-name">
+                </div>
+                <button type="button" (click)="createUser()" class="btn btn-block btn-success" [attr.disabled]="awaitingResponse() ? '' : null">Toevoegen</button>
+            </form>
+        </div>
+    </div>
+</div>

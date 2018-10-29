@@ -12,7 +12,6 @@ export class AuthService {
     constructor(private api: ApiService) { }
 
     login(username: string, password: string): Observable<object> {
-        console.log(`isLoggedIn ${this.isLoggedIn()}, isLoggedOut ${this.isLoggedOut()}, getExpiration ${this.getExpiration()}`)
         return this.api.post('/login', { "UserName": username, "Password": password })
             .pipe(map((response) => {
                 this.setSession(response)
@@ -33,6 +32,19 @@ export class AuthService {
         return !this.isLoggedOut();
     }
 
+    hasRole(role: string): boolean {
+        if (this.isLoggedOut()) {
+            return false;
+        }
+
+        let token = this.getDecodedToken();
+        if (token.hasOwnProperty("role")) {
+            return token["role"].indexOf(role) > -1;
+        }
+
+        return false;
+    }
+
     getExpiration(): Date {
         if (!this.isLoggedOut()) {
             let helper = new JwtHelperService();
@@ -42,9 +54,14 @@ export class AuthService {
         }
     }
 
+    getDecodedToken(): object {
+        let helper = new JwtHelperService();
+        return helper.decodeToken(localStorage.getItem("id_token"));
+    }
+
     private setSession(authResult): void {
         let helper = new JwtHelperService();
         localStorage.setItem("id_token", authResult.idToken);
-        console.log(helper.decodeToken(authResult.idToken));
+        console.log(this.getDecodedToken());
     }
 }
