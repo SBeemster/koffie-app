@@ -77,7 +77,7 @@ namespace CoffeeAPI
                 app.UseHsts();
     
                 app.UseCors(
-                    options => options.WithOrigins("http://acceptatie-koffie-app.jorisvdinther.nl").AllowAnyMethod().AllowAnyHeader()
+                    options => options.WithOrigins("http://acceptatie-koffie-app.jorisvdinther.nl", "https://acceptatie-koffie-app.jorisvdinther.nl").AllowAnyMethod().AllowAnyHeader()
                 );
             }
 
