@@ -20,11 +20,10 @@ export class AvailableCoffeeService {
                     this.availableCoffee.push(drank);
                 }
                 this.availableCoffee = this.availableCoffee.sort((a, b) => {
-                    console.log(a.drinkName);
-                    if (a.drinkName.toLowerCase > b.drinkName.toLowerCase) {
+                    if (a.drinkName.toLowerCase() > b.drinkName.toLowerCase()) {
                         return 1;
                     }
-                    if (b.drinkName.toLowerCase > a.drinkName.toLowerCase) {
+                    if (b.drinkName.toLowerCase() > a.drinkName.toLowerCase()) {
                         return -1;
                     }
                     return 0;
