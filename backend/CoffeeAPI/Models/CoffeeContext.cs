@@ -36,8 +36,8 @@ namespace CoffeeAPI.Models
             var adminId = Guid.NewGuid();
             var jaapId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(
-                new { UserId = adminId, FirstName = "Super", LastName = "Admin" },
-                new { UserId = jaapId, FirstName = "Jaap", LastName = "Schaap" });
+                new { UserId = adminId, FirstName = "Super", LastName = "Admin", Active = true },
+                new { UserId = jaapId, FirstName = "Jaap", LastName = "Schaap", Active = true });
 
             var adminSalt = AuthHelper.GetRandom();
             var adminPassword = Encoding.UTF8.GetBytes("admin");

@@ -24,9 +24,13 @@ namespace CoffeeAPI.Controllers
 
         // GET: api/Users
         [HttpGet]
-        public IEnumerable<User> GetUsers()
+        public IEnumerable<object> GetUsers()
         {
-            return _context.Users;
+            return _context.Users.Select(u => new {
+                firstName = u.FirstName,
+                lastName = u.LastName,
+                userId = u.UserId
+            }).ToList();
         }
 
         // GET: api/Users/5
@@ -49,7 +53,7 @@ namespace CoffeeAPI.Controllers
         }
 
         // PUT: api/Users/5
-        [HttpPut("{id}")]
+        [HttpPut("{id}"), Authorize(Roles = "Admin")]
         public async Task<IActionResult> PutUser([FromRoute] Guid id, [FromBody] User user)
         {
             if (!ModelState.IsValid)
@@ -96,7 +100,8 @@ namespace CoffeeAPI.Controllers
             {
                 UserId = Guid.NewGuid(),
                 FirstName = newUser.FirstName,
-                LastName = newUser.LastName
+                LastName = newUser.LastName,
+                Active = true
             };
 
             var salt = AuthHelper.GetRandom();
@@ -126,7 +131,7 @@ namespace CoffeeAPI.Controllers
         }
 
         // DELETE: api/Users/5
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteUser([FromRoute] Guid id)
         {
             if (!ModelState.IsValid)
