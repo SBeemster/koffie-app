@@ -67,9 +67,9 @@ namespace CoffeeAPI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            
+
                 app.UseCors(
-                    options => options.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader()
+                    options => options.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader().WithHeaders("origin")
                 );
             }
             else
@@ -77,7 +77,7 @@ namespace CoffeeAPI
                 app.UseHsts();
     
                 app.UseCors(
-                    options => options.WithOrigins("https://acceptatie-koffie-app.jorisvdinther.nl").AllowAnyMethod().AllowAnyHeader()
+                    options => options.WithOrigins("https://acceptatie-koffie-app.jorisvdinther.nl").AllowAnyMethod().AllowAnyHeader().WithHeaders("origin")
                 );
             }
 
