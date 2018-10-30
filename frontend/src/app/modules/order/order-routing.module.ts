@@ -10,10 +10,10 @@ const routes: Routes = [
     path: "",
     component: OrderComponent,
     children: [
-      { path: "place", component: PlaceComponent },
+      { path: "coffees/:coffeeId", component: ChoiceComponent },
+      { path: "coffees", component: PlaceComponent },
       { path: "overview", component: OverviewComponent },
-      { path: "choice/:coffeeId", component: ChoiceComponent },
-      { path: "", redirectTo: "place", pathMatch: "full" }
+      { path: "", redirectTo: "coffees", pathMatch: "full" }
     ]
   }
 ];

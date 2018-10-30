@@ -1,18 +1,18 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { AuthGuard } from "./core/classes/auth-guard";
-import { NotFoundComponent } from "./pages/not-found/not-found.component";
+import { NotFoundComponent } from "./modules/not-found/not-found.component";
 
 const routes: Routes = [
   {
     path: "order",
     canActivate: [AuthGuard],
-    loadChildren: "./pages/order/order.module#OrderModule"
+    loadChildren: "./modules/order/order.module#OrderModule"
   },
   {
     path: "user",
     canActivate: [AuthGuard],
-    loadChildren: "./pages/user/user.module#UserModule"
+    loadChildren: "./modules/user/user.module#UserModule"
   },
   { path: "login", loadChildren: "./login/login.module#LoginModule" },
   { path: "", redirectTo: "order", pathMatch: "full" },

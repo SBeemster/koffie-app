@@ -48,7 +48,7 @@
     <div class="col-sm-5 mb-5 card" *ngFor="let availableCoffee of availableCoffees">
         <h4>{{availableCoffee.drinkName}}</h4>
         <div class="image align-bottom">
-            <a [routerLink]="['../choice', availableCoffee.drinkId]">
+            <a [routerLink]="[availableCoffee.drinkId]">
                 <img src="{{availableCoffee.imageUrl}}" class="img-fluid" alt="Responsive image" title="The title of this image">
             </a>
         </div>
