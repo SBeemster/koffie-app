@@ -5,11 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20181026191759_AddedWaterAndImages.cs" />
-    <Compile Remove="Migrations\20181026191759_AddedWaterAndImages.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

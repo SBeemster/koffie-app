@@ -1,10 +1,12 @@
-﻿using CoffeeAPI.Models;
+﻿using CoffeeAPI.Helpers;
+using CoffeeAPI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace CoffeeAPI.Controllers
@@ -22,9 +24,13 @@ namespace CoffeeAPI.Controllers
 
         // GET: api/Users
         [HttpGet]
-        public IEnumerable<User> GetUsers()
+        public IEnumerable<object> GetUsers()
         {
-            return _context.Users;
+            return _context.Users.Select(u => new {
+                firstName = u.FirstName,
+                lastName = u.LastName,
+                userId = u.UserId
+            }).ToList();
         }
 
         // GET: api/Users/5
@@ -47,7 +53,7 @@ namespace CoffeeAPI.Controllers
         }
 
         // PUT: api/Users/5
-        [HttpPut("{id}")]
+        [HttpPut("{id}"), Authorize(Roles = "Admin")]
         public async Task<IActionResult> PutUser([FromRoute] Guid id, [FromBody] User user)
         {
             if (!ModelState.IsValid)
@@ -82,22 +88,50 @@ namespace CoffeeAPI.Controllers
         }
 
         // POST: api/Users
-        [HttpPost]
-        public async Task<IActionResult> PostUser([FromBody] User user)
+        [HttpPost, Authorize(Roles = "Admin")]
+        public async Task<IActionResult> PostUser([FromBody] NewUser newUser)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
+            var user = new User
+            {
+                UserId = Guid.NewGuid(),
+                FirstName = newUser.FirstName,
+                LastName = newUser.LastName,
+                Active = true
+            };
+
+            var salt = AuthHelper.GetRandom();
+            var passBytes = Encoding.UTF8.GetBytes(newUser.Password);
+            var login = new Login
+            {
+                LoginId = Guid.NewGuid(),
+                User = user,
+                UserName = newUser.UserName,
+                PasswordSalt = salt,
+                PasswordHash = AuthHelper.GenerateSaltedHash(passBytes, salt)
+            };
+
+            var role = _context.Roles.Single(r => r.RoleName == "User");
+            var userRole = new UserRole
+            {
+                User = user,
+                Role = role
+            };
+
             _context.Users.Add(user);
+            _context.Logins.Add(login);
+            _context.UserRoles.Add(userRole);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetUser", new { id = user.UserId }, user);
         }
 
         // DELETE: api/Users/5
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteUser([FromRoute] Guid id)
         {
             if (!ModelState.IsValid)

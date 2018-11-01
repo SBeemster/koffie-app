@@ -51,7 +51,7 @@ export class ApiService {
             catchError((error: Response) => {
                 if (error.status === 401 || error.status === 403) {
                     localStorage.removeItem("id_token");
-                    this.router.navigate(['/']);
+                    this.router.navigate(['login']);
                 }
                 return throwError(error);
             }),

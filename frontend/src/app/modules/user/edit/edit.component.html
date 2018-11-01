@@ -1,0 +1,28 @@
+<div class="row">
+    <div class="card mx-auto mt-4" *ngIf="userLoaded">
+        <div class="card-header">
+            Nieuwe Gebruiker
+        </div>
+        <div class="card-body">
+            <form (keydown.enter)="saveUser()">
+                <div class="form-group">
+                    <label>Gebruikers ID</label>
+                    <p>{{ user.userId }}</p>
+                </div>
+                <div class="form-group">
+                    <label>Voornaam</label>
+                    <input type="text" class="form-control" name="firstName" [(ngModel)]="user.firstName" autocomplete="given-name">
+                </div>
+                <div class="form-group">
+                    <label>Achternaam</label>
+                    <input type="text" class="form-control" name="lastName" [(ngModel)]="user.lastName" autocomplete="family-name">
+                </div>
+                <div class="form-group">
+                    <label>Actief</label>
+                    <input type="checkbox" class="form-control" name="active" [(ngModel)]="user.active">
+                </div>
+                <button type="button" (click)="saveUser()" class="btn btn-block btn-success" [attr.disabled]="awaitingResponse() ? '' : null">Opslaan</button>
+            </form>
+        </div>
+    </div>
+</div>

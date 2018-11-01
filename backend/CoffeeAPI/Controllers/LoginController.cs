@@ -51,24 +51,24 @@ namespace CoffeeAPI.Controllers
             var savedPasswordSalt = login.PasswordSalt;
             var attemptPasswordHash = AuthHelper.GenerateSaltedHash(attemptPassword, savedPasswordSalt);
             var savedPasswordHash = login.PasswordHash;
-            if (!AuthHelper.Authenticate(attemptPasswordHash, savedPasswordHash))
+            if (!AuthHelper.Authenticate(attemptPasswordHash, savedPasswordHash) || !login.User.Active)
             {
-                // wrong password
+                // wrong password or user archived
                 return Unauthorized();
             }
 
             // gather refrences
-            var user = login.User;
             var roles = _context.UserRoles
                 .Include(ur => ur.User)
                 .Include(ur => ur.Role)
-                .Where(ur => ur.User == user)
+                .Where(ur => ur.User == login.User)
                 .Select(ur => ur.Role)
                 .ToList();
 
             // compile user claims
             var tokenClaims = new ClaimsIdentity();
-            tokenClaims.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()));
+            tokenClaims.AddClaim(new Claim(ClaimTypes.NameIdentifier, login.User.UserId.ToString()));
+            tokenClaims.AddClaim(new Claim(ClaimTypes.Name, login.UserName));
             foreach (var roleName in roles.Select(r => r.RoleName))
             {
                 tokenClaims.AddClaim(new Claim(ClaimTypes.Role, roleName));

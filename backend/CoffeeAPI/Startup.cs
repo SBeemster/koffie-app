@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using System;
 
 namespace CoffeeAPI
@@ -26,9 +27,14 @@ namespace CoffeeAPI
         {
             services.AddCors();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                .AddJsonOptions(options =>
+                {
+                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                });
 
-            
+
             var connection = Configuration.GetConnectionString("KoffieDatabase");
             services.AddDbContext<CoffeeContext>(options => options.UseSqlServer(connection));
 
@@ -62,7 +68,7 @@ namespace CoffeeAPI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            
+
                 app.UseCors(
                     options => options.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader()
                 );
@@ -70,9 +76,9 @@ namespace CoffeeAPI
             else
             {
                 app.UseHsts();
-    
+
                 app.UseCors(
-                    options => options.WithOrigins("http://acceptatie-koffie-app.jorisvdinther.nl").AllowAnyMethod().AllowAnyHeader()
+                    options => options.WithOrigins("https://acceptatie-koffie-app.jorisvdinther.nl").AllowAnyMethod().AllowAnyHeader()
                 );
             }
 

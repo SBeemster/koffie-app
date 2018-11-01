@@ -11,6 +11,7 @@ namespace CoffeeAPI.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public Drink Prefrence { get; set; }
+        public bool Active { get; set; }
         public ICollection<UserGroup> UserGroups { get; set; }
         public ICollection<UserRole> UserRoles { get; set; }
 

@@ -1,5 +1,7 @@
 <nav class="navbar navbar-light bg-light mb-3">
     <div class="container">
         <app-menu></app-menu>
+        <button type="button" (click)="logout()" class="btn btn-outline-danger float-right"
+            [attr.disabled]="awaitingResponse() ? '' : null">Logout: {{ username }}</button>
     </div>
 </nav>
