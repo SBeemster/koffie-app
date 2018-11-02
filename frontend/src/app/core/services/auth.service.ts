@@ -3,11 +3,14 @@ import { ApiService } from "./api.service";
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { map } from "rxjs/operators";
 import { Observable } from "rxjs";
+import { DecodedToken } from '../classes/decodedToken';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
+
+    decodedToken: DecodedToken;
 
     constructor(private api: ApiService) { }
 
@@ -20,6 +23,7 @@ export class AuthService {
     }
 
     logout(): void {
+        this.decodedToken = null;
         localStorage.removeItem("id_token");
     }
 
@@ -38,8 +42,8 @@ export class AuthService {
         }
 
         let token = this.getDecodedToken();
-        if (token.hasOwnProperty("role")) {
-            return token["role"].indexOf(role) > -1;
+        if (token.role) {
+            return token.role.indexOf(role) > -1;
         }
 
         return false;
@@ -54,14 +58,24 @@ export class AuthService {
         }
     }
 
-    getDecodedToken(): object {
-        let helper = new JwtHelperService();
-        return helper.decodeToken(localStorage.getItem("id_token"));
+    getDecodedToken(): DecodedToken {
+        if (!this.decodedToken) {
+            let helper = new JwtHelperService();
+            let token = helper.decodeToken(localStorage.getItem("id_token"));
+            this.decodedToken = {
+                exp: token["exp"],
+                iat: token["iat"],
+                iss: token["iss"],
+                nameid: token["nameid"],
+                nbf: token["nbf"],
+                role: token["role"],
+                uniqueName: token["unique_name"]
+            }
+        }
+        return this.decodedToken;
     }
 
     private setSession(authResult): void {
-        let helper = new JwtHelperService();
         localStorage.setItem("id_token", authResult.idToken);
-        console.log(this.getDecodedToken());
     }
 }
