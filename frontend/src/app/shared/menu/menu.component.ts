@@ -1,16 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MENU_ITEMS } from './menu-items';
+import { AuthService } from "src/app/core/services/auth.service";
 
 @Component({
     selector: 'app-menu',
     templateUrl: './menu.component.html',
     styleUrls: ['./menu.component.scss']
 })
-export class MenuComponent implements OnInit {
+export class MenuComponent {
     menu = MENU_ITEMS;
 
-    constructor() { }
+    constructor(
+        private auth: AuthService
+    ) { }
 
-    ngOnInit() {
+    hasRole(role: string): boolean {
+        if (role) {
+            return this.auth.hasRole(role);
+        }
+        return true;
     }
 }

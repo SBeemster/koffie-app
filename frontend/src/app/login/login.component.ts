@@ -1,0 +1,51 @@
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from "../core/services/auth.service";
+import { ApiService } from "../core/services/api.service";
+import { ActivatedRoute, Router } from "@angular/router";
+
+@Component({
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.scss']
+})
+export class LoginComponent implements OnInit {
+
+    passType: string = "password";
+
+    username: string = "admin";
+    password: string = "admin";
+
+    returnUrl: string;
+
+    constructor(
+        private route: ActivatedRoute,
+        private router: Router,
+        private api: ApiService, 
+        private auth: AuthService) { }
+
+    ngOnInit() {
+        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    }
+
+    awaitingResponse(): boolean {
+        return this.api.awaitingResponse;
+    }
+
+    togglePassword(): void {
+        if (this.passType === "password") {
+            this.passType = "text"
+        } else {
+            this.passType = "password"
+        }
+    }
+
+    login(): void {
+        this.auth.login(this.username, this.password).subscribe(
+            () => { //success
+                this.router.navigateByUrl(this.returnUrl);
+            }
+        )
+    }
+
+    logout = this.auth.logout;
+}
