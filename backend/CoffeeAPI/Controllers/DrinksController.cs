@@ -21,9 +21,9 @@ namespace CoffeeAPI.Controllers
 
         // GET: api/Drinks
         [HttpGet]
-        public IEnumerable<Drink> GetDrinks(bool? available)
+        public IEnumerable<Drink> GetDrinks(bool? Available)
         {
-            switch (available)
+            switch (Available)
             {
                 case true:
                     return _context.Drinks.Where(d => d.Available == true);

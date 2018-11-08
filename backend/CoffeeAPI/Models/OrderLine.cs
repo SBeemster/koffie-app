@@ -12,8 +12,11 @@ namespace CoffeeAPI.Models
         public User Server { get; set; }
         [Required]
         public Drink Drink { get; set; }
+        public int Count { get; set; }
         public int Sugar { get; set; }
         public int Milk { get; set; }
         public OrderStatus OrderStatus { get; set; }
+        public DateTime OrderTime { get; set; }
+        public DateTime GetTime { get; set; }
     }
 }

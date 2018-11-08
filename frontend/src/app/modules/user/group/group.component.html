@@ -21,20 +21,20 @@
 <div class="row">
     <div class="col-sm-6">
         <ul class="list-group list-group-flush">
-            <li class="list-group-item" *ngFor="let availableGroup of availableGroups">
-                <span *ngIf="!availableGroup.edit">
-                    {{availableGroup.name}}
+            <li class="list-group-item" *ngFor="let AvailableGroup of AvailableGroups">
+                <span *ngIf="!AvailableGroup.edit">
+                    {{AvailableGroup.name}}
                 </span>
-                <span *ngIf="availableGroup.edit">
-                    <input type="text" [(ngModel)]="availableGroup.newName" name="groupname">
+                <span *ngIf="AvailableGroup.edit">
+                    <input type="text" [(ngModel)]="AvailableGroup.newName" name="groupname">
                 </span>
-                <button class="float-right btn btn-danger" (click)="deleteGroup(availableGroup)">
+                <button class="float-right btn btn-danger" (click)="deleteGroup(AvailableGroup)">
                     <i class="fa fa-fw fa-trash"></i>
                 </button>
-                <button class="float-right btn btn-secondary mr-1" (click)="availableGroup.edit = true" *ngIf="!availableGroup.edit">
+                <button class="float-right btn btn-secondary mr-1" (click)="AvailableGroup.edit = true" *ngIf="!AvailableGroup.edit">
                     <i class="fa fa-fw fa-edit"></i> 
                 </button>
-                <button class="float-right btn btn-secondary mr-1" (click)="editGroup(availableGroup)" *ngIf="availableGroup.edit">
+                <button class="float-right btn btn-secondary mr-1" (click)="editGroup(AvailableGroup)" *ngIf="AvailableGroup.edit">
                     <i class="fa fa-fw fa-save"></i>
                 </button>
             </li>

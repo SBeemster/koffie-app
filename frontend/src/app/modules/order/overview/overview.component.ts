@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { OrderService } from "../../../core/services/order.service";
-import { AvailableCoffeeService } from "../../../core/services/available-coffee.service";
+import { AvailableCoffeeService } from "../../../core/services/Available-coffee.service";
 import { OrderLine } from "../../../core/classes/orderLine";
 import { Drink } from "src/app/core/classes/drink";
 
@@ -10,30 +10,30 @@ import { Drink } from "src/app/core/classes/drink";
   styleUrls: ["./overview.component.scss"]
 })
 export class OverviewComponent implements OnInit {
-  orders: OrderLine[] = [];
+  orders= this.OrderService.orders;
   ordersGrouped = [];
-  availableCoffees: Drink[] = [];
+  AvailableCoffees: Drink[] = [];
   ordersPerUser = [];
   constructor(
     private OrderService: OrderService,
-    private availableCoffeeService: AvailableCoffeeService
+    private AvailableCoffeeService: AvailableCoffeeService
   ) {}
 
   ngOnInit() {
-    this.orders = this.OrderService.getNewOrders();
-    this.availableCoffees = this.availableCoffeeService.getCoffee();
+    this.OrderService.getNewOrders();
+    this.AvailableCoffees = this.AvailableCoffeeService.getCoffee();
     this.getGroupedByCoffee();
     this.getOrdersPerUser();
     this.OrderService.setHalenFalse();
   }
   getGroupedByCoffee(): void {
     this.ordersGrouped = [];
-    for (let i = 0; i < this.availableCoffees.length; i++) {
+    for (let i = 0; i < this.AvailableCoffees.length; i++) {
       this.ordersGrouped.push([
-        this.availableCoffees[i].drinkName,
+        this.AvailableCoffees[i].drinkName,
         this.orders.reduce(
           (acc, order) =>
-            order.drink.drinkName === this.availableCoffees[i].drinkName && order.verwerkt === false && order.melk === order.melk
+            order.drink.drinkName === this.AvailableCoffees[i].drinkName && order.verwerkt === false && order.melk === order.melk
               ? acc + order.aantal
               : acc,
           0

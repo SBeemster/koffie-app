@@ -36,6 +36,6 @@ export class AvailableCoffeeService {
     }
 
     getSingleCoffee(id: string): Drink {
-        return this.availableCoffee.find(result => id === result.drinkId);
+        return this.availableCoffee.find(result => id === result.DrinkId);
     }
 }

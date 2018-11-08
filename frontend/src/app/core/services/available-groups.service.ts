@@ -5,28 +5,28 @@ import { Group } from '../classes/group';
   providedIn: 'root'
 })
 export class AvailableGroupsService {
-  availableGroups: Group[] = [
+  AvailableGroups: Group[] = [
     new Group('The addicts'),
     new Group('The most drinkers'),
     new Group('Frequently need coffee'),
     new Group('Thee pussy\'s')
   ];
   getGroups(): Array<Group> {
-    return this.availableGroups;
+    return this.AvailableGroups;
   }
   createGroup(group: string): boolean {
-    for (let i = 0; i < this.availableGroups.length; i++) {
-      if (this.availableGroups[i].name === group) {
+    for (let i = 0; i < this.AvailableGroups.length; i++) {
+      if (this.AvailableGroups[i].name === group) {
         return false;
       }
     }
-    this.availableGroups.push(new Group(group));
+    this.AvailableGroups.push(new Group(group));
       return true;
   }
   deleteGroup(group: Group): boolean {
-    for (let i = 0; i < this.availableGroups.length; i++) {
-      if (this.availableGroups[i] === group) {
-        this.availableGroups.splice(i, 1);
+    for (let i = 0; i < this.AvailableGroups.length; i++) {
+      if (this.AvailableGroups[i] === group) {
+        this.AvailableGroups.splice(i, 1);
         return true;
       }
     }
@@ -36,15 +36,15 @@ export class AvailableGroupsService {
     if (group.newName === '') {
       return false;
     }
-    for (let i = 0; i < this.availableGroups.length; i++) {
-      if (this.availableGroups[i].name === group.newName && this.availableGroups[i] !== group) {
+    for (let i = 0; i < this.AvailableGroups.length; i++) {
+      if (this.AvailableGroups[i].name === group.newName && this.AvailableGroups[i] !== group) {
         group.newName = group.name;
         return false;
       }
     }
-    for (let i = 0; i < this.availableGroups.length; i++) {
-      if (this.availableGroups[i] === group) {
-        this.availableGroups[i].name = group.newName;
+    for (let i = 0; i < this.AvailableGroups.length; i++) {
+      if (this.AvailableGroups[i] === group) {
+        this.AvailableGroups[i].name = group.newName;
         return true;
       }
     }

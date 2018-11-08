@@ -1,19 +1,19 @@
 export class Drink {
-    drinkId: string;
+    DrinkId: string;
     drinkName: string;
-    available: boolean;
-    imageUrl: string;
-    additions: boolean;
+    Available: boolean;
+    ImageUrl: string;
+    Additions: boolean;
 
-    constructor(drinkId: string, drinkName: string, available: boolean = true, imageUrl: string = "/assets/Images/Latte Macchiato.jpg", additions: boolean = true) {
-        this.drinkId = drinkId;
+    constructor(DrinkId: string, drinkName: string, Available: boolean = true, ImageUrl: string = "/assets/Images/Latte Macchiato.jpg", Additions: boolean = true) {
+        this.DrinkId = DrinkId;
         this.drinkName = drinkName;
-        this.available = available;
-        if (imageUrl != null && imageUrl != "") {
-            this.imageUrl = imageUrl;
+        this.Available = Available;
+        if (ImageUrl != null && ImageUrl != "") {
+            this.ImageUrl = ImageUrl;
         } else {
-            this.imageUrl = "/assets/Images/Latte Macchiato.jpg";
+            this.ImageUrl = "/assets/Images/Latte Macchiato.jpg";
         }
-        this.additions = additions;
+        this.Additions = Additions;
     }
 }

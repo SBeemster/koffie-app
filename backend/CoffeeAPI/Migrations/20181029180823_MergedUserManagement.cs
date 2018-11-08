@@ -12,7 +12,7 @@ namespace CoffeeAPI.Migrations
                 columns: table => new
                 {
                     DrinkId = table.Column<Guid>(nullable: false),
-                    DrinkName = table.Column<string>(nullable: false),
+                    drinkName = table.Column<string>(nullable: false),
                     Available = table.Column<bool>(nullable: false),
                     ImageUrl = table.Column<string>(nullable: true),
                     Additions = table.Column<bool>(nullable: false)
@@ -191,7 +191,7 @@ namespace CoffeeAPI.Migrations
 
             migrationBuilder.InsertData(
                 table: "Drinks",
-                columns: new[] { "DrinkId", "Additions", "Available", "DrinkName", "ImageUrl" },
+                columns: new[] { "DrinkId", "Additions", "Available", "drinkName", "ImageUrl" },
                 values: new object[,]
                 {
                     { new Guid("ae084356-a070-4878-a8fd-a460bd48c111"), true, true, "Koffie", "/assets/Images/Koffie.jpg" },

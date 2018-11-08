@@ -1,6 +1,7 @@
 import { Drink } from "./drink";
 
 export class OrderLine {
+  orderLineId: string;
   drink: Drink;
   aantal: number;
   verbruiker: string;
@@ -10,12 +11,14 @@ export class OrderLine {
   suiker: number;
 
   constructor(
+    orderLineId: string = "",
     drink: Drink,
     aantal: number,
     verbruiker: string,
     melk: number,
     suiker: number
   ) {
+    this.orderLineId = orderLineId
     this.drink = drink;
     this.aantal = aantal;
     this.verbruiker = verbruiker;

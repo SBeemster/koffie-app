@@ -1,6 +1,6 @@
 import { TestBed, inject } from "@angular/core/testing";
 
-import { AvailableCoffeeService } from "./available-coffee.service";
+import { AvailableCoffeeService } from "./Available-coffee.service";
 
 describe("AvailableCoffeeService", () => {
   beforeEach(() => {

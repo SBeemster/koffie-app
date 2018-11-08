@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { AvailableCoffeeService } from "../../../core/services/available-coffee.service";
+import { AvailableCoffeeService } from "../../../core/services/Available-coffee.service";
 import { OrderService } from "../../../core/services/order.service";
 
 @Component({
@@ -9,14 +9,14 @@ import { OrderService } from "../../../core/services/order.service";
 })
 export class PlaceComponent implements OnInit {
     orders = this.OrderService.orders;
-    availableCoffees;
+    AvailableCoffees;
     constructor(
-        private availableCoffeeService: AvailableCoffeeService,
+        private AvailableCoffeeService: AvailableCoffeeService,
         private OrderService: OrderService
     ) { }
 
     ngOnInit() {
-        this.availableCoffees = this.availableCoffeeService.getCoffee();
+        this.AvailableCoffees = this.AvailableCoffeeService.getCoffee();
     }
 
     //addToOrder = this.OrderService.placeOrder;

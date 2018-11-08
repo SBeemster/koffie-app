@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { AvailableCoffeeService } from "../../../core/services/available-coffee.service";
+import { AvailableCoffeeService } from "../../../core/services/Available-coffee.service";
 import { OrderService } from "../../../core/services/order.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Drink } from "../../../core/classes/drink";
@@ -14,9 +14,9 @@ export class ChoiceComponent implements OnInit {
   suikercnt: number = 0;
   newAantal: number = 1;
   orders = this.OrderService.orders;
-  availableCoffee: Drink;
+  AvailableCoffee: Drink;
   constructor(
-    private availableCoffeeService: AvailableCoffeeService,
+    private AvailableCoffeeService: AvailableCoffeeService,
     private OrderService: OrderService,
     private activatedRoute: ActivatedRoute,
     private router: Router
@@ -24,18 +24,17 @@ export class ChoiceComponent implements OnInit {
 
   ngOnInit() {
     const id = this.activatedRoute.snapshot.params["coffeeId"];
-    this.availableCoffee = this.availableCoffeeService.getSingleCoffee(id);
+    this.AvailableCoffee = this.AvailableCoffeeService.getSingleCoffee(id);
   }
 
   addToOrder(
     product: Drink,
     aantal: number,
-    verbruiker: string,
     melk: number,
     suiker: number
   ){
-    this.OrderService.placeOrder(product,aantal,verbruiker,melk,suiker);
-    this.router.navigate(["place"]);
+    this.OrderService.placeOrder(product,aantal,melk,suiker);
+    this.router.navigate(["order"]);
   } 
 
   melkCountUp() {
