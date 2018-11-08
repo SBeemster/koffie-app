@@ -3,6 +3,7 @@ import { AvailableCoffeeService } from "../../../core/services/available-coffee.
 import { OrderService } from "../../../core/services/order.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Drink } from "../../../core/classes/drink";
+import { ApiService } from "src/app/core/services/api.service";
 
 @Component({
   selector: "app-choice",
@@ -15,11 +16,14 @@ export class ChoiceComponent implements OnInit {
   newAantal: number = 1;
   orders = this.OrderService.orders;
   availableCoffee: Drink;
+  Preference: boolean = false;
+
   constructor(
     private availableCoffeeService: AvailableCoffeeService,
     private OrderService: OrderService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private api: ApiService
   ) {}
 
   ngOnInit() {
@@ -33,10 +37,10 @@ export class ChoiceComponent implements OnInit {
     verbruiker: string,
     melk: number,
     suiker: number
-  ){
-    this.OrderService.placeOrder(product,aantal,verbruiker,melk,suiker);
+  ) {
+    this.OrderService.placeOrder(product, aantal, verbruiker, melk, suiker);
     this.router.navigate(["place"]);
-  } 
+  }
 
   melkCountUp() {
     if (this.melkcnt < 3) this.melkcnt++;
@@ -55,5 +59,16 @@ export class ChoiceComponent implements OnInit {
   }
   drinkCountDown() {
     if (this.newAantal > 1) this.newAantal--;
+  }
+
+  submitPreference() {
+    this.api
+      .post("/DrinkPreferences", {
+        //User: this.verbruiker,
+        Drink: this.availableCoffee,
+        Milk: this.melkcnt,
+        Sugar: this.suikercnt
+      })
+      .subscribe(console.log, console.error);
   }
 }

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Text;
+using CoffeeAPI.Models;
 
 namespace CoffeeAPI.Models
 {
@@ -78,5 +79,7 @@ namespace CoffeeAPI.Models
             }
 
         }
+
+        public DbSet<CoffeeAPI.Models.DrinkPreference> DrinkPreference { get; set; }
     }
 }

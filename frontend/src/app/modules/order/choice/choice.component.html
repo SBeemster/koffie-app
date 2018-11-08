@@ -2,6 +2,9 @@
     <div class="col-sm-4 col-center">
         <div class="card">
             <p>
+                <a href="submitPreference(availableCoffee, melkcnt, suikercnt)">
+                    <i class="fa fa-star-o fa-3x" aria-hidden="true"></i>
+                </a>
                 <button type="button" class="btn btn-dark float-right btn-close" routerLink="../../">X</button>
             </p>
             <img class="card-img-top" src="{{availableCoffee.imageUrl}}" alt="Card image cap">
@@ -38,7 +41,7 @@
                 </ng-container>
                 <button class="btn btn-success btn-lg btn-block btn-bestellen" (click)="addToOrder(availableCoffee, newAantal, 'Verbruiker', melkcnt, suikercnt);">Bestellen!</button>
             </div>
-            
+
         </div>
     </div>
 </div>
