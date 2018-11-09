@@ -27,7 +27,7 @@ namespace CoffeeAPI.Controllers
         {
             if (orderstatus != "")
             {
-                return _context.OrderLines.Where(d => d.OrderStatus.StatusName.ToLower() == orderstatus.ToLower()).Include(d => d.Customer).Include(d => d.Drink);
+                return _context.OrderLines.Where(d => d.OrderStatus.StatusName.ToLower() == orderstatus.ToLower()).Include(d => d.Customer).Include(d => d.Drink).Include(d => d.OrderStatus);
             }
             else
             { 
@@ -98,13 +98,13 @@ namespace CoffeeAPI.Controllers
                .Where(l => l.UserId == userID)
                .Single();
 
-            OrderStatus status = _context.OrderStatuses
-               .Where(l => l.StatusName == "Ordered")
-               .Single();
-
             Drink drink = _context.Drinks
                .Where(l => l.DrinkId == orderLine.Drink.DrinkId)
                .Single();
+
+            OrderStatus orderstatus = _context.OrderStatuses
+              .Where(l => l.OrderStatusId == orderLine.OrderStatus.OrderStatusId)
+              .Single();
 
             var newOrderLine = new OrderLine
             {
@@ -114,7 +114,7 @@ namespace CoffeeAPI.Controllers
                 Count = orderLine.Count,
                 Sugar = orderLine.Sugar,
                 Milk = orderLine.Milk,
-                OrderStatus = status,
+                OrderStatus = orderstatus,
                 OrderTime = orderLine.OrderTime
             };
 

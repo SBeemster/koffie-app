@@ -42,7 +42,6 @@ export class OverviewComponent implements OnInit {
     }
   }
  getOrdersPerUser(): void{
-   console.log("fired");
     this.ordersPerUser = this.orders
     
     .sort(function(a, b) {
@@ -51,5 +50,9 @@ export class OverviewComponent implements OnInit {
       return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
   });
   }
-  gaHalen = this.OrderService.gaHalen;
+  gaHalen():void {
+   this.OrderService.gaHalen();
+   this.orders = this.OrderService.orders;
+   this.getOrdersPerUser();
+  } 
 }

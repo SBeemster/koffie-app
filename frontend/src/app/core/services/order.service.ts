@@ -3,6 +3,7 @@ import { OrderLine } from "../classes/orderLine";
 import { Drink } from "../classes/drink";
 import { AuthService } from 'src/app/core/services/auth.service';
 import { ApiService } from "./api.service";
+import { OrderStatus } from "../classes/order-status";
 
 @Injectable({
   providedIn: "root"
@@ -14,30 +15,30 @@ export class OrderService {
     if (this.auth.isLoggedIn()) {
       return this.auth.getDecodedToken().nameid;
     }
-  }
-  refreshOrderLines(){
+  } 
+  refreshOrderLines() {
     this.orders = [];
     this.api.get("/orderlines?orderstatus=ordered").subscribe(
       res => {
-          for (let i in res) {
-              let orderline = new OrderLine(
-                res[i].orderLineId,
-                 res[i].drink, 
-                 res[i].count,
-                 res[i].customer.userId,
-                 res[i].milk,
-                 res[i].sugar
-                );
+        for (let i in res) {
+          let orderline = new OrderLine(
+            res[i].orderLineId,
+            res[i].drink,
+            res[i].count,
+            res[i].customer.userId,
+            res[i].milk,
+            res[i].sugar,
+            res[i].orderStatus
+          );
 
-              this.orders.push(orderline);
-              console.log(orderline);
-              console.log(orderline.drink.drinkName);
-          }
-          
+          this.orders.push(orderline);
+          console.log(orderline);
+        }
+
       }, //success
       res => { console.log(res); } //error
 
-  )
+    )
   }
   getOrders(): Array<OrderLine> {
     this.refreshOrderLines();
@@ -49,10 +50,36 @@ export class OrderService {
       .filter(order => order.verwerkt === false)
   }
   gaHalen(): void {
+    console.log(OrderStatus.statusArray.find(status => { return status.statusName.toString().toLowerCase() == "finished" }));
+    var orderstatus = OrderStatus.statusArray.find(status => { return status.statusName.toString().toLowerCase() == "finished" });
     for (let s of this.orders) {
       if (!s.verwerkt) {
         s.verwerkt = true;
         s.halen = true;
+        s.orderStatus = orderstatus;
+        console.log(s);
+       this.api.put("/OrderLines/" + s.orderLineId, {
+          "OrderLineId": s.orderLineId,
+          "Customer": {
+            "UserId": s.verbruiker
+          },
+          "Server": "",
+          "Drink": {
+            "drinkId":s.drink.drinkId,
+            "drinkName": s.drink.drinkName
+          },
+          "Count": s.aantal,
+          "Sugar": s.suiker,
+          "Milk": s.melk,
+          "OrderStatus": {
+            "orderStatusId" :s.orderStatus.orderStatusId,
+            "statusName" : s.orderStatus.statusName
+          }
+        }).subscribe(
+          console.log,
+          console.error
+        )
+       
       }
     }
   }
@@ -62,6 +89,8 @@ export class OrderService {
     melk: number,
     suiker: number
   ): void {
+    this.getStatussen();
+    var orderstatus = OrderStatus.statusArray.find(status => { return status.statusName.toString().toLowerCase() == "ordered" });
     for (const s of this.orders) {
       if (
         s.drink.drinkName === product.drinkName &&
@@ -73,7 +102,7 @@ export class OrderService {
         s.aantal++;
         s.id
         this.api.put("/OrderLines/" + s.orderLineId, {
-          "OrderLineId" : s.orderLineId,
+          "OrderLineId": s.orderLineId,
           "Customer": {
             "UserId": s.verbruiker
           },
@@ -82,7 +111,7 @@ export class OrderService {
           "Count": s.aantal,
           "Sugar": s.suiker,
           "Milk": s.melk,
-          "OrderStatus": ""
+          "OrderStatus": s.orderStatus
         }).subscribe(
           console.log,
           console.error
@@ -90,13 +119,15 @@ export class OrderService {
         return;
       }
     }
+
     const newProduct = new OrderLine(
       "",
       product = product,
       aantal ? aantal : 1,
       this.userId(),
       melk ? melk : 0,
-      suiker ? suiker : 0
+      suiker ? suiker : 0,
+      orderstatus
     );
 
     this.api.post("/OrderLines", {
@@ -108,11 +139,11 @@ export class OrderService {
       "Count": aantal,
       "Sugar": suiker,
       "Milk": melk,
-      "OrderStatus": "",
-      "OrderTime" : new Date()
+      "OrderTime": new Date(),
+      "OrderStatus": orderstatus
     }).subscribe(
       res => {
-          newProduct.orderLineId = res.toString();
+        newProduct.orderLineId = res.toString();
       },
       console.log,
       console.error
@@ -141,5 +172,17 @@ export class OrderService {
       }
     }
   }
-  constructor(private auth: AuthService, private api: ApiService) { }
+  getStatussen(){
+    this.api.get("/orderstatus").subscribe(
+      res => {
+        for (let i in res) {
+          new OrderStatus(res[i].orderStatusId, res[i].statusName);
+        }
+      },
+      res => {console.log(res)}
+    )
+  }
+  constructor(private auth: AuthService, private api: ApiService) { 
+    this.getStatussen();
+  }
 }
