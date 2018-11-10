@@ -60,15 +60,5 @@ export class ChoiceComponent implements OnInit {
   drinkCountDown() {
     if (this.newAantal > 1) this.newAantal--;
   }
-
-  submitPreference() {
-    this.api
-      .post("/DrinkPreferences", {
-        //User: this.verbruiker,
-        Drink: this.availableCoffee,
-        Milk: this.melkcnt,
-        Sugar: this.suikercnt
-      })
-      .subscribe(console.log, console.error);
-  }
+  submitPreference() {}
 }

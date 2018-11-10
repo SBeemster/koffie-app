@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using CoffeeAPI.Models;
 
-namespace CoffeeAPI.Models
+namespace CoffeeAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -28,7 +29,7 @@ namespace CoffeeAPI.Models
 
         // GET: api/DrinkPreferences/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetDrinkPreference([FromRoute] int id)
+        public async Task<IActionResult> GetDrinkPreference([FromRoute] Guid id)
         {
             if (!ModelState.IsValid)
             {
@@ -47,7 +48,7 @@ namespace CoffeeAPI.Models
 
         // PUT: api/DrinkPreferences/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutDrinkPreference([FromRoute] int id, [FromBody] DrinkPreference drinkPreference)
+        public async Task<IActionResult> PutDrinkPreference([FromRoute] Guid id, [FromBody] DrinkPreference drinkPreference)
         {
             if (!ModelState.IsValid)
             {
@@ -97,7 +98,7 @@ namespace CoffeeAPI.Models
 
         // DELETE: api/DrinkPreferences/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteDrinkPreference([FromRoute] int id)
+        public async Task<IActionResult> DeleteDrinkPreference([FromRoute] Guid id)
         {
             if (!ModelState.IsValid)
             {
@@ -116,7 +117,7 @@ namespace CoffeeAPI.Models
             return Ok(drinkPreference);
         }
 
-        private bool DrinkPreferenceExists(int id)
+        private bool DrinkPreferenceExists(Guid id)
         {
             return _context.DrinkPreference.Any(e => e.Preferenceid == id);
         }

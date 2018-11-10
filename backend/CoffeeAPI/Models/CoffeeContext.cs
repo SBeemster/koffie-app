@@ -23,7 +23,6 @@ namespace CoffeeAPI.Models
         // intermediary tables
         public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<UserGroup> UserGroups { get; set; }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // ensure indexed and unique usernames
@@ -66,20 +65,22 @@ namespace CoffeeAPI.Models
 
             //seed first drinks
             String[,] drinkArray = new string[6, 3] { { "Koffie", "/assets/Images/Koffie.jpg", "true" }, { "Cappuccino", "/assets/Images/Cappuccino.jpg", "true" }, { "Latte Macchiato", "/assets/Images/Latte Macchiato.jpg", "true" }, { "Espresso", "/assets/Images/Espresso.png", "true" }, { "Thee", "/assets/Images/Thee.jpg", "true" }, { "Water", "/assets/Images/Water.jpg", "false" } };
-            for (int i =0; i < drinkArray.GetLength(0); i++)
+            for (int i = 0; i < drinkArray.GetLength(0); i++)
             {
-                var additions= false;
+                var additions = false;
                 var drankId = Guid.NewGuid();
-                if (drinkArray[i, 2].Equals("true")) {
-                   additions  = true;
+                if (drinkArray[i, 2].Equals("true"))
+                {
+                    additions = true;
                 }
-                
+
                 modelBuilder.Entity<Drink>().HasData(
-                    new { DrinkId = drankId, DrinkName = drinkArray[i,0], Available = true, ImageUrl = drinkArray[i,1], Additions = additions });
+                    new { DrinkId = drankId, DrinkName = drinkArray[i, 0], Available = true, ImageUrl = drinkArray[i, 1], Additions = additions });
             }
 
         }
-
         public DbSet<CoffeeAPI.Models.DrinkPreference> DrinkPreference { get; set; }
+
+
     }
 }
