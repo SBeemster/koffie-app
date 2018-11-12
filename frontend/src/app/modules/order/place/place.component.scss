@@ -1,9 +1,10 @@
-img {
+.img-koffie {
   max-width: 100%;
   max-height: 20em;
+  height: 20em;
 }
 .card {
-  border: solid black 2px;
+  border: solid black 0px;
 }
 .image {
   display: flex;
@@ -11,14 +12,14 @@ img {
   justify-content: center; /*Aligns horizontally center */
   height: 100%;
 }
-div {
+.row-overzicht {
   margin-top: 2%;
-  margin-left: 2%;
-  margin-right: 2%;
+
 }
 .fa-star {
   color: yellow;
 }
 .row-addons {
-  margin-top: 1px;
+  margin-top: 2px;
 }
+
