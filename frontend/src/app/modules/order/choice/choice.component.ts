@@ -35,7 +35,7 @@ export class ChoiceComponent implements OnInit {
     suiker: number
   ){
     this.OrderService.placeOrder(product,aantal,verbruiker,melk,suiker);
-    this.router.navigate(["place"]);
+    this.router.navigate(["order"]);
   } 
 
   melkCountUp() {
