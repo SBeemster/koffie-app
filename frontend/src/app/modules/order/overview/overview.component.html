@@ -51,12 +51,12 @@
         <li class="list-group-item d-flex justify-content-between align-items-center" *ngIf="userOrder.halen">
 
             {{userOrder.aantal}}x {{userOrder.drink.drinkName}}
-            <ng-container *ngIf="userOrder.melk > 0 || userOrder.suiker > 0">(</ng-container>
-            <ng-container *ngIf="userOrder.melk > 0">{{userOrder.melk}}x melk</ng-container>
-            <ng-container *ngIf="userOrder.melk > 0 && userOrder.suiker > 0"> & </ng-container>
-            <ng-container *ngIf="userOrder.suiker > 0">{{userOrder.suiker}}x suiker</ng-container>
-            <ng-container *ngIf="userOrder.melk > 0 || userOrder.suiker > 0">)</ng-container>
-            <p class="float-right">{{userOrder.verbruiker}}</p>
+            <ng-container *ngIf="userOrder.milk > 0 || userOrder.sugar > 0">(</ng-container>
+            <ng-container *ngIf="userOrder.milk > 0">{{userOrder.milk}}x melk</ng-container>
+            <ng-container *ngIf="userOrder.milk > 0 && userOrder.sugar > 0"> & </ng-container>
+            <ng-container *ngIf="userOrder.sugar > 0">{{userOrder.sugar}}x suiker</ng-container>
+            <ng-container *ngIf="userOrder.milk > 0 || userOrder.sugar > 0">)</ng-container>
+            <p class="float-right">{{userOrder.customer.firstName}}</p>
 
         </li>
     </ng-container>

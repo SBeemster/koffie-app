@@ -4,6 +4,8 @@ import { Drink } from "../classes/drink";
 import { AuthService } from 'src/app/core/services/auth.service';
 import { ApiService } from "./api.service";
 import { OrderStatus } from "../classes/order-status";
+import { Observable } from "rxjs";
+import { map, concatAll } from "rxjs/operators";
 
 @Injectable({
   providedIn: "root"
@@ -16,47 +18,36 @@ export class OrderService {
       return this.auth.getDecodedToken().nameid;
     }
   } 
-  refreshOrderLines() {
-    this.orders = [];
-    this.api.get("/orderlines?orderstatus=ordered").subscribe(
-      res => {
-        for (let i in res) {
-          let orderline = new OrderLine(
-            res[i].orderLineId,
-            res[i].drink,
-            res[i].count,
-            res[i].customer.userId,
-            res[i].milk,
-            res[i].sugar,
-            res[i].orderStatus
-          );
-
-          this.orders.push(orderline);
-          console.log(orderline);
-        }
-
-      }, //success
-      res => { console.log(res); } //error
-
-    )
+  
+  getOrders(): Observable<OrderLine> {
+    return this.api.get('/orderlines?orderstatus=ordered').pipe(
+        concatAll(),
+        map(obj => {
+            const orderline: OrderLine = {
+              orderLineId: obj['orderLineId'],
+                drink: obj['drink'],
+                count: obj['count'],
+                customer: obj['customer'],
+                milk: obj['milk'],
+                sugar: obj['sugar'],
+                orderStatus: obj['orderStatus']
+            };
+            return orderline;
+            
+        })
+    );
   }
-  getOrders(): Array<OrderLine> {
-    this.refreshOrderLines();
-    return this.orders;
-  }
-  getNewOrders(): Array<OrderLine> {
-    this.refreshOrderLines();
-    return this.orders
-      .filter(order => order.verwerkt === false)
-  }
-  gaHalen(): void {
-    console.log(OrderStatus.statusArray.find(status => { return status.statusName.toString().toLowerCase() == "finished" }));
-    var orderstatus = OrderStatus.statusArray.find(status => { return status.statusName.toString().toLowerCase() == "finished" });
+
+
+
+
+ /*  gaHalen(): void {
+    
     for (let s of this.orders) {
       if (!s.verwerkt) {
         s.verwerkt = true;
         s.halen = true;
-        s.orderStatus = orderstatus;
+       //s.orderStatus = orderstatus;
         console.log(s);
        this.api.put("/OrderLines/" + s.orderLineId, {
           "OrderLineId": s.orderLineId,
@@ -82,15 +73,15 @@ export class OrderService {
        
       }
     }
-  }
+  } */
   placeOrder(
     product: Drink,
     aantal: number,
     melk: number,
-    suiker: number
+    suiker: number,
+    orderstatus: OrderStatus
   ): void {
-    this.getStatussen();
-    var orderstatus = OrderStatus.statusArray.find(status => { return status.statusName.toString().toLowerCase() == "ordered" });
+    
     for (const s of this.orders) {
       if (
         s.drink.drinkName === product.drinkName &&
@@ -120,16 +111,6 @@ export class OrderService {
       }
     }
 
-    const newProduct = new OrderLine(
-      "",
-      product = product,
-      aantal ? aantal : 1,
-      this.userId(),
-      melk ? melk : 0,
-      suiker ? suiker : 0,
-      orderstatus
-    );
-
     this.api.post("/OrderLines", {
       "Customer": {
         "UserId": this.userId()
@@ -142,14 +123,12 @@ export class OrderService {
       "OrderTime": new Date(),
       "OrderStatus": orderstatus
     }).subscribe(
-      res => {
-        newProduct.orderLineId = res.toString();
-      },
+      
       console.log,
       console.error
     )
-    this.orders.push(newProduct);
-    console.log(newProduct);
+    //this.orders.push(newProduct);
+    //console.log(newProduct);
   }
   deleteFromOrder(order: OrderLine) {
     this.orders.splice(this.orders.indexOf(order), 1);
@@ -172,17 +151,19 @@ export class OrderService {
       }
     }
   }
-  getStatussen(){
-    this.api.get("/orderstatus").subscribe(
-      res => {
-        for (let i in res) {
-          new OrderStatus(res[i].orderStatusId, res[i].statusName);
-        }
-      },
-      res => {console.log(res)}
-    )
+  
+  getStatussen() : Observable<OrderStatus> {
+    return this.api.get('/orderstatus').pipe(
+      concatAll(),
+      map(obj => {
+          const orderstatus: OrderStatus = {
+            orderStatusId: obj['orderStatusId'],
+            statusName: obj['statusName']
+          };
+          return orderstatus;
+      })
+  );
   }
   constructor(private auth: AuthService, private api: ApiService) { 
-    this.getStatussen();
   }
 }

@@ -14,9 +14,10 @@ export class ChoiceComponent implements OnInit {
   suikercnt: number = 0;
   newAantal: number = 1;
   orders = this.OrderService.orders;
-  AvailableCoffee: Drink;
+  availableCoffee;
+  orderStatus= [];
   constructor(
-    private AvailableCoffeeService: AvailableCoffeeService,
+    private availableCoffeeService: AvailableCoffeeService,
     private OrderService: OrderService,
     private activatedRoute: ActivatedRoute,
     private router: Router
@@ -24,7 +25,24 @@ export class ChoiceComponent implements OnInit {
 
   ngOnInit() {
     const id = this.activatedRoute.snapshot.params["coffeeId"];
-    this.AvailableCoffee = this.AvailableCoffeeService.getSingleCoffee(id);
+    this.availableCoffeeService.getSingleCoffee(id).subscribe(
+      drink => {
+          this.availableCoffee = drink;
+      },
+      console.error,
+      () => {
+          console.log("complete");
+      }
+  );
+  this.OrderService.getStatussen().subscribe(
+    orderstatus => {
+        this.orderStatus.push(orderstatus);
+    },
+    console.error,
+    () => {
+        console.log("complete");
+    }
+);
   }
 
   addToOrder(
@@ -33,7 +51,7 @@ export class ChoiceComponent implements OnInit {
     melk: number,
     suiker: number
   ){
-    this.OrderService.placeOrder(product,aantal,melk,suiker);
+    this.OrderService.placeOrder(product,aantal,melk,suiker, this.orderStatus.find(status => { return status.statusName.toString().toLowerCase() == "ordered" }));
     this.router.navigate(["order"]);
   } 
 
