@@ -7,6 +7,7 @@ export class OrderLine {
   drink: Drink;
   count: number;
   customer: User;
+  server?: User;
   halen? : boolean;
   milk: number;
   sugar: number;

@@ -67,9 +67,31 @@ namespace CoffeeAPI.Controllers
             {
                 return BadRequest();
             }
+            OrderStatus orderstatus = _context.OrderStatuses
+              .Where(l => l.OrderStatusId == orderLine.OrderStatus.OrderStatusId)
+              .Single();
 
-            _context.Entry(orderLine).State = EntityState.Modified;
+            
+            User server = _context.Users
+               .Where(l => l.UserId == orderLine.Server.UserId)
+               .Single();
 
+            OrderLine updatedOrderline = _context.OrderLines
+                .Where(l => l.OrderLineId == orderLine.OrderLineId)
+                .Include(d => d.Server)
+                .Include(d => d.OrderStatus)
+                .Single();
+
+            updatedOrderline.Server = server;
+            updatedOrderline.OrderStatus = orderstatus;
+            _context.OrderLines.Update(updatedOrderline);
+
+
+            
+            
+            //_context.Entry(orderLine).Property(u => u.OrderStatus).CurrentValue = orderstatus;
+            //_context.Entry(orderLine).State = EntityState.Modified;
+           
             try
             {
                 await _context.SaveChangesAsync();
