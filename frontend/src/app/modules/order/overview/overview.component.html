@@ -50,13 +50,13 @@
     <ng-container *ngFor="let userOrder of ordersPerUser">
         <li class="list-group-item d-flex justify-content-between align-items-center" *ngIf="userOrder.halen">
 
-            {{userOrder.aantal}}x {{userOrder.drink.drinkName}}
+            {{userOrder.count}}x {{userOrder.drink.drinkName}}
             <ng-container *ngIf="userOrder.milk > 0 || userOrder.sugar > 0">(</ng-container>
             <ng-container *ngIf="userOrder.milk > 0">{{userOrder.milk}}x melk</ng-container>
             <ng-container *ngIf="userOrder.milk > 0 && userOrder.sugar > 0"> & </ng-container>
             <ng-container *ngIf="userOrder.sugar > 0">{{userOrder.sugar}}x suiker</ng-container>
             <ng-container *ngIf="userOrder.milk > 0 || userOrder.sugar > 0">)</ng-container>
-            <p class="float-right">{{userOrder.customer.firstName}}</p>
+            <p class="float-right">{{userOrder.customer.firstName}} {{userOrder.customer.lastName}}</p>
 
         </li>
     </ng-container>

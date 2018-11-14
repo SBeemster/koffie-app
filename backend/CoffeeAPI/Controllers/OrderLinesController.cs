@@ -30,7 +30,7 @@ namespace CoffeeAPI.Controllers
                 return _context.OrderLines.Where(d => d.OrderStatus.StatusName.ToLower() == orderstatus.ToLower()).Include(d => d.Customer).Include(d => d.Drink).Include(d => d.OrderStatus);
             }
             else
-            { 
+            {
                 return _context.OrderLines;
             }
         }
@@ -58,6 +58,7 @@ namespace CoffeeAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutOrderLine([FromRoute] Guid id, [FromBody] OrderLine orderLine)
         {
+            System.Diagnostics.Debug.WriteLine("DEBUG:" + orderLine.Server);
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -70,28 +71,41 @@ namespace CoffeeAPI.Controllers
             OrderStatus orderstatus = _context.OrderStatuses
               .Where(l => l.OrderStatusId == orderLine.OrderStatus.OrderStatusId)
               .Single();
+            OrderLine updatedOrderline;
 
-            
-            User server = _context.Users
-               .Where(l => l.UserId == orderLine.Server.UserId)
-               .Single();
+            if (orderLine.Server != null)
+            {
+                
+                User server = _context.Users
+                   .Where(l => l.UserId == orderLine.Server.UserId)
+                   .Single();
 
-            OrderLine updatedOrderline = _context.OrderLines
-                .Where(l => l.OrderLineId == orderLine.OrderLineId)
-                .Include(d => d.Server)
-                .Include(d => d.OrderStatus)
-                .Single();
+                updatedOrderline = _context.OrderLines
+                    .Where(l => l.OrderLineId == orderLine.OrderLineId)
+                    .Include(d => d.Server)
+                    .Include(d => d.OrderStatus)
+                    .Single();
 
-            updatedOrderline.Server = server;
+                updatedOrderline.Server = server;
+            }
+            else
+            {
+                updatedOrderline = _context.OrderLines
+                    .Where(l => l.OrderLineId == orderLine.OrderLineId)
+                    .Include(d => d.OrderStatus)
+                    .Single();
+            }
+
+            updatedOrderline.Count = orderLine.Count;
             updatedOrderline.OrderStatus = orderstatus;
             _context.OrderLines.Update(updatedOrderline);
 
 
-            
-            
+
+
             //_context.Entry(orderLine).Property(u => u.OrderStatus).CurrentValue = orderstatus;
             //_context.Entry(orderLine).State = EntityState.Modified;
-           
+
             try
             {
                 await _context.SaveChangesAsync();
@@ -115,7 +129,7 @@ namespace CoffeeAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> PostOrderLine([FromBody] OrderLine orderLine)
         {
-            var userID = orderLine.Customer.UserId;           
+            var userID = orderLine.Customer.UserId;
             User customer = _context.Users
                .Where(l => l.UserId == userID)
                .Single();

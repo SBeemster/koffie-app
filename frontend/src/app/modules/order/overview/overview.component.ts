@@ -5,7 +5,7 @@ import { ApiService } from "../../../core/services/api.service";
 import { OrderLine } from "../../../core/classes/orderLine";
 import { Drink } from "src/app/core/classes/drink";
 //import { userInfo } from "os";
-import {User} from "../../../core/classes/user";
+import { User } from "../../../core/classes/user";
 import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
@@ -14,7 +14,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
   styleUrls: ["./overview.component.scss"]
 })
 export class OverviewComponent implements OnInit {
-  orderlines= [];
+  orderlines = [];
   ordersGrouped = [];
   availableCoffees = [];
   ordersPerUser = [];
@@ -24,12 +24,12 @@ export class OverviewComponent implements OnInit {
     private api: ApiService,
     private availableCoffeeService: AvailableCoffeeService,
     private auth: AuthService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.availableCoffeeService.getCoffee().subscribe(
       drink => {
-          this.availableCoffees.push(drink);
+        this.availableCoffees.push(drink);
       },
       console.error,
       () => {
@@ -37,9 +37,9 @@ export class OverviewComponent implements OnInit {
         this.OrderService.getOrders().subscribe(
           orderline => {
             this.orderlines.push(orderline);
-        },
-        console.error,
-        () => {
+          },
+          console.error,
+          () => {
             console.log("GetOrders complete");
             for (let i = 0; i < this.availableCoffees.length; i++) {
               this.ordersGrouped.push([
@@ -52,87 +52,65 @@ export class OverviewComponent implements OnInit {
                   0
                 )
               ]);
-             
+            }
           }
-          console.log(this.ordersGrouped);
-          console.log(this.availableCoffees);
-          console.log(this.orderlines);
-          
-    
-          this.getOrdersPerUser();
-        }
-    
         );
         this.OrderService.getStatussen().subscribe(
           orderstatus => {
             this.orderStatussen.push(orderstatus);
-        },
-        console.error,
-        () => {
-          console.log("GetStatussen Complete complete");
-        }
+          },
+          console.error,
+          () => {
+            console.log("GetStatussen Complete complete");
+          }
         );
-    }
-  );
-
-    
-    
-
-    
-    this.OrderService.setHalenFalse();
+      }
+    );
   }
-  
- getOrdersPerUser(): void{
-    this.ordersPerUser = this.orderlines
-    
-    .sort(function(a, b) {
-      var textA = a.customer.userId.toUpperCase();
-      var textB = b.customer.userId.toUpperCase();
-      return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
-  });
-  }
-  gaHalen():void {
-   
+
+  gaHalen(): void {
     for (let orderline of this.orderlines) {
       if (orderline.orderStatus.statusName.toLowerCase() === "ordered") {
         orderline.halen = true;
-        const me : User = {
-          userId : this.auth.getDecodedToken().nameid,
-          firstName : "",
-          lastName : ""
+        const me: User = {
+          userId: this.auth.getDecodedToken().nameid,
+          firstName: "",
+          lastName: ""
         };
         orderline.server = me;
-       orderline.orderStatus = this.orderStatussen.find(status => { return status.statusName.toString().toLowerCase() == "finished" });
+        orderline.orderStatus = this.orderStatussen.find(status => { return status.statusName.toString().toLowerCase() == "finished" });
         console.log(orderline);
-       this.api.put("/OrderLines/" + orderline.orderLineId, {
-        "OrderLineId": orderline.orderLineId,
+        this.api.put("/OrderLines/" + orderline.orderLineId, {
+          "OrderLineId": orderline.orderLineId,
           "Customer": {
             "userId": orderline.customer.userId
           },
           "Server": {
-            "userId" : orderline.server.userId
+            "userId": orderline.server.userId
           },
           "Drink": {
-            "drinkId":orderline.drink.drinkId,
+            "drinkId": orderline.drink.drinkId,
             "drinkName": orderline.drink.drinkName
           },
           "Count": orderline.count,
           "Sugar": orderline.sugar,
           "Milk": orderline.milk,
           "OrderStatus": {
-            "orderStatusId" :orderline.orderStatus.orderStatusId,
-            "statusName" : orderline.orderStatus.statusName
-        }
-      }).subscribe(
+            "orderStatusId": orderline.orderStatus.orderStatusId,
+            "statusName": orderline.orderStatus.statusName
+          }
+        }).subscribe(
           console.log,
           console.error
         )
-       
+        this.ordersPerUser.push(orderline);
       }
-    
-   //this.OrderService.gaHalen();
-   this.orderlines = this.OrderService.orders;
-   this.getOrdersPerUser();
-  } 
-}
+    }
+    this.ordersPerUser
+      .sort(function (a, b) {
+        var textA = a.customer.firstName.toUpperCase();
+        var textB = b.customer.firstName.toUpperCase();
+        return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+      });
+  }
 }
