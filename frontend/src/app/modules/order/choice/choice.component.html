@@ -1,44 +1,61 @@
 <div class="row">
-    <div class="col-sm-4 col-center">
-        <div class="card">
-            <p>
-                <button type="button" class="btn btn-dark float-right btn-close" routerLink="../../">X</button>
+  <div class="col-sm-4 col-center">
+    <div class="card">
+      <p>
+        <button (click)="submitPreference(availableCoffee, melkcnt, suikercnt)">
+          <i class="fa fa-star-o fa-3x" aria-hidden="true"></i>
+        </button>
+        <button type="button" class="btn btn-dark float-right btn-close" routerLink="../../">
+          X
+        </button>
+      </p>
+      <img class="card-img-top" src="{{availableCoffee.imageUrl}}" alt="Card image cap" />
+      <div class="card-body">
+        <h3 class="card-title">{{ availableCoffee.drinkName }}</h3>
+        <p class="card-text">
+          Een overheerlijk bakje {{ availableCoffee.drinkName }}!
+        </p>
+
+        <div class="row">
+          <div class="col-lg-12">
+            <button class="btn btn-primary btn-lg float-left" (click)="drinkCountDown()">
+              -
+            </button>
+            <p align="center">
+              Aantal {{ newAantal }}
+              <button class="btn btn-primary btn-lg float-right" (click)="drinkCountUp()">
+                +
+              </button>
             </p>
-            <img class="card-img-top" src="{{availableCoffee.imageUrl}}" alt="Card image cap">
-            <div class="card-body">
-                <h3 class="card-title">{{availableCoffee.drinkName}}</h3>
-                <p class="card-text">Een overheerlijk bakje {{availableCoffee.drinkName}}!</p>
-
-                <div class="row">
-                    <div class="col-lg-12">
-                        <button class="btn btn-primary btn-lg float-left" (click)="drinkCountDown()">-</button>
-                        <p align="center">Aantal {{newAantal}}
-                            <button class="btn btn-primary btn-lg float-right" (click)="drinkCountUp()">+</button>
-                        </p>
-                    </div>
-                </div>
-                <ng-container *ngIf="availableCoffee.additions">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <button class="btn btn-primary btn-lg float-left" (click)="melkCountDown()">-</button>
-                            <p align="center">Melk {{melkcnt}}
-                                <button class="btn btn-primary btn-lg float-right" (click)="melkCountUp()">+</button>
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <button class="btn btn-primary btn-lg float-left" (click)="suikerCountDown()">-</button>
-                            <p align="center">Suiker {{suikercnt}}
-                                <button class="btn btn-primary btn-lg float-right" (click)="suikerCountUp()">+</button>
-                            </p>
-                        </div>
-                    </div>
-                </ng-container>
-                <button class="btn btn-success btn-lg btn-block btn-bestellen" (click)="addToOrder(availableCoffee, newAantal, melkcnt, suikercnt);">Bestellen!</button>
-            </div>
-            
+          </div>
         </div>
+        <ng-container *ngIf="availableCoffee.additions">
+          <div class="row">
+            <div class="col-lg-12">
+              <button class="btn btn-primary btn-lg float-left" (click)="melkCountDown()">
+                -
+              </button>
+              <p align="center">
+                Melk {{ melkcnt }}
+                <button class="btn btn-primary btn-lg float-right" (click)="melkCountUp()">
+                  +
+                </button>
+              </p>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-12">
+              <button class="btn btn-primary btn-lg float-left" (click)="suikerCountDown()">-</button>
+              <p align="center">Suiker {{suikercnt}}
+                <button class="btn btn-primary btn-lg float-right" (click)="suikerCountUp()">+</button>
+              </p>
+            </div>
+          </div>
+        </ng-container>
+        <button class="btn btn-success btn-lg btn-block btn-bestellen" (click)="addToOrder(availableCoffee, newAantal, melkcnt, suikercnt);">Bestellen!</button>
+      </div>
     </div>
+    
+  </div>
 </div>
