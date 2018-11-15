@@ -10,8 +10,8 @@ import { DrinkPreference } from "../classes/drink-preference";
 })
 export class PreferenceService {
 
-  postPreference(availableCoffee, melkcnt, suikercnt): Observable<Object> {
-    return this.api.post('/DrinkPreferences', { "User": 'test', "Drink": availableCoffee, "Milk": melkcnt, "Sugar": suikercnt })
+  postPreference(availableCoffee, melkcnt, suikercnt): void {
+    this.api.post('/DrinkPreferences', { "User": 'test', "Drink": availableCoffee, "Milk": melkcnt, "Sugar": suikercnt }).subscribe(console.log, console.error)
   }
 
   getPreference(): Observable<DrinkPreference> {

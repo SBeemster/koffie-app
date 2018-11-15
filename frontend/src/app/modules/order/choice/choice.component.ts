@@ -63,6 +63,7 @@ export class ChoiceComponent implements OnInit {
     if (this.newAantal > 1) this.newAantal--;
   }
   submitPreference(availableCoffee, melkcnt, suikercnt) {
+    console.log("utton");
     this.preferenceService.postPreference(availableCoffee, melkcnt, suikercnt);
   }
 }
