@@ -110,7 +110,7 @@ export class ChoiceComponent implements OnInit {
       "Customer": {
         userId: this.auth.getDecodedToken().nameid
       },
-      "Server": "",
+      
       "Drink": drink,
       "Count": count,
       "Sugar": sugar,

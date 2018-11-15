@@ -82,6 +82,13 @@ namespace CoffeeAPI.Models
                 new { OrderStatusId = Guid.NewGuid(), StatusName = "Finished" }
                 );
 
+            modelBuilder.Entity<Group>().HasData(
+                new { GroupId = Guid.NewGuid(), GroupName = "The addicts" },
+                new { GroupId = Guid.NewGuid(), GroupName = "The most drinkers" },
+                new { GroupId = Guid.NewGuid(), GroupName = "Frequently need coffee" },
+                new { GroupId = Guid.NewGuid(), GroupName = "Thee pussy\'s" }
+                );
+
         }
     }
 }

@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace CoffeeAPI.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
+    [ApiController, Authorize]
     public class OrderLinesController : ControllerBase
     {
         private readonly CoffeeContext _context;
