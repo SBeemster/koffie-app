@@ -85,7 +85,7 @@ namespace CoffeeAPI.Controllers
                     .Include(d => d.Server)
                     .Include(d => d.OrderStatus)
                     .Single();
-
+                updatedOrderline.GetTime = orderLine.GetTime;
                 updatedOrderline.Server = server;
             }
             else

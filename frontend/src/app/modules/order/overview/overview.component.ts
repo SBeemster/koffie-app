@@ -95,6 +95,7 @@ export class OverviewComponent implements OnInit {
           "Count": orderline.count,
           "Sugar": orderline.sugar,
           "Milk": orderline.milk,
+          "GetTime": new Date(),
           "OrderStatus": {
             "orderStatusId": orderline.orderStatus.orderStatusId,
             "statusName": orderline.orderStatus.statusName
