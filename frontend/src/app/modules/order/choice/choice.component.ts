@@ -22,7 +22,6 @@ export class ChoiceComponent implements OnInit {
   newAantal = 1;
   orderlines = [];
   availableCoffee = {};
-  orderStatus = [];
   id = '';
   preferenceId: string;
 
@@ -56,16 +55,6 @@ export class ChoiceComponent implements OnInit {
         console.log('GetOrders complete');
       }
     );
-
-    this.orderService.getStatussen().subscribe(
-      orderstatus => {
-        this.orderStatus.push(orderstatus);
-      },
-      console.error,
-      () => {
-        console.log('complete');
-      }
-    );
   }
 
   addToOrder(
@@ -75,53 +64,16 @@ export class ChoiceComponent implements OnInit {
     sugar: number
   ) {
 
-    const orderstatus: OrderStatus = this.orderStatus.find(status => status.statusName.toString().toLowerCase() === 'ordered');
-
-    for (const s of this.orderlines) {
-
-      if (
-        s.drink.drinkName === drink.drinkName &&
-        s.customer.userId === this.auth.getDecodedToken().nameid &&
-        s.orderStatus.orderStatusId === orderstatus.orderStatusId &&
-        s.milk === milk &&
-        s.sugar === sugar
-      ) {
-        s.count++;
-        this.api.put('/OrderLines/' + s.orderLineId, {
-          'OrderLineId': s.orderLineId,
-          'Customer': {
-            'userId': s.customer.userId
-          },
-          'Server': '',
-          'Drink': {
-            'drinkId': s.drink.drinkId,
-            'drinkName': s.drink.drinkName
-          },
-          'Count': s.count,
-          'Sugar': s.sugar,
-          'Milk': s.milk,
-          'OrderStatus': s.orderStatus
-        }).subscribe(
-          console.log,
-          console.error
-        );
-        this.router.navigate(['order']);
-        return;
-      }
-    }
-
 
     this.api.post('/OrderLines', {
       'Customer': {
         userId: this.auth.getDecodedToken().nameid
       },
-
       'Drink': drink,
       'Count': count,
       'Sugar': sugar,
       'Milk': milk,
-      'OrderTime': new Date(),
-      'OrderStatus': orderstatus
+      'OrderTime': new Date()
     }).subscribe(
       res => { this.id = res.toString(); },
       console.error
@@ -137,8 +89,7 @@ export class ChoiceComponent implements OnInit {
       count: count,
       customer: user,
       milk: milk,
-      sugar: sugar,
-      orderStatus: orderstatus
+      sugar: sugar
     };
     this.orderlines.push(newOrderline);
     // console.log(newProduct);

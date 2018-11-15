@@ -11,6 +11,6 @@ export class OrderLine {
   halen?: boolean;
   milk: number;
   sugar: number;
-  orderStatus: OrderStatus;
+  orderStatus?: OrderStatus;
 
 }

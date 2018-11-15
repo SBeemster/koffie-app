@@ -47,6 +47,31 @@ namespace CoffeeAPI.Controllers
             return Ok(drinkPreference);
         }
 
+        // GET: api/DrinkPreferences/ByUserID/5
+
+        [HttpGet]
+        [Route("byuserid/{userId}")]
+        public IActionResult GetUserPreference([FromRoute] Guid userId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            User user = _context.Users
+              .Where(l => l.UserId == userId)
+              .Single();
+            var drinkPreference = _context.DrinkPreference
+              .Where(l => l.User.UserId == userId)
+              .Include(d => d.Drink)
+              .Single();
+            if (drinkPreference == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(drinkPreference);
+        }
+
         // PUT: api/DrinkPreferences/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutDrinkPreference([FromRoute] Guid id, [FromBody] DrinkPreference drinkPreference)

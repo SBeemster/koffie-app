@@ -139,7 +139,7 @@ namespace CoffeeAPI.Controllers
                .Single();
 
             OrderStatus orderstatus = _context.OrderStatuses
-              .Where(l => l.OrderStatusId == orderLine.OrderStatus.OrderStatusId)
+              .Where(l => l.StatusName.ToLower() == "ordered")
               .Single();
 
             var newOrderLine = new OrderLine

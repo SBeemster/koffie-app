@@ -12,6 +12,7 @@ export class PlaceComponent implements OnInit {
     availableCoffees = [];
     melkcnt = 0;
     suikercnt = 0;
+    userPreference;
     constructor(
         private availableCoffeeService: AvailableCoffeeService,
         private preferenceService: PreferenceService
@@ -36,6 +37,13 @@ export class PlaceComponent implements OnInit {
                 });
             }
         );
+        this.preferenceService.getPreference().subscribe(
+            userPreference => {
+                this.userPreference = userPreference;
+                console.log(userPreference)
+            },
+            console.error,
+        )
     }
     melkCountUp() {
         if (this.melkcnt < 3) { this.melkcnt++; }

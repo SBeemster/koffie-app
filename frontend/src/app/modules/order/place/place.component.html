@@ -1,9 +1,11 @@
-<div class="row">
+<ng-container *ngIf="userPreference != null">
+  <div class="row">
   <div class="col-sm-12">
+    
     <div class="card card-favo card flex-row flex-wrap mb-3">
       <i class="fa fa-star fa-3x" aria-hidden="true"></i>
       <div class="card-header border-0">
-        <img src="//placehold.it/200" alt="" />
+        <img src="{{userPreference.drink.imageUrl}}" alt="" />
       </div>
       <div class="card-block px-2 col-6">
         <h4 class="card-title">Uw favoriete drank!</h4>
@@ -54,6 +56,7 @@
     </div>
   </div>
 </div>
+</ng-container>
 
 
 <div class="row">

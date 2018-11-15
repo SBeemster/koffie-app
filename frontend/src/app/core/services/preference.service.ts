@@ -31,7 +31,7 @@ export class PreferenceService {
 }
 
   getPreference(): Observable<DrinkPreference> {
-    return this.api.get('').pipe(concatAll<any>(), map(obj => {
+    return this.api.get('/drinkpreferences/byuserid/' + this.auth.getDecodedToken().nameid).pipe(map(obj => {
       const drinkpreference: DrinkPreference = {
         preferenceId: obj['preferenceId'],
         user: obj['user'],
