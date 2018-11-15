@@ -4,8 +4,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login.component';
 
 const routes: Routes = [
-    { 
-        path: '', 
+    {
+        path: '',
         component: LoginComponent
     },
 ];
@@ -19,4 +19,4 @@ export class LoginRoutingModule { }
 
 export const routedComponents = [
     LoginComponent
-]
+];

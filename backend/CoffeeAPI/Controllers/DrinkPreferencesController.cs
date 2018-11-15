@@ -6,11 +6,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CoffeeAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CoffeeAPI.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
+    [ApiController, Authorize]
     public class DrinkPreferencesController : ControllerBase
     {
         private readonly CoffeeContext _context;
@@ -55,7 +56,7 @@ namespace CoffeeAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != drinkPreference.Preferenceid)
+            if (id != drinkPreference.PreferenceId)
             {
                 return BadRequest();
             }
@@ -85,15 +86,31 @@ namespace CoffeeAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> PostDrinkPreference([FromBody] DrinkPreference drinkPreference)
         {
+            User user = _context.Users
+               .Where(l => l.UserId == drinkPreference.User.UserId)
+               .Single();
+
+            Drink drink = _context.Drinks
+               .Where(l => l.DrinkId == drinkPreference.Drink.DrinkId)
+               .Single();
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+            var newDrinkPreference = new DrinkPreference
+            {
+                PreferenceId = Guid.NewGuid(),
+                User = user,
+                Drink = drink,
+                Milk = drinkPreference.Milk,
+                Sugar = drinkPreference.Sugar
+            };
 
-            _context.DrinkPreference.Add(drinkPreference);
+            _context.DrinkPreference.Add(newDrinkPreference);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetDrinkPreference", new { id = drinkPreference.Preferenceid }, drinkPreference);
+            return Ok(newDrinkPreference);
         }
 
         // DELETE: api/DrinkPreferences/5
@@ -119,7 +136,7 @@ namespace CoffeeAPI.Controllers
 
         private bool DrinkPreferenceExists(Guid id)
         {
-            return _context.DrinkPreference.Any(e => e.Preferenceid == id);
+            return _context.DrinkPreference.Any(e => e.PreferenceId == id);
         }
     }
 }

@@ -1,20 +1,10 @@
-import { Drink } from "./drink";
+import { Drink } from './drink';
+import { User } from './user';
 
 export class DrinkPreference {
-    User: string;
-    Drink: Drink;
-    Milk: string;
-    Sugar: string;
-
-    constructor(
-        User: string,
-        Drink: Drink,
-        Milk: string,
-        Sugar: string) {
-        this.User = 'verbruiker1';
-        this.Drink = Drink;
-        this.Milk = Milk;
-        this.Sugar = Sugar;
-    }
-
+    preferenceId: string;
+    user: User;
+    drink: Drink;
+    milk: number;
+    sugar: number;
 }

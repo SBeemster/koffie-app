@@ -4,14 +4,16 @@ using CoffeeAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CoffeeAPI.Migrations
 {
     [DbContext(typeof(CoffeeContext))]
-    partial class CoffeeContextModelSnapshot : ModelSnapshot
+    [Migration("20181115165921_DrinkPreference")]
+    partial class DrinkPreference
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,18 +40,18 @@ namespace CoffeeAPI.Migrations
                     b.ToTable("Drinks");
 
                     b.HasData(
-                        new { DrinkId = new Guid("8d41470c-f1d9-40d6-b8d2-7ba75010a756"), Additions = true, Available = true, ImageUrl = "/assets/Images/Koffie.jpg", drinkName = "Koffie" },
-                        new { DrinkId = new Guid("40002e86-7aba-4f7d-b5c7-8e89091535d3"), Additions = true, Available = true, ImageUrl = "/assets/Images/Cappuccino.jpg", drinkName = "Cappuccino" },
-                        new { DrinkId = new Guid("cade8e76-7caa-4285-b2bb-a94b16aa6dac"), Additions = true, Available = true, ImageUrl = "/assets/Images/Latte Macchiato.jpg", drinkName = "Latte Macchiato" },
-                        new { DrinkId = new Guid("35720804-1514-4f2d-946f-9ace707a2a80"), Additions = true, Available = true, ImageUrl = "/assets/Images/Espresso.png", drinkName = "Espresso" },
-                        new { DrinkId = new Guid("92686ab2-9293-4eea-9e38-74386da0f57a"), Additions = true, Available = true, ImageUrl = "/assets/Images/Thee.jpg", drinkName = "Thee" },
-                        new { DrinkId = new Guid("c01f63ca-eb8f-486d-adcd-9566969cf4c2"), Additions = false, Available = true, ImageUrl = "/assets/Images/Water.jpg", drinkName = "Water" }
+                        new { DrinkId = new Guid("7174dab5-2d9f-4471-aeb2-7da26d232e22"), Additions = true, Available = true, ImageUrl = "/assets/Images/Koffie.jpg", drinkName = "Koffie" },
+                        new { DrinkId = new Guid("506ea877-250c-4a45-a38b-91294a3281eb"), Additions = true, Available = true, ImageUrl = "/assets/Images/Cappuccino.jpg", drinkName = "Cappuccino" },
+                        new { DrinkId = new Guid("bccedb02-9039-46f5-8673-d75e0335e513"), Additions = true, Available = true, ImageUrl = "/assets/Images/Latte Macchiato.jpg", drinkName = "Latte Macchiato" },
+                        new { DrinkId = new Guid("de0d9cbd-c8c9-4185-8e70-d5b7d3a482fa"), Additions = true, Available = true, ImageUrl = "/assets/Images/Espresso.png", drinkName = "Espresso" },
+                        new { DrinkId = new Guid("fb67d366-82db-488f-8a51-8737f3e731bf"), Additions = true, Available = true, ImageUrl = "/assets/Images/Thee.jpg", drinkName = "Thee" },
+                        new { DrinkId = new Guid("d301fd10-4303-4e47-b9e1-fd319e322fe6"), Additions = false, Available = true, ImageUrl = "/assets/Images/Water.jpg", drinkName = "Water" }
                     );
                 });
 
             modelBuilder.Entity("CoffeeAPI.Models.DrinkPreference", b =>
                 {
-                    b.Property<Guid>("PreferenceId")
+                    b.Property<Guid>("Preferenceid")
                         .ValueGeneratedOnAdd();
 
                     b.Property<Guid>("DrinkId");
@@ -60,7 +62,7 @@ namespace CoffeeAPI.Migrations
 
                     b.Property<Guid>("UserId");
 
-                    b.HasKey("PreferenceId");
+                    b.HasKey("Preferenceid");
 
                     b.HasIndex("DrinkId");
 
@@ -82,10 +84,10 @@ namespace CoffeeAPI.Migrations
                     b.ToTable("Groups");
 
                     b.HasData(
-                        new { GroupId = new Guid("089c46c4-2cda-4b87-8102-23cef8d10398"), GroupName = "The addicts" },
-                        new { GroupId = new Guid("3bbcde49-53c1-4dc8-b9e5-043a7c5b7816"), GroupName = "The most drinkers" },
-                        new { GroupId = new Guid("9ad8cf1d-a2db-4694-a58d-d78258dc6956"), GroupName = "Frequently need coffee" },
-                        new { GroupId = new Guid("db78a2e9-e0ef-4c53-997f-e4dfc4c956d4"), GroupName = "Thee pussy's" }
+                        new { GroupId = new Guid("89fa258f-8154-452b-ba03-9ff3ccbaa3f9"), GroupName = "The addicts" },
+                        new { GroupId = new Guid("bcc3dc47-c860-4db4-80b6-baba99a2a495"), GroupName = "The most drinkers" },
+                        new { GroupId = new Guid("f974747e-41dc-45c1-96ed-1a8b253c33f4"), GroupName = "Frequently need coffee" },
+                        new { GroupId = new Guid("28d6197e-1c64-4e68-94ac-5febb9cdee9d"), GroupName = "Thee pussy's" }
                     );
                 });
 
@@ -115,8 +117,8 @@ namespace CoffeeAPI.Migrations
                     b.ToTable("Logins");
 
                     b.HasData(
-                        new { LoginId = new Guid("3a7c6d7d-a296-4807-a04f-e7fb3772f98b"), PasswordHash = new byte[] { 137, 52, 25, 107, 255, 151, 43, 217, 149, 62, 114, 169, 157, 188, 144, 255, 230, 32, 108, 220, 108, 229, 111, 61, 248, 95, 208, 116, 237, 234, 185, 229 }, PasswordSalt = new byte[] { 155, 243, 11, 91, 102, 107, 111, 138, 196, 111, 182, 215, 216, 167, 29, 243, 255, 185, 246, 176, 80, 251, 61, 96, 72, 187, 28, 224, 19, 179, 164, 23 }, UserId = new Guid("c185bda6-20b1-4a5a-b1f3-0d2aa90bb7a6"), UserName = "admin" },
-                        new { LoginId = new Guid("22ac6681-af69-4126-93c7-0422acfd70af"), PasswordHash = new byte[] { 33, 141, 7, 120, 246, 234, 229, 138, 131, 166, 199, 107, 252, 209, 13, 230, 77, 16, 119, 156, 32, 119, 156, 69, 0, 195, 90, 76, 153, 221, 236, 105 }, PasswordSalt = new byte[] { 214, 199, 170, 30, 220, 111, 137, 219, 122, 78, 35, 233, 29, 68, 104, 255, 11, 116, 88, 202, 60, 187, 9, 209, 80, 70, 117, 76, 93, 107, 255, 65 }, UserId = new Guid("adbb0506-b882-4670-8966-4ebf573fa439"), UserName = "jaap" }
+                        new { LoginId = new Guid("f880e915-a424-4a78-b3dd-0725eaf04641"), PasswordHash = new byte[] { 82, 112, 224, 48, 144, 146, 12, 82, 242, 42, 64, 100, 6, 55, 38, 122, 25, 76, 39, 42, 202, 108, 237, 49, 218, 116, 19, 55, 137, 112, 197, 145 }, PasswordSalt = new byte[] { 31, 178, 104, 236, 7, 49, 233, 89, 38, 96, 138, 154, 114, 165, 104, 91, 3, 37, 195, 123, 171, 226, 181, 83, 161, 70, 58, 243, 244, 245, 81, 36 }, UserId = new Guid("a69a80fa-1542-4c75-93a9-2d3e30708e1e"), UserName = "admin" },
+                        new { LoginId = new Guid("bfa3dfe1-433e-4880-92fe-470ed565a122"), PasswordHash = new byte[] { 140, 181, 5, 42, 89, 235, 80, 125, 246, 146, 20, 185, 43, 57, 128, 179, 132, 214, 228, 91, 137, 0, 43, 94, 227, 40, 211, 154, 62, 150, 223, 192 }, PasswordSalt = new byte[] { 116, 6, 18, 178, 244, 198, 137, 218, 71, 190, 12, 241, 45, 174, 6, 152, 20, 164, 132, 89, 211, 255, 10, 153, 56, 134, 162, 32, 4, 170, 18, 215 }, UserId = new Guid("bcd4194d-fce0-438c-8e05-99dc127049ae"), UserName = "jaap" }
                     );
                 });
 
@@ -169,8 +171,8 @@ namespace CoffeeAPI.Migrations
                     b.ToTable("OrderStatuses");
 
                     b.HasData(
-                        new { OrderStatusId = new Guid("1f55855f-4b25-4e0f-9013-aa96da3fc744"), StatusName = "Ordered" },
-                        new { OrderStatusId = new Guid("1279dd57-fc24-4141-a567-5ee77c137612"), StatusName = "Finished" }
+                        new { OrderStatusId = new Guid("dd154c53-e21f-4985-8c32-8d49e770c3e0"), StatusName = "Ordered" },
+                        new { OrderStatusId = new Guid("cf491f0a-e431-4f01-a901-089c7c626998"), StatusName = "Finished" }
                     );
                 });
 
@@ -187,9 +189,9 @@ namespace CoffeeAPI.Migrations
                     b.ToTable("Roles");
 
                     b.HasData(
-                        new { RoleId = new Guid("6528e3e6-86f8-4149-af9a-d9496059fc2e"), RoleName = "User" },
-                        new { RoleId = new Guid("04194dbb-3267-4ab3-bc51-33b09ed5ba76"), RoleName = "Manager" },
-                        new { RoleId = new Guid("81e7dd63-cdb7-4fb2-82ae-98675ed5ed6c"), RoleName = "Admin" }
+                        new { RoleId = new Guid("42532ca9-3bbc-4117-9da8-aad8a4f0fefc"), RoleName = "User" },
+                        new { RoleId = new Guid("6f35b77d-6f3a-4d95-9715-ee8021b1f8b3"), RoleName = "Manager" },
+                        new { RoleId = new Guid("07c754fa-5b86-4aa5-a5bb-6a32586da063"), RoleName = "Admin" }
                     );
                 });
 
@@ -213,8 +215,8 @@ namespace CoffeeAPI.Migrations
                     b.ToTable("Users");
 
                     b.HasData(
-                        new { UserId = new Guid("c185bda6-20b1-4a5a-b1f3-0d2aa90bb7a6"), Active = true, FirstName = "Super", LastName = "Admin" },
-                        new { UserId = new Guid("adbb0506-b882-4670-8966-4ebf573fa439"), Active = true, FirstName = "Jaap", LastName = "Schaap" }
+                        new { UserId = new Guid("a69a80fa-1542-4c75-93a9-2d3e30708e1e"), Active = true, FirstName = "Super", LastName = "Admin" },
+                        new { UserId = new Guid("bcd4194d-fce0-438c-8e05-99dc127049ae"), Active = true, FirstName = "Jaap", LastName = "Schaap" }
                     );
                 });
 
@@ -244,10 +246,10 @@ namespace CoffeeAPI.Migrations
                     b.ToTable("UserRoles");
 
                     b.HasData(
-                        new { UserId = new Guid("c185bda6-20b1-4a5a-b1f3-0d2aa90bb7a6"), RoleId = new Guid("6528e3e6-86f8-4149-af9a-d9496059fc2e") },
-                        new { UserId = new Guid("c185bda6-20b1-4a5a-b1f3-0d2aa90bb7a6"), RoleId = new Guid("81e7dd63-cdb7-4fb2-82ae-98675ed5ed6c") },
-                        new { UserId = new Guid("adbb0506-b882-4670-8966-4ebf573fa439"), RoleId = new Guid("6528e3e6-86f8-4149-af9a-d9496059fc2e") },
-                        new { UserId = new Guid("adbb0506-b882-4670-8966-4ebf573fa439"), RoleId = new Guid("04194dbb-3267-4ab3-bc51-33b09ed5ba76") }
+                        new { UserId = new Guid("a69a80fa-1542-4c75-93a9-2d3e30708e1e"), RoleId = new Guid("42532ca9-3bbc-4117-9da8-aad8a4f0fefc") },
+                        new { UserId = new Guid("a69a80fa-1542-4c75-93a9-2d3e30708e1e"), RoleId = new Guid("07c754fa-5b86-4aa5-a5bb-6a32586da063") },
+                        new { UserId = new Guid("bcd4194d-fce0-438c-8e05-99dc127049ae"), RoleId = new Guid("42532ca9-3bbc-4117-9da8-aad8a4f0fefc") },
+                        new { UserId = new Guid("bcd4194d-fce0-438c-8e05-99dc127049ae"), RoleId = new Guid("6f35b77d-6f3a-4d95-9715-ee8021b1f8b3") }
                     );
                 });
 

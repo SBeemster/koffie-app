@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import { ApiService } from "./api.service";
+import { ApiService } from './api.service';
 import { Drink } from '../classes/drink';
-import { Observable } from "rxjs";
-import { map, concatAll } from "rxjs/operators";
+import { Observable } from 'rxjs';
+import { map, concatAll } from 'rxjs/operators';
 
 @Injectable({
-    providedIn: "root"
+    providedIn: 'root'
 })
 export class AvailableCoffeeService {
-    response: object = { "response": "no response yet..." };
+    response: object = { 'response': 'no response yet...' };
     getCoffee(): Observable<Drink> {
         return this.api.get('/drinks?available=true').pipe(
             concatAll(),
@@ -28,7 +28,7 @@ export class AvailableCoffeeService {
 
     getSingleCoffee(id: string): Observable<Drink> {
         return this.api.get('/drinks/' + id).pipe(
-            
+
             map(obj => {
                 const drink: Drink = {
                     drinkId: obj['drinkId'],

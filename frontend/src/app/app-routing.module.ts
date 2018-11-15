@@ -1,22 +1,22 @@
-import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
-import { AuthGuard } from "./core/classes/auth-guard";
-import { NotFoundComponent } from "./modules/not-found/not-found.component";
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './core/classes/auth-guard';
+import { NotFoundComponent } from './modules/not-found/not-found.component';
 
 const routes: Routes = [
   {
-    path: "order",
+    path: 'order',
     canActivate: [AuthGuard],
-    loadChildren: "./modules/order/order.module#OrderModule"
+    loadChildren: './modules/order/order.module#OrderModule'
   },
   {
-    path: "user",
+    path: 'user',
     canActivate: [AuthGuard],
-    loadChildren: "./modules/user/user.module#UserModule"
+    loadChildren: './modules/user/user.module#UserModule'
   },
-  { path: "login", loadChildren: "./login/login.module#LoginModule" },
-  { path: "", redirectTo: "order", pathMatch: "full" },
-  { path: "**", component: NotFoundComponent }
+  { path: 'login', loadChildren: './login/login.module#LoginModule' },
+  { path: '', redirectTo: 'order', pathMatch: 'full' },
+  { path: '**', component: NotFoundComponent }
 ];
 
 @NgModule({

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from "src/app/core/services/api.service";
+import { ApiService } from 'src/app/core/services/api.service';
 
 @Component({
     selector: 'app-select',
@@ -15,14 +15,14 @@ export class SelectComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.api.get("/users").subscribe(
+        this.api.get('/users').subscribe(
             (res: Array<object>) => {
                 this.users = res;
             },
             error => {
                 console.error(error);
             }
-        )
+        );
     }
 
 }

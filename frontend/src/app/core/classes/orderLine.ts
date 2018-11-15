@@ -1,6 +1,6 @@
-import { Drink } from "./drink";
-import {OrderStatus} from "./order-status";
-import {User} from "./user";
+import { Drink } from './drink';
+import {OrderStatus} from './order-status';
+import {User} from './user';
 
 export class OrderLine {
   orderLineId: string;
@@ -8,7 +8,7 @@ export class OrderLine {
   count: number;
   customer: User;
   server?: User;
-  halen? : boolean;
+  halen?: boolean;
   milk: number;
   sugar: number;
   orderStatus: OrderStatus;

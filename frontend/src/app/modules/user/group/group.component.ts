@@ -16,18 +16,18 @@ export class GroupComponent implements OnInit {
   newName;
   id;
   constructor(
-    private AvailableGroupsService: AvailableGroupsService,
+    private availableGroupsService: AvailableGroupsService,
     private api: ApiService
   ) { }
 
   ngOnInit() {
-    this.AvailableGroupsService.getGroups().subscribe(
+    this.availableGroupsService.getGroups().subscribe(
       group => {
         this.availableGroups.push(group);
       },
       console.error,
       () => {
-        console.log("GetGroups complete");
+        console.log('GetGroups complete');
       }
     );
   }
@@ -41,17 +41,17 @@ export class GroupComponent implements OnInit {
         return;
       }
     }
-    this.api.post("/Groups", {
-      "groupName": newName
+    this.api.post('/Groups', {
+      'groupName': newName
     }).subscribe(
-      res => { this.id = res.toString() },
+      res => { this.id = res.toString(); },
       console.error
-    )
+    );
 
     const group: Group = {
       groupId: this.id,
       groupName: newName
-    }
+    };
     this.availableGroups.push(group);
   }
 
@@ -60,7 +60,7 @@ export class GroupComponent implements OnInit {
 
     for (let i = 0; i < this.availableGroups.length; i++) {
       if (this.availableGroups[i].groupId === group.groupId) {
-        this.api.delete("/Groups/" + this.availableGroups[i].groupId).subscribe(
+        this.api.delete('/Groups/' + this.availableGroups[i].groupId).subscribe(
           console.log,
           console.error
         );
@@ -95,13 +95,13 @@ export class GroupComponent implements OnInit {
     for (let i = 0; i < this.availableGroups.length; i++) {
       if (this.availableGroups[i] === group) {
         this.availableGroups[i].groupName = group.newName;
-        this.api.put("/Groups/" + group.groupId, {
-          "groupId": group.groupId,
-          "groupName":  group.groupName
+        this.api.put('/Groups/' + group.groupId, {
+          'groupId': group.groupId,
+          'groupName':  group.groupName
         }).subscribe(
           console.log,
           console.error
-        )       
+        );
         group.edit = false;
         return;
       }

@@ -1,13 +1,13 @@
-import { Injectable } from "@angular/core";
-import { OrderLine } from "../classes/orderLine";
+import { Injectable } from '@angular/core';
+import { OrderLine } from '../classes/orderLine';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { ApiService } from "./api.service";
-import { OrderStatus } from "../classes/order-status";
-import { Observable } from "rxjs";
-import { map, concatAll } from "rxjs/operators";
+import { ApiService } from './api.service';
+import { OrderStatus } from '../classes/order-status';
+import { Observable } from 'rxjs';
+import { map, concatAll } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root'
 })
 export class OrderService {
   orders = [];
@@ -16,8 +16,8 @@ export class OrderService {
     if (this.auth.isLoggedIn()) {
       return this.auth.getDecodedToken().nameid;
     }
-  } 
-  
+  }
+
   getOrders(): Observable<OrderLine> {
     return this.api.get('/orderlines?orderstatus=ordered').pipe(
         concatAll(),
@@ -32,11 +32,11 @@ export class OrderService {
                 orderStatus: obj['orderStatus']
             };
             return orderline;
-            
+
         })
     );
   }
-  getStatussen() : Observable<OrderStatus> {
+  getStatussen(): Observable<OrderStatus> {
     return this.api.get('/orderstatus').pipe(
       concatAll(),
       map(obj => {
@@ -51,7 +51,7 @@ export class OrderService {
 /*   deleteFromOrder(order: OrderLine) {
     this.orders.splice(this.orders.indexOf(order), 1);
   } */
- 
+
 /*   clearCart(verbruiker: string): void {
     for (let i = 0; i < this.orders.length; i++) {
       if (
@@ -65,8 +65,8 @@ export class OrderService {
       }
     }
   } */
-  
 
-  constructor(private auth: AuthService, private api: ApiService) { 
+
+  constructor(private auth: AuthService, private api: ApiService) {
   }
 }

@@ -7,7 +7,7 @@ namespace CoffeeAPI.Models
 {
     public class DrinkPreference
     {   [Key]
-        public Guid Preferenceid { get; set; }
+        public Guid PreferenceId { get; set; }
         [Required]
         public User User { get; set; }
         [Required]
