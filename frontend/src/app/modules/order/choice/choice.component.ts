@@ -21,6 +21,7 @@ export class ChoiceComponent implements OnInit {
 
   constructor(
     private availableCoffeeService: AvailableCoffeeService,
+    private preferenceService: PreferenceService,
     private OrderService: OrderService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -30,7 +31,6 @@ export class ChoiceComponent implements OnInit {
   ngOnInit() {
     const id = this.activatedRoute.snapshot.params["coffeeId"];
     this.availableCoffee = this.availableCoffeeService.getSingleCoffee(id);
-    this.submitPreference = this.PreferenceService.postPreference();
   }
 
   addToOrder(
@@ -62,5 +62,7 @@ export class ChoiceComponent implements OnInit {
   drinkCountDown() {
     if (this.newAantal > 1) this.newAantal--;
   }
-  submitPreference() { }
+  submitPreference(availableCoffee, melkcnt, suikercnt) {
+    this.preferenceService.postPreference(availableCoffee, melkcnt, suikercnt);
+  }
 }
