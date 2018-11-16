@@ -1,9 +1,9 @@
-<ng-container *ngIf="userPreference != null">
+<ng-container *ngIf="userPreference.drink != null">
   <div class="row">
   <div class="col-sm-12">
     
     <div class="card card-favo card flex-row flex-wrap mb-3">
-      <i class="fa fa-star fa-3x" aria-hidden="true"></i>
+      <i class="fa fa-star fa-3x" aria-hidden="true" (click)="emptyPreference()"></i>
       <div class="card-header border-0">
         <img src="{{userPreference.drink.imageUrl}}" alt="" />
       </div>
@@ -18,7 +18,7 @@
               -
             </button>
             <p class="milksugartext" align="center">
-              milk: {{ milkcnt }}
+              Melk: {{ milkcnt }}
               <button class="btn btn-primary btn-lg float-right" (click)="milkCountUp()">
                 +
               </button>
@@ -31,7 +31,7 @@
               -
             </button>
             <p class="milksugartext" align="center">
-              sugar: {{ sugarcnt }}
+              Suiker: {{ sugarcnt }}
               <button class="btn btn-primary btn-lg float-right" (click)="sugarCountUp()">
                 +
               </button>

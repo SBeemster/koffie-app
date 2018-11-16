@@ -63,6 +63,11 @@ namespace CoffeeAPI.Models
                 new { UserRoleId = Guid.NewGuid(), UserId = jaapId, RoleId = roleUserId },
                 new { UserRoleId = Guid.NewGuid(), UserId = jaapId, RoleId = roleManagerId });
 
+            modelBuilder.Entity<DrinkPreference>().HasData(
+                new { PreferenceId = Guid.NewGuid(), UserId = adminId },
+                new { PreferenceId = Guid.NewGuid(), UserId = jaapId }
+                );
+
             //seed first drinks
             String[,] drinkArray = new string[6, 3] { { "Koffie", "/assets/Images/Koffie.jpg", "true" }, { "Cappuccino", "/assets/Images/Cappuccino.jpg", "true" }, { "Latte Macchiato", "/assets/Images/Latte Macchiato.jpg", "true" }, { "Espresso", "/assets/Images/Espresso.png", "true" }, { "Thee", "/assets/Images/Thee.jpg", "true" }, { "Water", "/assets/Images/Water.jpg", "false" } };
             for (int i = 0; i < drinkArray.GetLength(0); i++)

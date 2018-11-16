@@ -72,29 +72,54 @@ namespace CoffeeAPI.Controllers
             return Ok(drinkPreference);
         }
 
-        // PUT: api/DrinkPreferences/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutDrinkPreference([FromRoute] Guid id, [FromBody] DrinkPreference drinkPreference)
+        // PUT: api/DrinkPreferences/ByUserID/5
+        [HttpPut]
+        [Route("byuserid/{userId}")]
+        public async Task<IActionResult> PutUserPreference([FromRoute] Guid userId, [FromBody] DrinkPreference drinkPreference)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != drinkPreference.PreferenceId)
+            if (userId != drinkPreference.User.UserId)
             {
                 return BadRequest();
             }
+            DrinkPreference updatedDrinkPreference = _context.DrinkPreference
+                   .Where(l => l.User.UserId == drinkPreference.User.UserId)
+                   .Include(d => d.User)
+                   .Include(d => d.Drink)
+                   .Single();
 
-            _context.Entry(drinkPreference).State = EntityState.Modified;
+            User user = _context.Users
+              .Where(l => l.UserId == drinkPreference.User.UserId)
+              .Single();
 
+            Drink drink = null;
+            if (drinkPreference.Drink != null)
+            {
+                drink = _context.Drinks
+                   .Where(l => l.DrinkId == drinkPreference.Drink.DrinkId)
+                   .Single();
+                
+            }
+
+
+            updatedDrinkPreference.User = user;
+            updatedDrinkPreference.Drink = drink;
+            updatedDrinkPreference.Milk = drinkPreference.Milk;
+            updatedDrinkPreference.Sugar = drinkPreference.Sugar;
+           
+            _context.DrinkPreference.Update(updatedDrinkPreference);
+            
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!DrinkPreferenceExists(id))
+                if (!DrinkPreferenceExists(updatedDrinkPreference.PreferenceId))
                 {
                     return NotFound();
                 }
@@ -104,7 +129,7 @@ namespace CoffeeAPI.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok(updatedDrinkPreference);
         }
 
         // POST: api/DrinkPreferences

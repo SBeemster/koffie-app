@@ -10,10 +10,9 @@ namespace CoffeeAPI.Models
         public Guid PreferenceId { get; set; }
         [Required]
         public User User { get; set; }
-        [Required]
         public Drink Drink { get; set; }
-        public int Milk { get; set; }
-        public int Sugar { get; set; }
+        public int? Milk { get; set; }
+        public int? Sugar { get; set; }
 
     }
 }

@@ -5,6 +5,7 @@ import { PreferenceService } from '../../../core/services/preference.service';
 import { Drink } from '../../../core/classes/drink';
 import { OrderLine } from 'src/app/core/classes/orderLine';
 import { AuthService } from '../../../core/services/auth.service';
+import { DrinkPreference } from 'src/app/core/classes/drink-preference';
 
 @Component({
     selector: 'app-place',
@@ -15,7 +16,19 @@ export class PlaceComponent implements OnInit {
     availableCoffees = [];
     milkcnt = 0;
     sugarcnt = 0;
-    userPreference;
+    userPreference : DrinkPreference = {
+        preferenceId : "",
+        drink : {
+          drinkId : "",
+          drinkName : "",
+          available : null,
+          additions : null,
+          imageUrl : ""
+        },
+        user : null,
+        milk : null,
+        sugar : null
+      };
     constructor(
         private availableCoffeeService: AvailableCoffeeService,
         private preferenceService: PreferenceService,
@@ -45,6 +58,8 @@ export class PlaceComponent implements OnInit {
         this.preferenceService.getPreference().subscribe(
             userPreference => {
                 this.userPreference = userPreference;
+                this.milkcnt = userPreference.milk;
+                this.sugarcnt = userPreference.sugar
                 console.log(userPreference)
             },
             console.error,
@@ -74,15 +89,53 @@ export class PlaceComponent implements OnInit {
           );
       }
     milkCountUp() {
-        if (this.milkcnt < 3) { this.milkcnt++; }
+        if (this.milkcnt < 3) 
+        {
+            this.milkcnt++;
+            this.submitPreference();
+            }
     }
     milkCountDown() {
-        if (this.milkcnt >= 1) { this.milkcnt--; }
+        if (this.milkcnt >= 1) 
+        { 
+            this.milkcnt--;
+            this.submitPreference();
+        }
     }
     sugarCountUp() {
-        if (this.sugarcnt < 3) { this.sugarcnt++; }
+        if (this.sugarcnt < 3) 
+        { 
+            this.sugarcnt++;
+            this.submitPreference();
+        }
     }
     sugarCountDown() {
-        if (this.sugarcnt >= 1) { this.sugarcnt--; }
+        if (this.sugarcnt >= 1)
+        {
+            this.sugarcnt--;
+            this.submitPreference();
+        }
     }
+    submitPreference() {
+        this.preferenceService.putPreference(this.userPreference.drink, this.milkcnt, this.sugarcnt).subscribe(
+          preference => {
+            this.userPreference = preference;
+          },
+          console.error,
+          () => {
+          console.log('Set preference complete');
+          }
+        );
+      }
+    emptyPreference(){
+        this.preferenceService.putPreference(null, null, null).subscribe(
+          preference => {
+            this.userPreference = preference;
+          },
+          console.error,
+          () => {
+          console.log('Set preference complete');
+          }
+        );
+      }
 }

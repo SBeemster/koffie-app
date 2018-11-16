@@ -122,9 +122,16 @@ namespace CoffeeAPI.Controllers
                 Role = role
             };
 
+            var preference = new DrinkPreference
+            {
+                PreferenceId = Guid.NewGuid(),
+                User = user
+            };
+
             _context.Users.Add(user);
             _context.Logins.Add(login);
             _context.UserRoles.Add(userRole);
+            _context.DrinkPreference.Add(preference);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetUser", new { id = user.UserId }, user);

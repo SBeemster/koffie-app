@@ -52,9 +52,9 @@
 
             {{userOrder.count}}x {{userOrder.drink.drinkName}}
             <ng-container *ngIf="userOrder.milk > 0 || userOrder.sugar > 0">(</ng-container>
-            <ng-container *ngIf="userOrder.milk > 0">{{userOrder.milk}}x milk</ng-container>
+            <ng-container *ngIf="userOrder.milk > 0">{{userOrder.milk}}x Melk</ng-container>
             <ng-container *ngIf="userOrder.milk > 0 && userOrder.sugar > 0"> & </ng-container>
-            <ng-container *ngIf="userOrder.sugar > 0">{{userOrder.sugar}}x sugar</ng-container>
+            <ng-container *ngIf="userOrder.sugar > 0">{{userOrder.sugar}}x Suiker</ng-container>
             <ng-container *ngIf="userOrder.milk > 0 || userOrder.sugar > 0">)</ng-container>
             <p class="float-right">{{userOrder.customer.firstName}} {{userOrder.customer.lastName}}</p>
 

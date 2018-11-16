@@ -11,8 +11,8 @@ import { AuthService } from './auth.service';
 })
 export class PreferenceService {
 
-  postPreference(availableCoffee, milkcnt, sugarcnt): Observable<Object> {
-    return this.api.post('/DrinkPreferences', {
+  putPreference(availableCoffee, milkcnt, sugarcnt): Observable<DrinkPreference> {
+    return this.api.put('/drinkpreferences/byuserid/' + this.auth.getDecodedToken().nameid , {
       'User': {
         'userId' : this.auth.getDecodedToken().nameid
       },
@@ -27,7 +27,7 @@ export class PreferenceService {
           sugar: obj['sugar']
         };
         return drinkpreference;
-  }));
+      }));
 }
 
   getPreference(): Observable<DrinkPreference> {

@@ -23,7 +23,19 @@ export class ChoiceComponent implements OnInit {
   orderlines = [];
   availableCoffee = {};
   id = '';
-  preferenceId: string;
+  userPreference : DrinkPreference = {
+    preferenceId : "",
+    drink : {
+      drinkId : "",
+      drinkName : "",
+      available : null,
+      additions : null,
+      imageUrl : ""
+    },
+    user : null,
+    milk : null,
+    sugar : null
+  };
 
   constructor(
     private availableCoffeeService: AvailableCoffeeService,
@@ -46,6 +58,17 @@ export class ChoiceComponent implements OnInit {
         console.log('complete');
       }
     );
+    this.preferenceService.getPreference().subscribe(
+      preference => {
+        this.userPreference = preference;
+        console.log(this.userPreference);
+        console.log(this.availableCoffee);
+      },
+      console.error,
+      () => {
+        console.log('GetPreference complete');
+      }
+    )
     this.orderService.getOrders().subscribe(
       orderline => {
         this.orderlines.push(orderline);
@@ -103,8 +126,21 @@ export class ChoiceComponent implements OnInit {
     if (this.newAantal > 1) { this.newAantal--; }
   }
   submitPreference(availableCoffee, milkcnt, sugarcnt) {
-    this.preferenceService.postPreference(availableCoffee, milkcnt, sugarcnt).subscribe(
-      console.log,
+    this.preferenceService.putPreference(availableCoffee, milkcnt, sugarcnt).subscribe(
+      preference => {
+        this.userPreference = preference;
+      },
+      console.error,
+      () => {
+      console.log('Set preference complete');
+      }
+    );
+  }
+  emptyPreference(){
+    this.preferenceService.putPreference(null, null, null).subscribe(
+      preference => {
+        this.userPreference = preference;
+      },
       console.error,
       () => {
       console.log('Set preference complete');
