@@ -21,20 +21,26 @@ export class ChoiceComponent implements OnInit {
   sugarcnt = 0;
   newAantal = 1;
   orderlines = [];
-  availableCoffee = {};
+  availableCoffee: Drink = {
+    drinkId: '',
+    drinkName: '',
+    available: null,
+    additions: null,
+    imageUrl: ''
+  };
   id = '';
   userPreference: DrinkPreference = {
-    preferenceId : '',
-    drink : {
-      drinkId : '',
-      drinkName : '',
-      available : null,
-      additions : null,
-      imageUrl : ''
+    preferenceId: '',
+    drink: {
+      drinkId: '',
+      drinkName: '',
+      available: null,
+      additions: null,
+      imageUrl: ''
     },
-    user : null,
-    milk : null,
-    sugar : null
+    user: null,
+    milk: null,
+    sugar: null
   };
 
   constructor(
@@ -88,16 +94,16 @@ export class ChoiceComponent implements OnInit {
   ) {
 
     const orderline: OrderLine = {
-      orderLineId : '',
-      customer : {
-        userId : this.auth.getDecodedToken().nameid,
-        firstName : '',
-        lastName : ''
+      orderLineId: '',
+      customer: {
+        userId: this.auth.getDecodedToken().nameid,
+        firstName: '',
+        lastName: ''
       },
-      drink : drink,
-      count : count,
-      milk : milk,
-      sugar : sugar
+      drink: drink,
+      count: count,
+      milk: milk,
+      sugar: sugar
     };
     this.orderService.postOrderline(orderline).subscribe(
       console.log,
@@ -132,7 +138,7 @@ export class ChoiceComponent implements OnInit {
       },
       console.error,
       () => {
-      console.log('Set preference complete');
+        console.log('Set preference complete');
       }
     );
   }
@@ -143,7 +149,7 @@ export class ChoiceComponent implements OnInit {
       },
       console.error,
       () => {
-      console.log('Set preference complete');
+        console.log('Set preference complete');
       }
     );
   }
