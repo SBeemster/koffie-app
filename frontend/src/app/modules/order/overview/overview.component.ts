@@ -79,7 +79,7 @@ export class OverviewComponent implements OnInit {
         };
         orderline.server = me;
         orderline.orderStatus = this.orderStatussen.find(status => status.statusName.toString().toLowerCase() === 'finished');
-        
+
         this.orderService.putOrderline(orderline).subscribe(
           console.log,
           console.error

@@ -48,7 +48,7 @@ export class OrderService {
       })
   );
   }
-  postOrderline(orderline):Observable<Object> {
+  postOrderline(orderline): Observable<Object> {
    return this.api.post('/OrderLines', {
       'Customer': {
         userId: this.auth.getDecodedToken().nameid
@@ -58,9 +58,9 @@ export class OrderService {
       'Sugar': orderline.sugar,
       'Milk': orderline.milk,
       'OrderTime': new Date()
-    })
+    });
   }
-  putOrderline(orderline):Observable<Object> {
+  putOrderline(orderline): Observable<Object> {
   return this.api.put('/OrderLines/' + orderline.orderLineId, {
     'OrderLineId': orderline.orderLineId,
     'Customer': {
@@ -81,7 +81,7 @@ export class OrderService {
       'orderStatusId': orderline.orderStatus.orderStatusId,
       'statusName': orderline.orderStatus.statusName
     }
-  })
+  });
   }
 
   constructor(private auth: AuthService, private api: ApiService) {

@@ -21,19 +21,19 @@ export class AvailableGroupsService {
         })
     );
 }
-postGroup(newName) : Observable<Object> {
+postGroup(newName): Observable<Object> {
     return this.api.post('/Groups', {
         'groupName': newName
-      })
+      });
 }
-putGroup(group) : Observable<Object>{
+putGroup(group): Observable<Object> {
     return this.api.put('/Groups/' + group.groupId, {
         'groupId': group.groupId,
         'groupName':  group.groupName
-      })
+      });
 }
-deleteGroup(group) : Observable<Object>{
-    return this.api.delete('/Groups/' + group.groupId)
+deleteGroup(group): Observable<Object> {
+    return this.api.delete('/Groups/' + group.groupId);
 }
   constructor(private api: ApiService) { }
 }

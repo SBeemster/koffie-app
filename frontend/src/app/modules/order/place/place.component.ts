@@ -16,14 +16,14 @@ export class PlaceComponent implements OnInit {
     availableCoffees = [];
     milkcnt = 0;
     sugarcnt = 0;
-    userPreference : DrinkPreference = {
-        preferenceId : "",
+    userPreference: DrinkPreference = {
+        preferenceId : '',
         drink : {
-          drinkId : "",
-          drinkName : "",
+          drinkId : '',
+          drinkName : '',
           available : null,
           additions : null,
-          imageUrl : ""
+          imageUrl : ''
         },
         user : null,
         milk : null,
@@ -59,29 +59,29 @@ export class PlaceComponent implements OnInit {
             userPreference => {
                 this.userPreference = userPreference;
                 this.milkcnt = userPreference.milk;
-                this.sugarcnt = userPreference.sugar
-                console.log(userPreference)
+                this.sugarcnt = userPreference.sugar;
+                console.log(userPreference);
             },
             console.error,
-        )
+        );
     }
     addToOrder(
         drink: Drink,
         milk: number,
         sugar: number
       ) {
-        const orderline : OrderLine = {
-            orderLineId : "",
+        const orderline: OrderLine = {
+            orderLineId : '',
             customer : {
               userId : this.auth.getDecodedToken().nameid,
-              firstName : "",
-              lastName : ""
+              firstName : '',
+              lastName : ''
             },
             drink : drink,
             count : 1,
             milk : milk,
             sugar : sugar
-          }
+          };
           console.log(orderline);
           this.orderService.postOrderline(orderline).subscribe(
             console.log,
@@ -89,29 +89,25 @@ export class PlaceComponent implements OnInit {
           );
       }
     milkCountUp() {
-        if (this.milkcnt < 3) 
-        {
+        if (this.milkcnt < 3) {
             this.milkcnt++;
             this.submitPreference();
             }
     }
     milkCountDown() {
-        if (this.milkcnt >= 1) 
-        { 
+        if (this.milkcnt >= 1) {
             this.milkcnt--;
             this.submitPreference();
         }
     }
     sugarCountUp() {
-        if (this.sugarcnt < 3) 
-        { 
+        if (this.sugarcnt < 3) {
             this.sugarcnt++;
             this.submitPreference();
         }
     }
     sugarCountDown() {
-        if (this.sugarcnt >= 1)
-        {
+        if (this.sugarcnt >= 1) {
             this.sugarcnt--;
             this.submitPreference();
         }
@@ -127,7 +123,7 @@ export class PlaceComponent implements OnInit {
           }
         );
       }
-    emptyPreference(){
+    emptyPreference() {
         this.preferenceService.putPreference(null, null, null).subscribe(
           preference => {
             this.userPreference = preference;

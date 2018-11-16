@@ -23,14 +23,14 @@ export class ChoiceComponent implements OnInit {
   orderlines = [];
   availableCoffee = {};
   id = '';
-  userPreference : DrinkPreference = {
-    preferenceId : "",
+  userPreference: DrinkPreference = {
+    preferenceId : '',
     drink : {
-      drinkId : "",
-      drinkName : "",
+      drinkId : '',
+      drinkName : '',
       available : null,
       additions : null,
-      imageUrl : ""
+      imageUrl : ''
     },
     user : null,
     milk : null,
@@ -68,7 +68,7 @@ export class ChoiceComponent implements OnInit {
       () => {
         console.log('GetPreference complete');
       }
-    )
+    );
     this.orderService.getOrders().subscribe(
       orderline => {
         this.orderlines.push(orderline);
@@ -81,42 +81,30 @@ export class ChoiceComponent implements OnInit {
   }
 
   addToOrder(
-<<<<<<< HEAD
-    product: Drink,
-    aantal: number,
-    verbruiker: string,
-    melk: number,
-    suiker: number
-  ){
-    this.OrderService.placeOrder(product,aantal,verbruiker,melk,suiker);
-    this.router.navigate(["order"]);
-  } 
-=======
     drink: Drink,
     count: number,
     milk: number,
     sugar: number
   ) {
 
-    const orderline : OrderLine = {
-      orderLineId : "",
+    const orderline: OrderLine = {
+      orderLineId : '',
       customer : {
         userId : this.auth.getDecodedToken().nameid,
-        firstName : "",
-        lastName : ""
+        firstName : '',
+        lastName : ''
       },
       drink : drink,
       count : count,
       milk : milk,
       sugar : sugar
-    }
+    };
     this.orderService.postOrderline(orderline).subscribe(
       console.log,
       console.error
     );
     this.orderlines.push(orderline);
     this.router.navigate(['order']);
->>>>>>> feature/AllToTheBack
 
   }
   milkCountUp() {
@@ -148,7 +136,7 @@ export class ChoiceComponent implements OnInit {
       }
     );
   }
-  emptyPreference(){
+  emptyPreference() {
     this.preferenceService.putPreference(null, null, null).subscribe(
       preference => {
         this.userPreference = preference;
