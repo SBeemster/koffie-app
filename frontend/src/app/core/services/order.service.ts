@@ -48,24 +48,41 @@ export class OrderService {
       })
   );
   }
-/*   deleteFromOrder(order: OrderLine) {
-    this.orders.splice(this.orders.indexOf(order), 1);
-  } */
-
-/*   clearCart(verbruiker: string): void {
-    for (let i = 0; i < this.orders.length; i++) {
-      if (
-        this.orders[i].verwerkt === false &&
-        this.orders[i].verbruiker === verbruiker
-      ) {
-        var orderToDelete = this.orders[i];
-        this.api.delete("/OrderLines/" + orderToDelete.orderLineId);
-        this.orders.splice(i, 1);
-        i--;
-      }
+  postOrderline(orderline):Observable<Object> {
+   return this.api.post('/OrderLines', {
+      'Customer': {
+        userId: this.auth.getDecodedToken().nameid
+      },
+      'Drink': orderline.drink,
+      'Count': orderline.count,
+      'Sugar': orderline.sugar,
+      'Milk': orderline.milk,
+      'OrderTime': new Date()
+    })
+  }
+  putOrderline(orderline):Observable<Object> {
+  return this.api.put('/OrderLines/' + orderline.orderLineId, {
+    'OrderLineId': orderline.orderLineId,
+    'Customer': {
+      'userId': orderline.customer.userId
+    },
+    'Server': {
+      'userId': orderline.server.userId
+    },
+    'Drink': {
+      'drinkId': orderline.drink.drinkId,
+      'drinkName': orderline.drink.drinkName
+    },
+    'Count': orderline.count,
+    'Sugar': orderline.sugar,
+    'Milk': orderline.milk,
+    'GetTime': new Date(),
+    'OrderStatus': {
+      'orderStatusId': orderline.orderStatus.orderStatusId,
+      'statusName': orderline.orderStatus.statusName
     }
-  } */
-
+  })
+  }
 
   constructor(private auth: AuthService, private api: ApiService) {
   }

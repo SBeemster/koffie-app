@@ -11,14 +11,14 @@ import { AuthService } from './auth.service';
 })
 export class PreferenceService {
 
-  postPreference(availableCoffee, melkcnt, suikercnt): Observable<Object> {
+  postPreference(availableCoffee, milkcnt, sugarcnt): Observable<Object> {
     return this.api.post('/DrinkPreferences', {
       'User': {
         'userId' : this.auth.getDecodedToken().nameid
       },
       'Drink': availableCoffee,
-      'Milk': melkcnt,
-      'Sugar': suikercnt }).pipe(map(obj => {
+      'Milk': milkcnt,
+      'Sugar': sugarcnt }).pipe(map(obj => {
         const drinkpreference: DrinkPreference = {
           preferenceId: obj['preferenceId'],
           user: obj['user'],

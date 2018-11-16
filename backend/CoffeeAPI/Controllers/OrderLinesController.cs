@@ -129,6 +129,11 @@ namespace CoffeeAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> PostOrderLine([FromBody] OrderLine orderLine)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var userID = orderLine.Customer.UserId;
             User customer = _context.Users
                .Where(l => l.UserId == userID)
@@ -142,27 +147,27 @@ namespace CoffeeAPI.Controllers
               .Where(l => l.StatusName.ToLower() == "ordered")
               .Single();
 
-            var newOrderLine = new OrderLine
+            for (int i = 0; i < orderLine.Count; i++)
             {
-                OrderLineId = Guid.NewGuid(),
-                Customer = customer,
-                Drink = drink,
-                Count = orderLine.Count,
-                Sugar = orderLine.Sugar,
-                Milk = orderLine.Milk,
-                OrderStatus = orderstatus,
-                OrderTime = orderLine.OrderTime
-            };
+                var newOrderLine = new OrderLine
+                {
+                    OrderLineId = Guid.NewGuid(),
+                    Customer = customer,
+                    Drink = drink,
+                    Count = 1,
+                    Sugar = orderLine.Sugar,
+                    Milk = orderLine.Milk,
+                    OrderStatus = orderstatus,
+                    OrderTime = orderLine.OrderTime
+                };
 
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
+               
+                _context.OrderLines.Add(newOrderLine);
+                await _context.SaveChangesAsync();
+
+               
             }
-
-            _context.OrderLines.Add(newOrderLine);
-            await _context.SaveChangesAsync();
-
-            return Ok(newOrderLine.OrderLineId);
+            return Ok();
         }
 
         // DELETE: api/OrderLines/5

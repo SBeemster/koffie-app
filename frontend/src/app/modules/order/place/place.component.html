@@ -14,12 +14,12 @@
         </p>
         <div class="row row-addons">
           <div class="col-lg-12">
-            <button class="btn btn-primary btn-lg float-left" (click)="melkCountDown()">
+            <button class="btn btn-primary btn-lg float-left" (click)="milkCountDown()">
               -
             </button>
             <p class="milksugartext" align="center">
-              Melk: {{ melkcnt }}
-              <button class="btn btn-primary btn-lg float-right" (click)="melkCountUp()">
+              milk: {{ milkcnt }}
+              <button class="btn btn-primary btn-lg float-right" (click)="milkCountUp()">
                 +
               </button>
             </p>
@@ -27,12 +27,12 @@
         </div>
         <div class="row row-addons">
           <div class="col-lg-12">
-            <button class="btn btn-primary btn-lg float-left" (click)="suikerCountDown()">
+            <button class="btn btn-primary btn-lg float-left" (click)="sugarCountDown()">
               -
             </button>
             <p class="milksugartext" align="center">
-              Suiker: {{ suikercnt }}
-              <button class="btn btn-primary btn-lg float-right" (click)="suikerCountUp()">
+              sugar: {{ sugarcnt }}
+              <button class="btn btn-primary btn-lg float-right" (click)="sugarCountUp()">
                 +
               </button>
             </p>
@@ -42,10 +42,9 @@
           <div class="col-lg-12">
             <button class="btn btn-success btn-lg btn-block btn-bestellen mb-1" (click)="
               addToOrder(
-                availableCoffee,           
-                'Verbruiker',
-                melkcnt,
-                suikercnt
+                userPreference.drink,           
+                milkcnt,
+                sugarcnt
               )
             ">
               Bestellen!

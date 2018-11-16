@@ -17,8 +17,8 @@ import { DrinkPreference } from 'src/app/core/classes/drink-preference';
   styleUrls: ['./choice.component.scss']
 })
 export class ChoiceComponent implements OnInit {
-  melkcnt = 0;
-  suikercnt = 0;
+  milkcnt = 0;
+  sugarcnt = 0;
   newAantal = 1;
   orderlines = [];
   availableCoffee = {};
@@ -64,50 +64,37 @@ export class ChoiceComponent implements OnInit {
     sugar: number
   ) {
 
-
-    this.api.post('/OrderLines', {
-      'Customer': {
-        userId: this.auth.getDecodedToken().nameid
+    const orderline : OrderLine = {
+      orderLineId : "",
+      customer : {
+        userId : this.auth.getDecodedToken().nameid,
+        firstName : "",
+        lastName : ""
       },
-      'Drink': drink,
-      'Count': count,
-      'Sugar': sugar,
-      'Milk': milk,
-      'OrderTime': new Date()
-    }).subscribe(
-      res => { this.id = res.toString(); },
+      drink : drink,
+      count : count,
+      milk : milk,
+      sugar : sugar
+    }
+    this.orderService.postOrderline(orderline).subscribe(
+      console.log,
       console.error
     );
-    const user: User = {
-      userId: this.auth.getDecodedToken().nameid,
-      firstName: '',
-      lastName: ''
-    };
-    const newOrderline: OrderLine = {
-      orderLineId: this.id,
-      drink: drink,
-      count: count,
-      customer: user,
-      milk: milk,
-      sugar: sugar
-    };
-    this.orderlines.push(newOrderline);
-    // console.log(newProduct);
-
+    this.orderlines.push(orderline);
     this.router.navigate(['order']);
 
   }
-  melkCountUp() {
-    if (this.melkcnt < 3) { this.melkcnt++; }
+  milkCountUp() {
+    if (this.milkcnt < 3) { this.milkcnt++; }
   }
-  melkCountDown() {
-    if (this.melkcnt >= 1) { this.melkcnt--; }
+  milkCountDown() {
+    if (this.milkcnt >= 1) { this.milkcnt--; }
   }
-  suikerCountUp() {
-    if (this.suikercnt < 3) { this.suikercnt++; }
+  sugarCountUp() {
+    if (this.sugarcnt < 3) { this.sugarcnt++; }
   }
-  suikerCountDown() {
-    if (this.suikercnt >= 1) { this.suikercnt--; }
+  sugarCountDown() {
+    if (this.sugarcnt >= 1) { this.sugarcnt--; }
   }
   drinkCountUp() {
     this.newAantal++;
@@ -115,8 +102,8 @@ export class ChoiceComponent implements OnInit {
   drinkCountDown() {
     if (this.newAantal > 1) { this.newAantal--; }
   }
-  submitPreference(availableCoffee, melkcnt, suikercnt) {
-    this.preferenceService.postPreference(availableCoffee, melkcnt, suikercnt).subscribe(
+  submitPreference(availableCoffee, milkcnt, sugarcnt) {
+    this.preferenceService.postPreference(availableCoffee, milkcnt, sugarcnt).subscribe(
       console.log,
       console.error,
       () => {

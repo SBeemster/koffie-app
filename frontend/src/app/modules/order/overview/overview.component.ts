@@ -79,28 +79,8 @@ export class OverviewComponent implements OnInit {
         };
         orderline.server = me;
         orderline.orderStatus = this.orderStatussen.find(status => status.statusName.toString().toLowerCase() === 'finished');
-        console.log(orderline);
-        this.api.put('/OrderLines/' + orderline.orderLineId, {
-          'OrderLineId': orderline.orderLineId,
-          'Customer': {
-            'userId': orderline.customer.userId
-          },
-          'Server': {
-            'userId': orderline.server.userId
-          },
-          'Drink': {
-            'drinkId': orderline.drink.drinkId,
-            'drinkName': orderline.drink.drinkName
-          },
-          'Count': orderline.count,
-          'Sugar': orderline.sugar,
-          'Milk': orderline.milk,
-          'GetTime': new Date(),
-          'OrderStatus': {
-            'orderStatusId': orderline.orderStatus.orderStatusId,
-            'statusName': orderline.orderStatus.statusName
-          }
-        }).subscribe(
+        
+        this.orderService.putOrderline(orderline).subscribe(
           console.log,
           console.error
         );

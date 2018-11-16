@@ -41,9 +41,7 @@ export class GroupComponent implements OnInit {
         return;
       }
     }
-    this.api.post('/Groups', {
-      'groupName': newName
-    }).subscribe(
+    this.availableGroupsService.postGroup(newName).subscribe(
       res => { this.id = res.toString(); },
       console.error
     );
@@ -60,7 +58,7 @@ export class GroupComponent implements OnInit {
 
     for (let i = 0; i < this.availableGroups.length; i++) {
       if (this.availableGroups[i].groupId === group.groupId) {
-        this.api.delete('/Groups/' + this.availableGroups[i].groupId).subscribe(
+        this.availableGroupsService.deleteGroup(group).subscribe(
           console.log,
           console.error
         );
@@ -95,10 +93,7 @@ export class GroupComponent implements OnInit {
     for (let i = 0; i < this.availableGroups.length; i++) {
       if (this.availableGroups[i] === group) {
         this.availableGroups[i].groupName = group.newName;
-        this.api.put('/Groups/' + group.groupId, {
-          'groupId': group.groupId,
-          'groupName':  group.groupName
-        }).subscribe(
+        this.availableGroupsService.putGroup(group).subscribe(
           console.log,
           console.error
         );

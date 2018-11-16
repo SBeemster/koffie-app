@@ -10,8 +10,8 @@ import { PreferenceService } from '../../../core/services/preference.service';
 })
 export class PlaceComponent implements OnInit {
     availableCoffees = [];
-    melkcnt = 0;
-    suikercnt = 0;
+    milkcnt = 0;
+    sugarcnt = 0;
     userPreference;
     constructor(
         private availableCoffeeService: AvailableCoffeeService,
@@ -45,16 +45,16 @@ export class PlaceComponent implements OnInit {
             console.error,
         )
     }
-    melkCountUp() {
-        if (this.melkcnt < 3) { this.melkcnt++; }
+    milkCountUp() {
+        if (this.milkcnt < 3) { this.milkcnt++; }
     }
-    melkCountDown() {
-        if (this.melkcnt >= 1) { this.melkcnt--; }
+    milkCountDown() {
+        if (this.milkcnt >= 1) { this.milkcnt--; }
     }
-    suikerCountUp() {
-        if (this.suikercnt < 3) { this.suikercnt++; }
+    sugarCountUp() {
+        if (this.sugarcnt < 3) { this.sugarcnt++; }
     }
-    suikerCountDown() {
-        if (this.suikercnt >= 1) { this.suikercnt--; }
+    sugarCountDown() {
+        if (this.sugarcnt >= 1) { this.sugarcnt--; }
     }
 }
