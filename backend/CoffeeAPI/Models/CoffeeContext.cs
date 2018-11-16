@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Text;
+using CoffeeAPI.Models;
 
 namespace CoffeeAPI.Models
 {
@@ -22,7 +23,6 @@ namespace CoffeeAPI.Models
         // intermediary tables
         public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<UserGroup> UserGroups { get; set; }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // ensure indexed and unique usernames
@@ -63,20 +63,40 @@ namespace CoffeeAPI.Models
                 new { UserRoleId = Guid.NewGuid(), UserId = jaapId, RoleId = roleUserId },
                 new { UserRoleId = Guid.NewGuid(), UserId = jaapId, RoleId = roleManagerId });
 
+            modelBuilder.Entity<DrinkPreference>().HasData(
+                new { PreferenceId = Guid.NewGuid(), UserId = adminId },
+                new { PreferenceId = Guid.NewGuid(), UserId = jaapId }
+                );
+
             //seed first drinks
             String[,] drinkArray = new string[6, 3] { { "Koffie", "/assets/Images/Koffie.jpg", "true" }, { "Cappuccino", "/assets/Images/Cappuccino.jpg", "true" }, { "Latte Macchiato", "/assets/Images/Latte Macchiato.jpg", "true" }, { "Espresso", "/assets/Images/Espresso.png", "true" }, { "Thee", "/assets/Images/Thee.jpg", "true" }, { "Water", "/assets/Images/Water.jpg", "false" } };
-            for (int i =0; i < drinkArray.GetLength(0); i++)
+            for (int i = 0; i < drinkArray.GetLength(0); i++)
             {
-                var additions= false;
+                var Additions= false;
                 var drankId = Guid.NewGuid();
                 if (drinkArray[i, 2].Equals("true")) {
-                   additions  = true;
+                   Additions  = true;
                 }
-                
+
                 modelBuilder.Entity<Drink>().HasData(
-                    new { DrinkId = drankId, DrinkName = drinkArray[i,0], Available = true, ImageUrl = drinkArray[i,1], Additions = additions });
+                    new { DrinkId = drankId, drinkName = drinkArray[i,0], Available = true, ImageUrl = drinkArray[i,1], Additions = Additions });
             }
 
+            modelBuilder.Entity<OrderStatus>().HasData(
+                new { OrderStatusId = Guid.NewGuid(), StatusName = "Ordered" },
+                new { OrderStatusId = Guid.NewGuid(), StatusName = "Finished" }
+                );
+
+            modelBuilder.Entity<Group>().HasData(
+                new { GroupId = Guid.NewGuid(), GroupName = "The addicts" },
+                new { GroupId = Guid.NewGuid(), GroupName = "The most drinkers" },
+                new { GroupId = Guid.NewGuid(), GroupName = "Frequently need coffee" },
+                new { GroupId = Guid.NewGuid(), GroupName = "Thee pussy\'s" }
+                );
+
         }
+        public DbSet<CoffeeAPI.Models.DrinkPreference> DrinkPreference { get; set; }
+
+
     }
 }

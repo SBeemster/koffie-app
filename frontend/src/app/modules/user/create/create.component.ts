@@ -8,8 +8,8 @@ import { ApiService } from 'src/app/core/services/api.service';
 })
 export class CreateComponent {
 
-    passType: string = "password";
-    
+    passType = 'password';
+
     userName: string;
     password: string;
     firstName: string;
@@ -24,22 +24,22 @@ export class CreateComponent {
     }
 
     togglePassword(): void {
-        if (this.passType === "password") {
-            this.passType = "text"
+        if (this.passType === 'password') {
+            this.passType = 'text';
         } else {
-            this.passType = "password"
+            this.passType = 'password';
         }
     }
 
     createUser(): void {
-        this.api.post("/users", {
-            "UserName": this.userName,
-            "Password": this.password,
-            "FirstName": this.firstName,
-            "LastName": this.lastName
+        this.api.post('/users', {
+            'UserName': this.userName,
+            'Password': this.password,
+            'FirstName': this.firstName,
+            'LastName': this.lastName
         }).subscribe(
             console.log,
             console.error
-        )
+        );
     }
 }

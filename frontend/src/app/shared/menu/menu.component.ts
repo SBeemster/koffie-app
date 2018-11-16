@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MENU_ITEMS } from './menu-items';
-import { AuthService } from "src/app/core/services/auth.service";
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
     selector: 'app-menu',

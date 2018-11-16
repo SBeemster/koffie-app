@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from "@angular/router";
-import { ApiService } from "src/app/core/services/api.service";
+import { ActivatedRoute, Router } from '@angular/router';
+import { ApiService } from 'src/app/core/services/api.service';
 
 @Component({
     selector: 'app-edit',
@@ -9,7 +9,7 @@ import { ApiService } from "src/app/core/services/api.service";
 })
 export class EditComponent implements OnInit {
 
-    userLoaded: boolean = false;
+    userLoaded = false;
     user: object = {};
 
     constructor(
@@ -19,7 +19,7 @@ export class EditComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        const userId = this.activatedRoute.snapshot.params["userId"];
+        const userId = this.activatedRoute.snapshot.params['userId'];
         if (userId) {
             this.api.get(`/users/${userId}`).subscribe(
                 response => {
@@ -36,14 +36,14 @@ export class EditComponent implements OnInit {
     }
 
     saveUser() {
-        this.api.put(`/users/${this.user["userId"]}`, {
-            active: this.user["active"],
-            firstName: this.user["firstName"],
-            lastName: this.user["lastName"],
-            userId: this.user["userId"]
+        this.api.put(`/users/${this.user['userId']}`, {
+            active: this.user['active'],
+            firstName: this.user['firstName'],
+            lastName: this.user['lastName'],
+            userId: this.user['userId']
         }).subscribe(
             response => {
-                this.router.navigate(["pages/user/select"]);
+                this.router.navigate(['pages/user/select']);
             },
             console.error
         );

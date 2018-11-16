@@ -1,6 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { AvailableGroupsService } from './available-groups.service';
+import { AvailableGroupsService } from './Available-groups.service';
 
 describe('AvailableGroupsService', () => {
   beforeEach(() => {

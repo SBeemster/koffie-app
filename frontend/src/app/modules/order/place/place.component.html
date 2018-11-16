@@ -1,56 +1,73 @@
-<!-- <div class="row">
-    <div class="col-sm-12">
-        <h3>Kies uw drank</h3>
-    </div>
-</div>
-
-<div class="row">
-    <div class="d-flex justify-content-between">
-        <div class="col-sm-12">
-            <button class="btn btn-outline-success mr-1" *ngFor="let availableCoffee of availableCoffees" (click)="addToOrder(availableCoffee, newAantal, 'Wilrik');">
-                {{availableCoffee.drinkName}}
+<ng-container *ngIf="userPreference.drink != null">
+  <div class="row">
+  <div class="col-sm-12">
+    
+    <div class="card card-favo card flex-row flex-wrap mb-3">
+      <i class="fa fa-star fa-3x" aria-hidden="true" (click)="emptyPreference()"></i>
+      <div class="card-header border-0">
+        <img src="{{userPreference.drink.imageUrl}}" alt="" />
+      </div>
+      <div class="card-block px-2 col-6">
+        <h4 class="card-title">Uw favoriete drank!</h4>
+        <p class="card-text">
+          Bestel nu met één klik op de knop uw favoriete drank!
+        </p>
+        <div class="row row-addons">
+          <div class="col-lg-12">
+            <button class="btn btn-primary btn-lg float-left" (click)="milkCountDown()">
+              -
             </button>
+            <p class="milksugartext" align="center">
+              Melk: {{ milkcnt }}
+              <button class="btn btn-primary btn-lg float-right" (click)="milkCountUp()">
+                +
+              </button>
+            </p>
+          </div>
         </div>
-    </div>
-</div>
-<hr>
-
-<div class="row">
-    <div class="col-sm-2">
-        <h3>Bestelling</h3>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-sm-12 col-lg-5">
-        <ul class="list-group list-group-flush">
-            <ng-container *ngFor="let order of orders">
-                <li class="list-group-item" *ngIf="!order.verwerkt">
-                    {{order.aantal}} x {{order.name}}
-                    <button class="float-right btn btn-danger" (click)="deleteFromOrder(order)">
-                        <i class="fa fa-fw fa-trash"></i>
-                    </button>
-                </li>
-            </ng-container>
-        </ul>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-sm-2">
-        <button class="btn btn-lg btn-outline-danger" (click)="clearCart('Wilrik');">
-            Legen
-        </button>
-    </div>
-</div> -->
-
-<div class="row">
-    <div class="col-sm-5 mb-5 card" *ngFor="let availableCoffee of availableCoffees">
-        <h4>{{availableCoffee.drinkName}}</h4>
-        <div class="image align-bottom">
-            <a [routerLink]="[availableCoffee.drinkId]">
-                <img src="{{availableCoffee.imageUrl}}" class="img-fluid" alt="Responsive image" title="The title of this image">
-            </a>
+        <div class="row row-addons">
+          <div class="col-lg-12">
+            <button class="btn btn-primary btn-lg float-left" (click)="sugarCountDown()">
+              -
+            </button>
+            <p class="milksugartext" align="center">
+              Suiker: {{ sugarcnt }}
+              <button class="btn btn-primary btn-lg float-right" (click)="sugarCountUp()">
+                +
+              </button>
+            </p>
+          </div>
         </div>
+        <div class="row row-addons">
+          <div class="col-lg-12">
+            <button class="btn btn-success btn-lg btn-block btn-bestellen mb-1" (click)="
+              addToOrder(
+                userPreference.drink,           
+                milkcnt,
+                sugarcnt
+              )
+            ">
+              Bestellen!
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
-</div>​
+  </div>
+</div>
+</ng-container>
+
+
+<div class="row">
+  <div class="col-sm-6 mb-4" *ngFor="let availableCoffee of availableCoffees">
+    <div class="card row-overzicht">
+      <h4>{{ availableCoffee.drinkName }}</h4>
+      <div class="image align-bottom">
+        <a [routerLink]="[availableCoffee.drinkId]">
+          <img src="{{availableCoffee.imageUrl}}" class="img-fluid img-koffie" alt="Responsive image" title="The title of this image" />
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+​

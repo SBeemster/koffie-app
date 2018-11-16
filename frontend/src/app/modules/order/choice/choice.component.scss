@@ -10,14 +10,20 @@
 div {
   margin-top: 3px;
 }
-.col-center{
-  margin:auto;
-  float:none;
+.col-center {
+  margin: auto;
+  float: none;
 }
-.btn-close{
+.btn-close {
   border: 0;
   border-radius: 0;
 }
-.btn-bestellen{
+.btn-bestellen {
   margin-top: 1em;
+}
+.fa-star-o {
+  color: yellow;
+}
+.fa-star {
+  color: yellow;
 }

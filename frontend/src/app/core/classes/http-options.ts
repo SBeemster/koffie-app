@@ -1,10 +1,10 @@
-import { HttpHeaders, HttpParams } from "@angular/common/http";
+import { HttpHeaders, HttpParams } from '@angular/common/http';
 
 export class HttpOptions {
     headers?: HttpHeaders;
-    observe?: "body";
+    observe?: 'body';
     params?: HttpParams;
     reportProgress?: boolean;
-    responseType?: "json";
+    responseType?: 'json';
     withCredentials?: boolean;
 }

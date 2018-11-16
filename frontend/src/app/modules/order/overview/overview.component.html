@@ -20,7 +20,7 @@
         <ul class="list-group list-group-flush">
             <ng-container *ngFor="let order of orders">
                 <li class="list-group-item" (click)="getUserOrderType(order[0])">
-                    {{order.aantal}} x {{order.drink.drinkName}} <ng-container *ngIf="order.melk > 0">{{order.melk}}x melk</ng-container><ng-container *ngIf="order.suiker > 0">{{order.suiker}}x suiker</ng-container>
+                    {{order.aantal}} x {{order.drink.drinkName}} <ng-container *ngIf="order.milk > 0">{{order.milk}}x milk</ng-container><ng-container *ngIf="order.sugar > 0">{{order.sugar}}x sugar</ng-container>
                     <ng-container *ngFor="let userOrder of ordersPerUserAndType">
                         <ul *ngIf="userOrder.drink.drinkName===order[0]">
                             <li>
@@ -50,13 +50,13 @@
     <ng-container *ngFor="let userOrder of ordersPerUser">
         <li class="list-group-item d-flex justify-content-between align-items-center" *ngIf="userOrder.halen">
 
-            {{userOrder.aantal}}x {{userOrder.drink.drinkName}}
-            <ng-container *ngIf="userOrder.melk > 0 || userOrder.suiker > 0">(</ng-container>
-            <ng-container *ngIf="userOrder.melk > 0">{{userOrder.melk}}x melk</ng-container>
-            <ng-container *ngIf="userOrder.melk > 0 && userOrder.suiker > 0"> & </ng-container>
-            <ng-container *ngIf="userOrder.suiker > 0">{{userOrder.suiker}}x suiker</ng-container>
-            <ng-container *ngIf="userOrder.melk > 0 || userOrder.suiker > 0">)</ng-container>
-            <p class="float-right">{{userOrder.verbruiker}}</p>
+            {{userOrder.count}}x {{userOrder.drink.drinkName}}
+            <ng-container *ngIf="userOrder.milk > 0 || userOrder.sugar > 0">(</ng-container>
+            <ng-container *ngIf="userOrder.milk > 0">{{userOrder.milk}}x Melk</ng-container>
+            <ng-container *ngIf="userOrder.milk > 0 && userOrder.sugar > 0"> & </ng-container>
+            <ng-container *ngIf="userOrder.sugar > 0">{{userOrder.sugar}}x Suiker</ng-container>
+            <ng-container *ngIf="userOrder.milk > 0 || userOrder.sugar > 0">)</ng-container>
+            <p class="float-right">{{userOrder.customer.firstName}} {{userOrder.customer.lastName}}</p>
 
         </li>
     </ng-container>

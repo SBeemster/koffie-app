@@ -9,7 +9,7 @@ namespace CoffeeAPI.Models
         public Guid DrinkId { get; set; }
 
         [Required]
-        public string DrinkName { get; set; }
+        public string drinkName { get; set; }
         public bool Available { get; set; }
         public string ImageUrl { get; set; }
         public bool Additions { get; set; }

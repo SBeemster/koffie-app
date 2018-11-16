@@ -34,4 +34,4 @@ export const routedComponents = [
     CreateComponent,
     EditComponent,
     SelectComponent
-]
+];

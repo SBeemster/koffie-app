@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { AvailableGroupsService } from '../../../core/services/available-groups.service';
-
+import { AvailableGroupsService } from '../../../core/services/Available-groups.service';
+import { ApiService } from '../../../core/services/api.service';
 import { Group } from '../../../core/classes/group';
 
 @Component({
@@ -10,42 +10,104 @@ import { Group } from '../../../core/classes/group';
 })
 export class GroupComponent implements OnInit {
   @ViewChild('myModal') myModal;
-  availableGroups;
+  availableGroups = [];
   messageHeader;
   message;
   newName;
-  constructor(private availableGroupsService: AvailableGroupsService) { }
+  id;
+  constructor(
+    private availableGroupsService: AvailableGroupsService,
+    private api: ApiService
+  ) { }
 
   ngOnInit() {
-    this.availableGroups = this.availableGroupsService.getGroups();
+    this.availableGroupsService.getGroups().subscribe(
+      group => {
+        this.availableGroups.push(group);
+      },
+      console.error,
+      () => {
+        console.log('GetGroups complete');
+      }
+    );
   }
 
   newGroup(newName: string) {
-    if (!this.availableGroupsService.createGroup(newName)) {
-      this.messageHeader = 'Groep bestaat reeds';
-      this.message = 'Er bestaat reeds een groep met deze naam. De groep is niet aangemaakt';
-      this.openModal();
+    for (let i = 0; i < this.availableGroups.length; i++) {
+      if (this.availableGroups[i].groupName === newName) {
+        this.messageHeader = 'Groep bestaat reeds';
+        this.message = 'Er bestaat reeds een groep met deze naam. De groep is niet aangemaakt';
+        this.openModal();
+        return;
+      }
     }
+    this.availableGroupsService.postGroup(newName).subscribe(
+      res => { this.id = res.toString(); },
+      console.error
+    );
+
+    const group: Group = {
+      groupId: this.id,
+      groupName: newName
+    };
+    this.availableGroups.push(group);
   }
+
+
   deleteGroup(group: Group) {
-    if (!this.availableGroupsService.deleteGroup(group)) {
-      this.messageHeader = 'Groep niet gevonden';
-      this.message = 'Er bestaat geen groep met deze naam. De groep is niet verwijderd. Neem contact op met uw beheerder.';
-      this.openModal();
+
+    for (let i = 0; i < this.availableGroups.length; i++) {
+      if (this.availableGroups[i].groupId === group.groupId) {
+        this.availableGroupsService.deleteGroup(group).subscribe(
+          console.log,
+          console.error
+        );
+        this.availableGroups.splice(i, 1);
+        return;
+      }
     }
+    this.messageHeader = 'Groep niet gevonden';
+    this.message = 'Er bestaat geen groep met deze naam. De groep is niet verwijderd. Neem contact op met uw beheerder.';
+    this.openModal();
   }
+
+
   editGroup(group: Group) {
-    if (!this.availableGroupsService.editGroup(group)) {
-      this.messageHeader = 'Groep bestaat reeds';
-      this.message = 'Er bestaat al een groep met deze naam. De groepsnaam is niet aangepast.';
+    if (group.newName === '' || group.newName == null) {
+      this.messageHeader = 'Groepsnaam leeg';
+      this.message = 'U heeft geen groepsnaam opgeven. Probeer het opnieuw.';
       this.openModal();
+      group.edit = false;
+      return;
     }
-    group.edit = false;
+    for (let i = 0; i < this.availableGroups.length; i++) {
+      if (this.availableGroups[i].groupName === group.newName && this.availableGroups[i] !== group) {
+        group.newName = group.groupName;
+        this.messageHeader = 'Groep bestaat reeds';
+        this.message = 'Er bestaat al een groep met deze naam. De groepsnaam is niet aangepast.';
+        this.openModal();
+        group.edit = false;
+        return;
+      }
+    }
+    for (let i = 0; i < this.availableGroups.length; i++) {
+      if (this.availableGroups[i] === group) {
+        this.availableGroups[i].groupName = group.newName;
+        this.availableGroupsService.putGroup(group).subscribe(
+          console.log,
+          console.error
+        );
+        group.edit = false;
+        return;
+      }
+    }
+
+
   }
   openModal() {
     this.myModal.nativeElement.className = 'modal fade show';
   }
   closeModal() {
-     this.myModal.nativeElement.className = 'modal hide';
+    this.myModal.nativeElement.className = 'modal hide';
   }
 }

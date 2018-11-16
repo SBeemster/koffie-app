@@ -1,54 +1,39 @@
 import { Injectable } from '@angular/core';
 import { Group } from '../classes/group';
+import { ApiService } from './api.service';
+import { Observable } from 'rxjs';
+import { map, concatAll } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AvailableGroupsService {
-  availableGroups: Group[] = [
-    new Group('The addicts'),
-    new Group('The most drinkers'),
-    new Group('Frequently need coffee'),
-    new Group('Thee pussy\'s')
-  ];
-  getGroups(): Array<Group> {
-    return this.availableGroups;
-  }
-  createGroup(group: string): boolean {
-    for (let i = 0; i < this.availableGroups.length; i++) {
-      if (this.availableGroups[i].name === group) {
-        return false;
-      }
-    }
-    this.availableGroups.push(new Group(group));
-      return true;
-  }
-  deleteGroup(group: Group): boolean {
-    for (let i = 0; i < this.availableGroups.length; i++) {
-      if (this.availableGroups[i] === group) {
-        this.availableGroups.splice(i, 1);
-        return true;
-      }
-    }
-      return false;
-  }
-  editGroup(group: Group): boolean {
-    if (group.newName === '') {
-      return false;
-    }
-    for (let i = 0; i < this.availableGroups.length; i++) {
-      if (this.availableGroups[i].name === group.newName && this.availableGroups[i] !== group) {
-        group.newName = group.name;
-        return false;
-      }
-    }
-    for (let i = 0; i < this.availableGroups.length; i++) {
-      if (this.availableGroups[i] === group) {
-        this.availableGroups[i].name = group.newName;
-        return true;
-      }
-    }
-    return true;
-  }
-  constructor() { }
+
+  getGroups(): Observable<Group> {
+    return this.api.get('/groups').pipe(
+        concatAll(),
+        map(obj => {
+            const group: Group = {
+                groupId: obj['groupId'],
+                groupName: obj['groupName']
+            };
+            return group;
+        })
+    );
+}
+postGroup(newName) : Observable<Object> {
+    return this.api.post('/Groups', {
+        'groupName': newName
+      })
+}
+putGroup(group) : Observable<Object>{
+    return this.api.put('/Groups/' + group.groupId, {
+        'groupId': group.groupId,
+        'groupName':  group.groupName
+      })
+}
+deleteGroup(group) : Observable<Object>{
+    return this.api.delete('/Groups/' + group.groupId)
+}
+  constructor(private api: ApiService) { }
 }

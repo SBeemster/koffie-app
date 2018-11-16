@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { ApiService } from "./api.service";
+import { ApiService } from './api.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { map } from "rxjs/operators";
-import { Observable } from "rxjs";
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { DecodedToken } from '../classes/decodedToken';
 
 @Injectable({
@@ -15,21 +15,21 @@ export class AuthService {
     constructor(private api: ApiService) { }
 
     login(username: string, password: string): Observable<object> {
-        return this.api.post('/login', { "UserName": username, "Password": password })
+        return this.api.post('/login', { 'UserName': username, 'Password': password })
             .pipe(map((response) => {
-                this.setSession(response)
+                this.setSession(response);
                 return response;
             }));
     }
 
     logout(): void {
         this.decodedToken = null;
-        localStorage.removeItem("id_token");
+        localStorage.removeItem('id_token');
     }
 
     isLoggedOut(): boolean {
-        let helper = new JwtHelperService();
-        return helper.isTokenExpired(localStorage.getItem("id_token"));
+        const helper = new JwtHelperService();
+        return helper.isTokenExpired(localStorage.getItem('id_token'));
     }
 
     isLoggedIn(): boolean {
@@ -41,7 +41,7 @@ export class AuthService {
             return false;
         }
 
-        let token = this.getDecodedToken();
+        const token = this.getDecodedToken();
         if (token.role) {
             return token.role.indexOf(role) > -1;
         }
@@ -51,8 +51,8 @@ export class AuthService {
 
     getExpiration(): Date {
         if (!this.isLoggedOut()) {
-            let helper = new JwtHelperService();
-            return helper.getTokenExpirationDate(localStorage.getItem("id_token"));
+            const helper = new JwtHelperService();
+            return helper.getTokenExpirationDate(localStorage.getItem('id_token'));
         } else {
             return new Date();
         }
@@ -60,22 +60,22 @@ export class AuthService {
 
     getDecodedToken(): DecodedToken {
         if (!this.decodedToken) {
-            let helper = new JwtHelperService();
-            let token = helper.decodeToken(localStorage.getItem("id_token"));
+            const helper = new JwtHelperService();
+            const token = helper.decodeToken(localStorage.getItem('id_token'));
             this.decodedToken = {
-                exp: token["exp"],
-                iat: token["iat"],
-                iss: token["iss"],
-                nameid: token["nameid"],
-                nbf: token["nbf"],
-                role: token["role"],
-                uniqueName: token["unique_name"]
-            }
+                exp: token['exp'],
+                iat: token['iat'],
+                iss: token['iss'],
+                nameid: token['nameid'],
+                nbf: token['nbf'],
+                role: token['role'],
+                uniqueName: token['unique_name']
+            };
         }
         return this.decodedToken;
     }
 
     private setSession(authResult): void {
-        localStorage.setItem("id_token", authResult.idToken);
+        localStorage.setItem('id_token', authResult.idToken);
     }
 }

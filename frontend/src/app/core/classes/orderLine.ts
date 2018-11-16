@@ -1,27 +1,16 @@
-import { Drink } from "./drink";
+import { Drink } from './drink';
+import {OrderStatus} from './order-status';
+import {User} from './user';
 
 export class OrderLine {
+  orderLineId: string;
   drink: Drink;
-  aantal: number;
-  verbruiker: string;
-  verwerkt: boolean;
-  halen: boolean;
-  melk: number;
-  suiker: number;
+  count: number;
+  customer: User;
+  server?: User;
+  halen?: boolean;
+  milk: number;
+  sugar: number;
+  orderStatus?: OrderStatus;
 
-  constructor(
-    drink: Drink,
-    aantal: number,
-    verbruiker: string,
-    melk: number,
-    suiker: number
-  ) {
-    this.drink = drink;
-    this.aantal = aantal;
-    this.verbruiker = verbruiker;
-    this.verwerkt = false;
-    this.halen = false;
-    this.melk = melk;
-    this.suiker = suiker;
-  }
 }

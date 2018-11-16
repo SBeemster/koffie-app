@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from "../core/services/auth.service";
-import { ApiService } from "../core/services/api.service";
-import { ActivatedRoute, Router } from "@angular/router";
+import { AuthService } from '../core/services/auth.service';
+import { ApiService } from '../core/services/api.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
     selector: 'app-login',
@@ -10,17 +10,17 @@ import { ActivatedRoute, Router } from "@angular/router";
 })
 export class LoginComponent implements OnInit {
 
-    passType: string = "password";
+    passType = 'password';
 
-    username: string = "admin";
-    password: string = "admin";
-
+    username = 'admin';
+    password = 'admin';
+    logout = this.auth.logout;
     returnUrl: string;
 
     constructor(
         private route: ActivatedRoute,
         private router: Router,
-        private api: ApiService, 
+        private api: ApiService,
         private auth: AuthService) { }
 
     ngOnInit() {
@@ -32,20 +32,18 @@ export class LoginComponent implements OnInit {
     }
 
     togglePassword(): void {
-        if (this.passType === "password") {
-            this.passType = "text"
+        if (this.passType === 'password') {
+            this.passType = 'text';
         } else {
-            this.passType = "password"
+            this.passType = 'password';
         }
     }
 
     login(): void {
         this.auth.login(this.username, this.password).subscribe(
-            () => { //success
+            () => { // success
                 this.router.navigateByUrl(this.returnUrl);
             }
-        )
+        );
     }
-
-    logout = this.auth.logout;
 }

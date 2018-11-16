@@ -23,7 +23,7 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item" *ngFor="let availableGroup of availableGroups">
                 <span *ngIf="!availableGroup.edit">
-                    {{availableGroup.name}}
+                    {{availableGroup.groupName}}
                 </span>
                 <span *ngIf="availableGroup.edit">
                     <input type="text" [(ngModel)]="availableGroup.newName" name="groupname">

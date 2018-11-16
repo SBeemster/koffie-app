@@ -1,33 +1,87 @@
-import { Component, OnInit } from "@angular/core";
-import { AvailableCoffeeService } from "../../../core/services/available-coffee.service";
-import { OrderService } from "../../../core/services/order.service";
-import { ActivatedRoute, Router } from "@angular/router";
-import { Drink } from "../../../core/classes/drink";
+import { Component, OnInit } from '@angular/core';
+import { AvailableCoffeeService } from '../../../core/services/Available-coffee.service';
+import { OrderService } from '../../../core/services/order.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Drink } from '../../../core/classes/drink';
+import { User } from '../../../core/classes/user';
+import { ApiService } from '../../../core/services/api.service';
+import { AuthService } from '../../../core/services/auth.service';
+import { OrderStatus } from 'src/app/core/classes/order-status';
+import { OrderLine } from 'src/app/core/classes/orderLine';
+import { PreferenceService } from '../../../core/services/preference.service';
+import { DrinkPreference } from 'src/app/core/classes/drink-preference';
 
 @Component({
-  selector: "app-choice",
-  templateUrl: "./choice.component.html",
-  styleUrls: ["./choice.component.scss"]
+  selector: 'app-choice',
+  templateUrl: './choice.component.html',
+  styleUrls: ['./choice.component.scss']
 })
 export class ChoiceComponent implements OnInit {
-  melkcnt: number = 0;
-  suikercnt: number = 0;
-  newAantal: number = 1;
-  orders = this.OrderService.orders;
-  availableCoffee: Drink;
+  milkcnt = 0;
+  sugarcnt = 0;
+  newAantal = 1;
+  orderlines = [];
+  availableCoffee = {};
+  id = '';
+  userPreference : DrinkPreference = {
+    preferenceId : "",
+    drink : {
+      drinkId : "",
+      drinkName : "",
+      available : null,
+      additions : null,
+      imageUrl : ""
+    },
+    user : null,
+    milk : null,
+    sugar : null
+  };
+
   constructor(
     private availableCoffeeService: AvailableCoffeeService,
-    private OrderService: OrderService,
+    private preferenceService: PreferenceService,
+    private orderService: OrderService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
-  ) {}
+    private router: Router,
+    private auth: AuthService,
+    private api: ApiService
+  ) { }
 
   ngOnInit() {
-    const id = this.activatedRoute.snapshot.params["coffeeId"];
-    this.availableCoffee = this.availableCoffeeService.getSingleCoffee(id);
+    const id = this.activatedRoute.snapshot.params['coffeeId'];
+    this.availableCoffeeService.getSingleCoffee(id).subscribe(
+      drink => {
+        this.availableCoffee = drink;
+      },
+      console.error,
+      () => {
+        console.log('complete');
+      }
+    );
+    this.preferenceService.getPreference().subscribe(
+      preference => {
+        this.userPreference = preference;
+        console.log(this.userPreference);
+        console.log(this.availableCoffee);
+      },
+      console.error,
+      () => {
+        console.log('GetPreference complete');
+      }
+    )
+    this.orderService.getOrders().subscribe(
+      orderline => {
+        this.orderlines.push(orderline);
+      },
+      console.error,
+      () => {
+        console.log('GetOrders complete');
+      }
+    );
   }
 
   addToOrder(
+<<<<<<< HEAD
     product: Drink,
     aantal: number,
     verbruiker: string,
@@ -37,23 +91,72 @@ export class ChoiceComponent implements OnInit {
     this.OrderService.placeOrder(product,aantal,verbruiker,melk,suiker);
     this.router.navigate(["order"]);
   } 
+=======
+    drink: Drink,
+    count: number,
+    milk: number,
+    sugar: number
+  ) {
 
-  melkCountUp() {
-    if (this.melkcnt < 3) this.melkcnt++;
+    const orderline : OrderLine = {
+      orderLineId : "",
+      customer : {
+        userId : this.auth.getDecodedToken().nameid,
+        firstName : "",
+        lastName : ""
+      },
+      drink : drink,
+      count : count,
+      milk : milk,
+      sugar : sugar
+    }
+    this.orderService.postOrderline(orderline).subscribe(
+      console.log,
+      console.error
+    );
+    this.orderlines.push(orderline);
+    this.router.navigate(['order']);
+>>>>>>> feature/AllToTheBack
+
   }
-  melkCountDown() {
-    if (this.melkcnt >= 1) this.melkcnt--;
+  milkCountUp() {
+    if (this.milkcnt < 3) { this.milkcnt++; }
   }
-  suikerCountUp() {
-    if (this.suikercnt < 3) this.suikercnt++;
+  milkCountDown() {
+    if (this.milkcnt >= 1) { this.milkcnt--; }
   }
-  suikerCountDown() {
-    if (this.suikercnt >= 1) this.suikercnt--;
+  sugarCountUp() {
+    if (this.sugarcnt < 3) { this.sugarcnt++; }
+  }
+  sugarCountDown() {
+    if (this.sugarcnt >= 1) { this.sugarcnt--; }
   }
   drinkCountUp() {
     this.newAantal++;
   }
   drinkCountDown() {
-    if (this.newAantal > 1) this.newAantal--;
+    if (this.newAantal > 1) { this.newAantal--; }
+  }
+  submitPreference(availableCoffee, milkcnt, sugarcnt) {
+    this.preferenceService.putPreference(availableCoffee, milkcnt, sugarcnt).subscribe(
+      preference => {
+        this.userPreference = preference;
+      },
+      console.error,
+      () => {
+      console.log('Set preference complete');
+      }
+    );
+  }
+  emptyPreference(){
+    this.preferenceService.putPreference(null, null, null).subscribe(
+      preference => {
+        this.userPreference = preference;
+      },
+      console.error,
+      () => {
+      console.log('Set preference complete');
+      }
+    );
   }
 }
