@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { AvailableCoffeeService } from '../../../core/services/Available-coffee.service';
 import { OrderService } from '../../../core/services/order.service';
 import { PreferenceService } from '../../../core/services/preference.service';
+import { Drink } from '../../../core/classes/drink';
+import { OrderLine } from 'src/app/core/classes/orderLine';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
     selector: 'app-place',
@@ -15,7 +18,9 @@ export class PlaceComponent implements OnInit {
     userPreference;
     constructor(
         private availableCoffeeService: AvailableCoffeeService,
-        private preferenceService: PreferenceService
+        private preferenceService: PreferenceService,
+        private orderService: OrderService,
+        private auth: AuthService
     ) { }
 
     ngOnInit() {
@@ -45,6 +50,29 @@ export class PlaceComponent implements OnInit {
             console.error,
         )
     }
+    addToOrder(
+        drink: Drink,
+        milk: number,
+        sugar: number
+      ) {
+        const orderline : OrderLine = {
+            orderLineId : "",
+            customer : {
+              userId : this.auth.getDecodedToken().nameid,
+              firstName : "",
+              lastName : ""
+            },
+            drink : drink,
+            count : 1,
+            milk : milk,
+            sugar : sugar
+          }
+          console.log(orderline);
+          this.orderService.postOrderline(orderline).subscribe(
+            console.log,
+            console.error
+          );
+      }
     milkCountUp() {
         if (this.milkcnt < 3) { this.milkcnt++; }
     }
