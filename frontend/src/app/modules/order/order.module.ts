@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [CommonModule, OrderRoutingModule, FormsModule],
-  declarations: [...routedComponents]
+  declarations: [...routedComponents],
+  exports: [...routedComponents]
 })
 export class OrderModule {}
