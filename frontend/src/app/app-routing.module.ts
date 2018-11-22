@@ -27,9 +27,9 @@ const routes: Routes = [
         path: '',
         loadChildren: './modules/landing/landing.module#LandingModule'
     },
-    { 
-        path: '**', 
-        component: NotFoundComponent 
+    {
+        path: '**',
+        component: NotFoundComponent
     }
 ];
 

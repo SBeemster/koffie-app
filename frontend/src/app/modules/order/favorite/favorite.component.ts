@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { DrinkPreference } from "src/app/core/classes/drink-preference";
-import { PreferenceService } from "src/app/core/services/preference.service";
-import { Drink } from "src/app/core/classes/drink";
-import { OrderLine } from "src/app/core/classes/orderLine";
-import { OrderService } from "src/app/core/services/order.service";
-import { AuthService } from "src/app/core/services/auth.service";
+import { DrinkPreference } from 'src/app/core/classes/drink-preference';
+import { PreferenceService } from 'src/app/core/services/preference.service';
+import { Drink } from 'src/app/core/classes/drink';
+import { OrderLine } from 'src/app/core/classes/orderLine';
+import { OrderService } from 'src/app/core/services/order.service';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
     selector: 'app-favorite',
@@ -46,7 +46,7 @@ export class FavoriteComponent implements OnInit {
             console.error,
         );
     }
-    
+
     addToOrder(drink: Drink, milk: number, sugar: number) {
         const orderline: OrderLine = {
             orderLineId: '',
@@ -66,7 +66,7 @@ export class FavoriteComponent implements OnInit {
             console.error
         );
     }
-    
+
     milkCountUp() {
         if (this.milkcnt < 3) {
             this.milkcnt++;
@@ -94,7 +94,7 @@ export class FavoriteComponent implements OnInit {
             this.submitPreference();
         }
     }
-    
+
     submitPreference() {
         this.preferenceService.putPreference(this.userPreference.drink, this.milkcnt, this.sugarcnt).subscribe(
             preference => {
@@ -106,7 +106,7 @@ export class FavoriteComponent implements OnInit {
             }
         );
     }
-    
+
     emptyPreference() {
         this.preferenceService.putPreference(null, null, null).subscribe(
             preference => {

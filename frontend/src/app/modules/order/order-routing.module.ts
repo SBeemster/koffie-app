@@ -5,7 +5,7 @@ import { OrderComponent } from './order.component';
 import { PlaceComponent } from './place/place.component';
 import { OverviewComponent } from './overview/overview.component';
 import { ChoiceComponent } from './choice/choice.component';
-import { FavoriteComponent } from "./favorite/favorite.component";
+import { FavoriteComponent } from './favorite/favorite.component';
 
 const routes: Routes = [
   {

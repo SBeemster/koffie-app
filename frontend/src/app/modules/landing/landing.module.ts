@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { routedComponents, LandingRoutingModule } from "./landing-routing.module";
+import { routedComponents, LandingRoutingModule } from './landing-routing.module';
 
 @NgModule({
     imports: [
