@@ -1,7 +1,9 @@
 <nav class="navbar navbar-light bg-light mb-3">
     <div class="container">
-        <app-menu></app-menu>
+        <app-menu *ngIf="loggedIn()"></app-menu>
         <button type="button" (click)="logout()" class="btn btn-outline-danger float-right" *ngIf="loggedIn()"
-            [attr.disabled]="awaitingResponse() ? '' : null"> Logout: {{ username() }}</button>
+            [attr.disabled]="awaitingResponse() ? '' : null">Logout: {{ username() }}</button>
+        <button type="button" [routerLink]="['/login']" class="btn btn-outline-success float-right" *ngIf="!loggedIn()"
+            [attr.disabled]="awaitingResponse() ? '' : null">Login</button>
     </div>
 </nav>

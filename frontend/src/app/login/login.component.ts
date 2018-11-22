@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
         private auth: AuthService) { }
 
     ngOnInit() {
-        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
     }
 
     awaitingResponse(): boolean {
