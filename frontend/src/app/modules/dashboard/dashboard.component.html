@@ -1,2 +1,34 @@
 <app-favorite></app-favorite>
-<app-place></app-place>
+
+<div class="card mb-3">
+    <div class="card-header">
+        <button class="btn btn-link" (click)="toggleDrinks()">
+            <h4>
+                Kies een drank
+                <i class="fa fa-caret-left fa-fw fa-lg" [ngClass]="{'fa-rotate-270': showAllDrinks}"></i>
+            </h4>
+        </button>
+    </div>
+    <div *ngIf="showAllDrinks">
+        <div class="card-body">
+            <app-place></app-place>
+        </div>
+    </div>
+</div>
+
+<div class="card" *ngIf="isAdmin();">
+    <div class="card-header">
+        <button class="btn btn-link" (click)="toggleAdmin()">
+            <h4>
+                Admin Panel
+                <i class="fa fa-caret-left fa-fw fa-lg" [ngClass]="{'fa-rotate-270': showAllDrinks}"></i>
+            </h4>
+        </button>
+    </div>
+    <div *ngIf="showAdminPanel">
+        <div class="card-body">
+            <button class="btn btn-block btn-success mb-3" [routerLink]="['/user/create']">Nieuwe Gebruiker</button>
+            <app-select></app-select>
+        </div>
+    </div>
+</div>

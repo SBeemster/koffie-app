@@ -22,6 +22,7 @@
                     <input type="checkbox" class="form-control" name="active" [(ngModel)]="user.active">
                 </div>
                 <button type="button" (click)="saveUser()" class="btn btn-block btn-success" [attr.disabled]="awaitingResponse() ? '' : null">Opslaan</button>
+                <button type="button" [routerLink]="['/dashboard']" class="btn btn-block btn-danger" [attr.disabled]="awaitingResponse() ? '' : null">Cancel</button>
             </form>
         </div>
     </div>

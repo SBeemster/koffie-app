@@ -1,15 +1,33 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+    selector: 'app-dashboard',
+    templateUrl: './dashboard.component.html',
+    styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
 
-  constructor() { }
+    showAllDrinks = false;
+    showAdminPanel = false;
 
-  ngOnInit() {
-  }
+    constructor(
+        private auth: AuthService
+    ) { }
+
+    ngOnInit() {
+    }
+
+    toggleDrinks(): void {
+        this.showAllDrinks = !this.showAllDrinks;
+    }
+
+    toggleAdmin(): void {
+        this.showAdminPanel = !this.showAdminPanel;
+    }
+
+    isAdmin(): boolean {
+        return this.auth.hasRole('Admin');
+    }
 
 }

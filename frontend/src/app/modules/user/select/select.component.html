@@ -1,11 +1,9 @@
 <div class="row">
-    <div class="col-ms-12">
-        <ul class="list-group">
-            <li class="list-group-item" *ngFor="let user of users">
-                <a [routerLink]="['../edit', user.userId]">
-                    {{ user.firstName }} {{ user.lastName }}
-                </a>
-            </li>
-        </ul>
-    </div>
+    <ul class="list-group shadow bg-white rounded">
+        <li class="list-group-item" *ngFor="let user of users">
+            <a [routerLink]="['/user/edit', user.userId]">
+                {{ user.firstName }} {{ user.lastName }}
+            </a>
+        </li>
+    </ul>
 </div>
