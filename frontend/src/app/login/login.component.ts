@@ -12,8 +12,9 @@ export class LoginComponent implements OnInit {
 
     passType = 'password';
 
-    username = 'admin';
-    password = 'admin';
+    username = '';
+    password = '';
+    
     logout = this.auth.logout;
     returnUrl: string;
 
