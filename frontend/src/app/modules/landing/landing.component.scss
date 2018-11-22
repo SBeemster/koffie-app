@@ -52,12 +52,30 @@ p {
 }
 
 .btn-xl {
+    color: white !important;
     font-weight: 700;
     font-size: 1.5rem;
     padding-top: 1.5rem;
     padding-bottom: 1.5rem;
     padding-left: 6rem;
     padding-right: 6rem;
+}
+
+.btn {
+    -webkit-box-shadow: 0px 3px 3px 0px rgba(33, 37, 41, 0.1);
+    box-shadow: 0px 3px 3px 0px rgba(33, 37, 41, 0.1);
+}
+
+.btn-primary {
+    background-color: #e6a756;
+    border-color: #e6a756;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+    background-color: #df902a;
+    border-color: #df902a;
 }
 
 .intro {
