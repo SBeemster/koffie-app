@@ -110,7 +110,7 @@ export class ChoiceComponent implements OnInit {
       console.error
     );
     this.orderlines.push(orderline);
-    this.router.navigate(['order']);
+    this.router.navigate(['/dashboard']);
 
   }
   milkCountUp() {
