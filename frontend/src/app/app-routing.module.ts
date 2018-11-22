@@ -15,6 +15,11 @@ const routes: Routes = [
         loadChildren: './modules/user/user.module#UserModule'
     },
     {
+        path: 'dashboard',
+        canActivate: [AuthGuard],
+        loadChildren: './modules/dashboard/dashboard.module#DashboardModule'
+    },
+    {
         path: 'login',
         loadChildren: './login/login.module#LoginModule'
     },
