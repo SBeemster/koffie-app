@@ -5,6 +5,8 @@ import { OrderComponent } from './order.component';
 import { PlaceComponent } from './place/place.component';
 import { OverviewComponent } from './overview/overview.component';
 import { ChoiceComponent } from './choice/choice.component';
+import { FavoriteComponent } from "./favorite/favorite.component";
+
 const routes: Routes = [
   {
     path: '',
@@ -13,6 +15,7 @@ const routes: Routes = [
       { path: 'coffees/:coffeeId', component: ChoiceComponent },
       { path: 'coffees', component: PlaceComponent },
       { path: 'overview', component: OverviewComponent },
+      { path: 'favorite', component: FavoriteComponent },
       { path: '', redirectTo: 'coffees', pathMatch: 'full' }
     ]
   }
@@ -28,5 +31,6 @@ export const routedComponents = [
   OrderComponent,
   PlaceComponent,
   OverviewComponent,
-  ChoiceComponent
+  ChoiceComponent,
+  FavoriteComponent
 ];
