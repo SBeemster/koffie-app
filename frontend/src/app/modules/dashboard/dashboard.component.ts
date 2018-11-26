@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { DrinkPreference } from "src/app/core/classes/drink-preference";
+import { DrinkPreference } from 'src/app/core/classes/drink-preference';
 
 @Component({
     selector: 'app-dashboard',
@@ -38,7 +38,6 @@ export class DashboardComponent implements OnInit {
     }
 
     onNotifyFavorite(drinkPreference: DrinkPreference): void {
-        console.debug("onNotifyFavorite", drinkPreference)
         this.hasFavorite = drinkPreference.drink != null;
         this.showFavorite = this.hasFavorite;
         this.showAllDrinks = !this.hasFavorite;

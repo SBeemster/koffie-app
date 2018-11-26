@@ -37,7 +37,6 @@ export class FavoriteComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        console.debug("ngOnInit FavoriteComponent")
         this.preferenceService.getPreference().subscribe(
             userPreference => {
                 this.userPreference = userPreference;
@@ -47,7 +46,6 @@ export class FavoriteComponent implements OnInit {
             },
             console.error,
             () => {
-                console.debug("getPreference() done")
                 this.notify.emit(this.userPreference);
             }
         );
@@ -108,7 +106,6 @@ export class FavoriteComponent implements OnInit {
             },
             console.error,
             () => {
-                console.debug('submitPreference() complete');
                 this.notify.emit(this.userPreference);
             }
         );
@@ -121,7 +118,6 @@ export class FavoriteComponent implements OnInit {
             },
             console.error,
             () => {
-                console.debug('emptyPreference() complete');
                 this.notify.emit(this.userPreference);
             }
         );

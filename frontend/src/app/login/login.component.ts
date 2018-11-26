@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit {
 
     username = '';
     password = '';
-    
+
     logout = this.auth.logout;
     returnUrl: string;
 
