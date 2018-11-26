@@ -12,7 +12,8 @@ import { AuthService } from 'src/app/core/services/auth.service';
     styleUrls: ['./favorite.component.scss']
 })
 export class FavoriteComponent implements OnInit {
-    @Output() notify: EventEmitter<DrinkPreference> = new EventEmitter<DrinkPreference>();
+    @Output() notifyFavorite: EventEmitter<DrinkPreference> = new EventEmitter<DrinkPreference>();
+    @Output() notifyPlaced: EventEmitter<void> = new EventEmitter<void>();
 
     milkcnt = 0;
     sugarcnt = 0;
@@ -46,7 +47,7 @@ export class FavoriteComponent implements OnInit {
             },
             console.error,
             () => {
-                this.notify.emit(this.userPreference);
+                this.notifyFavorite.emit(this.userPreference);
             }
         );
     }
@@ -66,7 +67,9 @@ export class FavoriteComponent implements OnInit {
         };
         console.log(orderline);
         this.orderService.postOrderline(orderline).subscribe(
-            console.log,
+            () => {
+                this.notifyPlaced.emit();
+            },
             console.error
         );
     }
@@ -104,10 +107,7 @@ export class FavoriteComponent implements OnInit {
             preference => {
                 this.userPreference = preference;
             },
-            console.error,
-            () => {
-                this.notify.emit(this.userPreference);
-            }
+            console.error
         );
     }
 
@@ -118,7 +118,7 @@ export class FavoriteComponent implements OnInit {
             },
             console.error,
             () => {
-                this.notify.emit(this.userPreference);
+                this.notifyFavorite.emit(this.userPreference);
             }
         );
     }

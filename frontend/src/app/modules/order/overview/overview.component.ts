@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { OrderService } from '../../../core/services/order.service';
 import { AvailableCoffeeService } from '../../../core/services/Available-coffee.service';
 import { User } from '../../../core/classes/user';
@@ -13,6 +13,7 @@ import { OrderStatus } from "src/app/core/classes/order-status";
     styleUrls: ['./overview.component.scss']
 })
 export class OverviewComponent implements OnInit {
+    @Output() notify: EventEmitter<OrderLine[]> = new EventEmitter<OrderLine[]>();
 
     orderlines: OrderLine[] = [];
     availableCoffees: Drink[] = [];
@@ -39,11 +40,24 @@ export class OverviewComponent implements OnInit {
         getOrders.subscribe(orderline => {
             this.orderlines.push(orderline);
             this.showButton = true;
-        }, console.error);
+        }, console.error, () => {
+            this.notify.emit(this.orderlines);
+        });
 
         getStatus.subscribe(orderstatus => {
             this.orderStatussen.push(orderstatus);
         }, console.error);
+    }
+
+    refreshOrders(): void {
+        this.orderlines = [];
+        let getOrders = this.orderService.getOrders();
+        getOrders.subscribe(orderline => {
+            this.orderlines.push(orderline);
+            this.showButton = true;
+        }, console.error, () => {
+            this.notify.emit(this.orderlines);
+        });
     }
 
     gaHalen(): void {

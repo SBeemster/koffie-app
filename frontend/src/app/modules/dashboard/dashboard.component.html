@@ -1,3 +1,19 @@
+<div class="card mb-3" [hidden]="!hasOrders">
+        <div class="card-header">
+            <button class="btn btn-link" (click)="toggleOrders()">
+                <h4>
+                    Reeds bestelde drankjes
+                    <i class="fa fa-caret-left fa-fw fa-lg" [ngClass]="{'fa-rotate-270': showOrders}"></i>
+                </h4>
+            </button>
+        </div>
+        <div [hidden]="!showOrders">
+            <div class="card-body">
+                <app-overview (notify)="onNotifyOrders($event)"></app-overview>
+            </div>
+        </div>
+    </div>
+
 <div class="card mb-3" [hidden]="!hasFavorite">
     <div class="card-header">
         <button class="btn btn-link" (click)="toggleFavorite()">
@@ -9,7 +25,7 @@
     </div>
     <div [hidden]="!showFavorite">
         <div class="card-body">
-            <app-favorite (notify)="onNotifyFavorite($event)"></app-favorite>
+            <app-favorite (notifyFavorite)="onNotifyFavorite($event)" (notifyPlaced)="onNotifyPlaced()"></app-favorite>
         </div>
     </div>
 </div>
