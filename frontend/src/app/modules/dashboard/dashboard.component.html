@@ -1,4 +1,18 @@
-<app-favorite></app-favorite>
+<div class="card mb-3" [hidden]="!hasFavorite">
+    <div class="card-header">
+        <button class="btn btn-link" (click)="toggleFavorite()">
+            <h4>
+                Bestel uw favoriet
+                <i class="fa fa-caret-left fa-fw fa-lg" [ngClass]="{'fa-rotate-270': showFavorite}"></i>
+            </h4>
+        </button>
+    </div>
+    <div [hidden]="!showFavorite">
+        <div class="card-body">
+            <app-favorite (notify)="onNotifyFavorite($event)"></app-favorite>
+        </div>
+    </div>
+</div>
 
 <div class="card mb-3">
     <div class="card-header">
@@ -9,7 +23,7 @@
             </h4>
         </button>
     </div>
-    <div *ngIf="showAllDrinks">
+    <div [hidden]="!showAllDrinks">
         <div class="card-body">
             <app-place></app-place>
         </div>
@@ -25,7 +39,7 @@
             </h4>
         </button>
     </div>
-    <div *ngIf="showAdminPanel">
+    <div [hidden]="!showAdminPanel">
         <div class="card-body">
             <button class="btn btn-block btn-success mb-3" [routerLink]="['/user/create']">Nieuwe Gebruiker</button>
             <app-select></app-select>

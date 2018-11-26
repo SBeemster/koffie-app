@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { DrinkPreference } from "src/app/core/classes/drink-preference";
 
 @Component({
     selector: 'app-dashboard',
@@ -8,8 +9,10 @@ import { AuthService } from 'src/app/core/services/auth.service';
 })
 export class DashboardComponent implements OnInit {
 
-    showAllDrinks = false;
+    hasFavorite = false;
+    showAllDrinks = true;
     showAdminPanel = false;
+    showFavorite = false;
 
     constructor(
         private auth: AuthService
@@ -30,4 +33,14 @@ export class DashboardComponent implements OnInit {
         return this.auth.hasRole('Admin');
     }
 
+    toggleFavorite(): void {
+        this.showFavorite = !this.showFavorite;
+    }
+
+    onNotifyFavorite(drinkPreference: DrinkPreference): void {
+        console.debug("onNotifyFavorite", drinkPreference)
+        this.hasFavorite = drinkPreference.drink != null;
+        this.showFavorite = this.hasFavorite;
+        this.showAllDrinks = !this.hasFavorite;
+    }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { DrinkPreference } from 'src/app/core/classes/drink-preference';
 import { PreferenceService } from 'src/app/core/services/preference.service';
 import { Drink } from 'src/app/core/classes/drink';
@@ -12,6 +12,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
     styleUrls: ['./favorite.component.scss']
 })
 export class FavoriteComponent implements OnInit {
+    @Output() notify: EventEmitter<DrinkPreference> = new EventEmitter<DrinkPreference>();
 
     milkcnt = 0;
     sugarcnt = 0;
@@ -36,6 +37,7 @@ export class FavoriteComponent implements OnInit {
     ) { }
 
     ngOnInit() {
+        console.debug("ngOnInit FavoriteComponent")
         this.preferenceService.getPreference().subscribe(
             userPreference => {
                 this.userPreference = userPreference;
@@ -44,6 +46,10 @@ export class FavoriteComponent implements OnInit {
                 console.log(userPreference);
             },
             console.error,
+            () => {
+                console.debug("getPreference() done")
+                this.notify.emit(this.userPreference);
+            }
         );
     }
 
@@ -102,7 +108,8 @@ export class FavoriteComponent implements OnInit {
             },
             console.error,
             () => {
-                console.log('Set preference complete');
+                console.debug('submitPreference() complete');
+                this.notify.emit(this.userPreference);
             }
         );
     }
@@ -114,7 +121,8 @@ export class FavoriteComponent implements OnInit {
             },
             console.error,
             () => {
-                console.log('Set preference complete');
+                console.debug('emptyPreference() complete');
+                this.notify.emit(this.userPreference);
             }
         );
     }
