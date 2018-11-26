@@ -12,8 +12,9 @@ export class LoginComponent implements OnInit {
 
     passType = 'password';
 
-    username = 'admin';
-    password = 'admin';
+    username = '';
+    password = '';
+
     logout = this.auth.logout;
     returnUrl: string;
 
@@ -24,7 +25,7 @@ export class LoginComponent implements OnInit {
         private auth: AuthService) { }
 
     ngOnInit() {
-        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
     }
 
     awaitingResponse(): boolean {
