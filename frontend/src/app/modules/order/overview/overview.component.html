@@ -1,63 +1,24 @@
-<!--<div class="row">
-    <div class="d-flex justify-content-between">
-        <div class="col-sm-12">
-            <button class="btn btn-outline-success" (click)="gaHalen();">
-                IK GA KOFFIE HALEN
-            </button>
-        </div>
-    </div>
-</div>
-<hr>
-
 <div class="row">
-    <div class="col-sm-7">
-        <h3>Haal overzicht</h3>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-sm-4">
-        <ul class="list-group list-group-flush">
-            <ng-container *ngFor="let order of orders">
-                <li class="list-group-item" (click)="getUserOrderType(order[0])">
-                    {{order.aantal}} x {{order.drink.drinkName}} <ng-container *ngIf="order.milk > 0">{{order.milk}}x milk</ng-container><ng-container *ngIf="order.sugar > 0">{{order.sugar}}x sugar</ng-container>
-                    <ng-container *ngFor="let userOrder of ordersPerUserAndType">
-                        <ul *ngIf="userOrder.drink.drinkName===order[0]">
-                            <li>
-                                {{userOrder.aantal}} x
-                                <span class="float-right">
-                                    {{userOrder.verbruiker }}
-                                </span>
-                            </li>
-                        </ul>
-                    </ng-container>
-                </li>
-            </ng-container>
+    <div class="col-12 mb-3">
+        <ul class="list-group shadow bg-white rounded">
+            <li class="list-group-item d-flex justify-content-between" *ngFor="let order of orderlines">
+                <div class="row d-inline-flex w-100">
+                    <div class="col-12">
+                        {{ order.count }} x {{ order.drink.drinkName }}
+                        <span class="float-right">{{ order.customer.firstName }} {{ order.customer.lastName }}</span>
+                    </div>
+                    <div class="col-12" *ngIf="order.server">
+                        <small class="text-muted">
+                            <span *ngIf="order.milk > 0">Melk: {{ order.milk }}</span>
+                            <span *ngIf="order.milk > 0 && order.sugar > 0"> & </span>
+                            <span *ngIf="order.sugar > 0">Suiker: {{ order.sugar }}</span>
+                        </small>
+                    </div>
+                </div>
+            </li>
         </ul>
     </div>
+    <div class="col-12" *ngIf="showButton">
+        <button type="button" class="btn btn-success btn-lg btn-block" (click)="gaHalen()">Ik ga deze bestelling halen!</button>
+    </div>
 </div>
--->
-
-<ul class="list-group">
-    <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let order of ordersGrouped">
-        {{order[0]}}
-
-        <span class="badge badge-primary badge-pill jus">{{order[1] }}</span>
-    </li>
-</ul>
-<button class="btn btn-success btn-lg" (click)="gaHalen()">Ik ga koffie halen!</button>
-<ul class="list-group">
-    <ng-container *ngFor="let userOrder of ordersPerUser">
-        <li class="list-group-item d-flex justify-content-between align-items-center" *ngIf="userOrder.halen">
-
-            {{userOrder.count}}x {{userOrder.drink.drinkName}}
-            <ng-container *ngIf="userOrder.milk > 0 || userOrder.sugar > 0">(</ng-container>
-            <ng-container *ngIf="userOrder.milk > 0">{{userOrder.milk}}x Melk</ng-container>
-            <ng-container *ngIf="userOrder.milk > 0 && userOrder.sugar > 0"> & </ng-container>
-            <ng-container *ngIf="userOrder.sugar > 0">{{userOrder.sugar}}x Suiker</ng-container>
-            <ng-container *ngIf="userOrder.milk > 0 || userOrder.sugar > 0">)</ng-container>
-            <p class="float-right">{{userOrder.customer.firstName}} {{userOrder.customer.lastName}}</p>
-
-        </li>
-    </ng-container>
-</ul>

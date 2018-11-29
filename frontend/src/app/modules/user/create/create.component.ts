@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ApiService } from 'src/app/core/services/api.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-create',
@@ -16,7 +17,8 @@ export class CreateComponent {
     lastName: string;
 
     constructor(
-        private api: ApiService
+        private api: ApiService,
+        private router: Router
     ) { }
 
     awaitingResponse(): boolean {
@@ -38,7 +40,9 @@ export class CreateComponent {
             'FirstName': this.firstName,
             'LastName': this.lastName
         }).subscribe(
-            console.log,
+            result => {
+                this.router.navigateByUrl('/dashboard');
+            },
             console.error
         );
     }
