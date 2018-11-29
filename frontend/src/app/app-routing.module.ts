@@ -24,6 +24,10 @@ const routes: Routes = [
         loadChildren: './login/login.module#LoginModule'
     },
     {
+        path: 'reports',
+        loadChildren: './modules/reports/reports.module#TopServerModule'
+    },
+    {
         path: '',
         loadChildren: './modules/landing/landing.module#LandingModule'
     },
