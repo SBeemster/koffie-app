@@ -25,7 +25,7 @@ const routes: Routes = [
     },
     {
         path: 'reports',
-        loadChildren: './modules/reports/reports.module#TopServerModule'
+        loadChildren: './modules/reports/reports.module#ReportsModule'
     },
     {
         path: '',

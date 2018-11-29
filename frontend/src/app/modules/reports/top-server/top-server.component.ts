@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Echarts } from 'echarts';
+import * as Echarts from 'echarts';
 
 @Component({
   selector: 'app-top-server',
@@ -11,8 +11,9 @@ export class TopServerComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+   
     var myChart = Echarts.init(document.getElementById('graph'));
-
+    console.log(myChart);
     var option = {
       title: {
           text: 'ECharts entry example'

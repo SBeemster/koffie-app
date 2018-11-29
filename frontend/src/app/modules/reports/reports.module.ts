@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Echarts } from 'echarts';
+import { ReportsRoutingModule, routedComponents } from './/reports-routing.module';
 
 @NgModule({
   imports: [
     CommonModule,
-    Echarts
+    ReportsRoutingModule
   ],
-  declarations: []
+  declarations: [...routedComponents],
 })
 export class ReportsModule { }
+
