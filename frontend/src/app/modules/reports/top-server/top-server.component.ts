@@ -20,7 +20,7 @@ export class TopServerComponent implements OnInit {
       },
       tooltip: {},
       legend: {
-          data:['Sales']
+          data:['Sales', 'Los']
       },
       xAxis: {
           data: ["shirt","cardign","chiffon shirt","pants","heels","socks"]
