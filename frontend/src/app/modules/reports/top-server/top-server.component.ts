@@ -11,30 +11,30 @@ export class TopServerComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-   
+
     var myChart = Echarts.init(document.getElementById('graph'));
     console.log(myChart);
     var option = {
       title: {
-          text: 'ECharts entry example'
+        text: 'ECharts entry example'
       },
       tooltip: {},
       legend: {
-          data:['Sales']
+        data: ['Sales']
       },
       xAxis: {
-          data: ["shirt","cardign","chiffon shirt","pants","heels","socks"]
+        data: ["shirt", "cardign", "chiffon shirt", "pants", "heels", "socks"]
       },
       yAxis: {},
       series: [{
-          name: 'Sales',
-          type: 'bar',
-          data: [5, 20, 36, 10, 10, 20]
+        name: 'Sales',
+        type: 'bar',
+        data: [5, 20, 36, 10, 10, 20]
       }]
-  };
+    };
 
-  // use configuration item and data specified to show chart
-  myChart.setOption(option);
+    // use configuration item and data specified to show chart
+    myChart.setOption(option);
   }
 
 }

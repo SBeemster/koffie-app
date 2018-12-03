@@ -5,8 +5,8 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   {
-      path: '',
-      component: TopServerComponent,
+    path: '',
+    component: TopServerComponent,
   },
 ];
 
