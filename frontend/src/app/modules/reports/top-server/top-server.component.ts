@@ -12,9 +12,9 @@ export class TopServerComponent implements OnInit {
 
   ngOnInit() {
 
-    var myChart = Echarts.init(document.getElementById('graph'));
+    const myChart = Echarts.init(document.getElementById('graph'));
     console.log(myChart);
-    var option = {
+    const option = {
       title: {
         text: 'ECharts entry example'
       },
@@ -23,7 +23,7 @@ export class TopServerComponent implements OnInit {
         data: ['Sales']
       },
       xAxis: {
-        data: ["shirt", "cardign", "chiffon shirt", "pants", "heels", "socks"]
+        data: ['shirt', 'cardign', 'chiffon shirt', 'pants', 'heels', 'socks']
       },
       yAxis: {},
       series: [{
