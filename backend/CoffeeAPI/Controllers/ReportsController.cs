@@ -37,21 +37,13 @@ namespace CoffeeAPI.Controllers
                 DbParameter paramBeginTijd = command.CreateParameter();
                 paramBeginTijd.ParameterName = "@begintijd";
                 paramBeginTijd.DbType = DbType.DateTime;
+                paramBeginTijd.Value = (object)begintijd ?? DBNull.Value;
+
                 DbParameter paramEindTijd = command.CreateParameter();
                 paramEindTijd.ParameterName = "@eindtijd";
                 paramEindTijd.DbType = DbType.DateTime;
-                if (begintijd != null) { 
-                
-                paramBeginTijd.Value = begintijd;
-               
-                }
-                if (eindtijd != null)
-                {
+                paramEindTijd.Value = (object)eindtijd ?? DBNull.Value;
                     
-                    paramEindTijd.Value = eindtijd;
-                    
-                    
-                }
                 // command.CommandType = System.Data.CommandType.StoredProcedure;
 
                 command.Parameters.Add(paramBeginTijd);
