@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Data.SqlClient;
 using System.Data.Common;
+using System.Data;
 
 namespace CoffeeAPI.Controllers
 {
@@ -31,9 +32,30 @@ namespace CoffeeAPI.Controllers
             List<object> topServer = new List<object>();
             using (var command = _context.Database.GetDbConnection().CreateCommand())
             {
-                string sqlCommand = getTopServer(begintijd, eindtijd);
+                string sqlCommand = getTopServer();
                 command.CommandText = sqlCommand;
+                DbParameter paramBeginTijd = command.CreateParameter();
+                paramBeginTijd.ParameterName = "@begintijd";
+                paramBeginTijd.DbType = DbType.DateTime;
+                DbParameter paramEindTijd = command.CreateParameter();
+                paramEindTijd.ParameterName = "@eindtijd";
+                paramEindTijd.DbType = DbType.DateTime;
+                if (begintijd != null) { 
+                
+                paramBeginTijd.Value = begintijd;
+               
+                }
+                if (eindtijd != null)
+                {
+                    
+                    paramEindTijd.Value = eindtijd;
+                    
+                    
+                }
                 // command.CommandType = System.Data.CommandType.StoredProcedure;
+
+                command.Parameters.Add(paramBeginTijd);
+                command.Parameters.Add(paramEindTijd);
                 _context.Database.OpenConnection();
                 DbDataReader row = command.ExecuteReader();
 
@@ -49,23 +71,12 @@ namespace CoffeeAPI.Controllers
             }
             return Ok(topServer);
         }
-        public string getTopServer(DateTime? begintijd = null, DateTime? eindtijd = null)
+        public string getTopServer()
         {
-            string whereClause = "";
-            if (begintijd != null && eindtijd == null)
-            {
-                whereClause = "WHERE O.OrderTime > '" + begintijd + "' ";
-            }
-            if (eindtijd != null && begintijd == null)
-            {
-                whereClause = "WHERE O.OrderTime < '" + eindtijd + "' ";
-            }
-            if (begintijd != null && eindtijd != null)
-            {
-                whereClause = "WHERE O.OrderTime > '" + begintijd + "' AND O.OrderTime < '" + eindtijd + "' ";
-            }
             string sqlCommand = "SELECT TOP 10 COUNT(OrderLineId) As Aantal, (S.Firstname + ' ' + S.LastName) " +
-                                "As Server FROM OrderLines O INNER JOIN Users S ON S.UserId = O.ServerUserId " + whereClause +
+                                "As Server FROM OrderLines O INNER JOIN Users S ON S.UserId = O.ServerUserId " +
+                                "WHERE (O.OrderTime > @begintijd OR @begintijd IS NULL)" +
+                                "AND (O.OrderTime < @eindtijd OR @eindtijd IS NULL)" +
                                 "GROUP BY S.FirstName, S.LastName";
             return sqlCommand;
         }
