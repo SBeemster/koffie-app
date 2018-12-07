@@ -9,11 +9,12 @@ using Microsoft.EntityFrameworkCore;
 using System.Data.SqlClient;
 using System.Data.Common;
 using System.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CoffeeAPI.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
+    [ApiController, Authorize]
     public class ReportsController : ControllerBase
     {
         private readonly CoffeeContext _context;
