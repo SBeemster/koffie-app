@@ -17,6 +17,7 @@ export class DashboardComponent implements OnInit {
     hasOwnOrder: boolean = false;
     showOrders: boolean = false;
     showAllDrinks: boolean = true;
+    showManagerPanel: boolean = false;
     showAdminPanel: boolean = false;
     showFavorite: boolean = false;
 
@@ -33,11 +34,16 @@ export class DashboardComponent implements OnInit {
     toggleDrinks(): void {
         this.showAllDrinks = !this.showAllDrinks;
     }
+    toggleManager(): void {
+        this.showManagerPanel = !this.showManagerPanel;
+    }
 
     toggleAdmin(): void {
         this.showAdminPanel = !this.showAdminPanel;
     }
-
+    isManager(): boolean {
+        return this.auth.hasRole('Manager');
+    }
     isAdmin(): boolean {
         return this.auth.hasRole('Admin');
     }

@@ -46,6 +46,22 @@
     </div>
 </div>
 
+<div class="card" *ngIf="isManager();">
+    <div class="card-header">
+        <button class="btn btn-link" (click)="toggleManager()">
+            <h4>
+                Rapportage Panel
+                <i class="fa fa-caret-left fa-fw fa-lg" [ngClass]="{'fa-rotate-270': showAllReports}"></i>
+            </h4>
+        </button>
+    </div>
+    <div [hidden]="!showManagerPanel">
+        <div class="card-body">
+            <app-top-server></app-top-server>
+        </div>
+    </div>
+</div>
+
 <div class="card" *ngIf="isAdmin();">
     <div class="card-header">
         <button class="btn btn-link" (click)="toggleAdmin()">

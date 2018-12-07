@@ -115,7 +115,7 @@ namespace CoffeeAPI.Controllers
                 PasswordHash = AuthHelper.GenerateSaltedHash(passBytes, salt)
             };
 
-            var role = _context.Roles.Single(r => r.RoleName == "User");
+            var role = _context.Roles.Single(r => r.RoleName == newUser.Rol);
             var userRole = new UserRole
             {
                 User = user,

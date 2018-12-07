@@ -13,6 +13,7 @@ export class CreateComponent {
 
     userName: string;
     password: string;
+    rol: string ="User";
     firstName: string;
     lastName: string;
 
@@ -37,6 +38,7 @@ export class CreateComponent {
         this.api.post('/users', {
             'UserName': this.userName,
             'Password': this.password,
+            'Rol' : this.rol,
             'FirstName': this.firstName,
             'LastName': this.lastName
         }).subscribe(

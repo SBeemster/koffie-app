@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace CoffeeAPI.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController, Authorize]
+    [ApiController]
     public class ReportsController : ControllerBase
     {
         private readonly CoffeeContext _context;
@@ -24,7 +24,7 @@ namespace CoffeeAPI.Controllers
         }
 
 
-        // GET: api/OrderLines/report/topserver
+        // GET: api/OrderLines/reports/topserver
 
         [HttpGet]
         [Route("topserver")]
@@ -45,8 +45,6 @@ namespace CoffeeAPI.Controllers
                 paramEindTijd.DbType = DbType.DateTime;
                 paramEindTijd.Value = (object)eindtijd ?? DBNull.Value;
                     
-                // command.CommandType = System.Data.CommandType.StoredProcedure;
-
                 command.Parameters.Add(paramBeginTijd);
                 command.Parameters.Add(paramEindTijd);
                 _context.Database.OpenConnection();
