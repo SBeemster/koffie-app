@@ -14,6 +14,11 @@ export class CreateComponent {
     userName: string;
     password: string;
     rol: string ="User";
+
+    rolAdmin: boolean = false;
+    rolManager: boolean = false;
+    rolUser: boolean = true;
+    
     firstName: string;
     lastName: string;
 
@@ -35,10 +40,20 @@ export class CreateComponent {
     }
 
     createUser(): void {
+        let roles = [];
+        if(this.rolAdmin){
+            roles.push({rolName: "Admin"});
+        }
+        if(this.rolManager){
+            roles.push({rolName: "Manager"});
+        }
+        if(this.rolUser){
+            roles.push({rolName: "User"});
+        }
         this.api.post('/users', {
             'UserName': this.userName,
             'Password': this.password,
-            'Rol' : this.rol,
+            'UserRoles' : roles,
             'FirstName': this.firstName,
             'LastName': this.lastName
         }).subscribe(
