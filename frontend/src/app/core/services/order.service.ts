@@ -10,14 +10,6 @@ import { map, concatAll } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class OrderService {
-  orders = [];
-  mergedOrders = [];
-  userId() {
-    if (this.auth.isLoggedIn()) {
-      return this.auth.getDecodedToken().nameid;
-    }
-  }
-
   getOrders(): Observable<OrderLine> {
     return this.api.get('/orderlines?orderstatus=ordered').pipe(
         concatAll(),

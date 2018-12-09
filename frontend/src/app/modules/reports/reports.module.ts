@@ -8,6 +8,7 @@ import { ReportsRoutingModule, routedComponents } from './/reports-routing.modul
     ReportsRoutingModule
   ],
   declarations: [...routedComponents],
+  exports: [...routedComponents]
 })
 export class ReportsModule { }
 

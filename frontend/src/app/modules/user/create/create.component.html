@@ -14,8 +14,22 @@
                     <input type="{{ passType }}" class="form-control" name="password" [(ngModel)]="password"
                         autocomplete="current-password">
                 </div>
+                <div class="form-group">
                 <button type="button" (mousedown)="togglePassword()" (mouseup)="togglePassword()" tabindex="-1" class="btn btn-block btn-outline-secondary">Show
                     Password</button>
+                </div>
+                <div class="form-group">
+                    <label>Rol</label><br />
+                    <select name="rol" [(ngModel)]="rol">
+                        <option value="User" selected>User</option>
+                        <option value="Manager">Manager</option>
+                        <option value="Admin">Admin</option>
+                      </select>
+                      <br />
+                      <input type="checkbox" name="rolAdmin" [(ngModel)]="rolAdmin">Admin<br />
+                      <input type="checkbox" name="rolManager" [(ngModel)]="rolManager">Manager<br />
+                      <input type="checkbox" name="rolUSer" [(ngModel)]="rolUser">User<br />
+                </div>
                 <hr>
                 <div class="form-group">
                     <label>Voornaam</label>

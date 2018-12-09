@@ -114,13 +114,19 @@ namespace CoffeeAPI.Controllers
                 PasswordSalt = salt,
                 PasswordHash = AuthHelper.GenerateSaltedHash(passBytes, salt)
             };
-
-            var role = _context.Roles.Single(r => r.RoleName == "User");
-            var userRole = new UserRole
+            var list = newUser.UserRoles.ToArray();
+            for(int i=0; i < list.Length; i++)
             {
-                User = user,
-                Role = role
-            };
+                var role = _context.Roles.Single(r => r.RoleName == list[i].Role.RoleName);
+                var userRole = new UserRole
+                {
+                    User = user,
+                    Role = role
+                };
+                _context.UserRoles.Add(userRole);
+            }
+            
+           
 
             var preference = new DrinkPreference
             {
@@ -130,7 +136,7 @@ namespace CoffeeAPI.Controllers
 
             _context.Users.Add(user);
             _context.Logins.Add(login);
-            _context.UserRoles.Add(userRole);
+            
             _context.DrinkPreference.Add(preference);
             await _context.SaveChangesAsync();
 
