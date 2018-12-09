@@ -5,13 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-<<<<<<< HEAD
+
     <Compile Remove="Migrations\20181206173316_sp_TopDrinker.cs" />
     <Compile Remove="Migrations\20181206173316_sp_TopDrinker.Designer.cs" />
-=======
+
     <Compile Remove="Migrations\20181130141824_sp_GetTopServer.cs" />
     <Compile Remove="Migrations\20181130141824_sp_GetTopServer.Designer.cs" />
->>>>>>> 149bc68cd93a8fc2f8e99f0227fb5f17b249cd1c
+
   </ItemGroup>
 
   <ItemGroup>
