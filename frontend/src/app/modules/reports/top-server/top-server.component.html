@@ -1,9 +1,7 @@
-<div class="row">
-    <div class="col-sm-6 mb-4">
-      <div id="graph" class="pie-chart"></div>
+<div class="col-sm-12 mb-4">
+      <div id="graphServer" #graphServer class="pie-chart"></div>
       <button class="btn btn-primary" (click)="buildReport('today')">Vandaag</button>
       <button class="btn btn-primary" (click)="buildReport('week')">Deze week</button>
       <button class="btn btn-primary" (click)="buildReport('month')">Deze maand</button>
       <button class="btn btn-primary" (click)="buildReport('year')">Dit jaar</button>
     </div>
-  </div>

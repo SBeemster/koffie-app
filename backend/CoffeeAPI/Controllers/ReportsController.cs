@@ -64,7 +64,7 @@ namespace CoffeeAPI.Controllers
         }
 
         [HttpGet]
-        [Route("topdrinkers")]
+        [Route("topdrinker")]
         public IActionResult GetTopDrinkers(DateTime? begintijd = null, DateTime? eindtijd = null)
         {
             List<object> topDrinkers = new List<object>();
@@ -90,8 +90,8 @@ namespace CoffeeAPI.Controllers
                 while (row.Read())
                 {
                     int aantal = Int32.Parse(row[0].ToString());
-                    string server = row[1].ToString();
-                    topDrinkers.Add(new { Aantal = aantal, Server = server });
+                    string drinkers = row[1].ToString();
+                    topDrinkers.Add(new { Aantal = aantal, Drinkers = drinkers });
 
                 }
                 row.Close();

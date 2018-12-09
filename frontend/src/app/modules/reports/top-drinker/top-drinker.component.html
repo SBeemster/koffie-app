@@ -1,3 +1,9 @@
-<p>
-  top-drinker works!
-</p>
+<div class="col-sm-12 mb-4">
+    <div id="graphDrinker" #graphDrinker class="pie-chart"></div>
+
+    <button class="btn btn-primary" (click)="buildReport('today')">Vandaag</button>
+    <button class="btn btn-primary" (click)="buildReport('week')">Deze week</button>
+    <button class="btn btn-primary" (click)="buildReport('month')">Deze maand</button>
+    <button class="btn btn-primary" (click)="buildReport('year')">Dit jaar</button>
+  
+  </div>

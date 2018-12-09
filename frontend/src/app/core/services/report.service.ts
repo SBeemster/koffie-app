@@ -57,7 +57,7 @@ export class ReportService {
       map(obj => {
         const report: Report = {
           value: obj['aantal'],
-          name: obj['server']
+          name: obj['drinkers']
         };
         return report;
 

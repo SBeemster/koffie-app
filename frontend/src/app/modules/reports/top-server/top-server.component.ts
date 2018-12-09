@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import * as Echarts from 'echarts';
 import { ReportService } from 'src/app/core/services/report.service';
 import { Report } from 'src/app/core/classes/report';
@@ -9,12 +9,13 @@ import { Report } from 'src/app/core/classes/report';
     styleUrls: ['./top-server.component.scss']
 })
 export class TopServerComponent implements OnInit {
+    @ViewChild('graphServer') graphServer: ElementRef;
     reportData = [];
     topServerChart;
     constructor(private reportService: ReportService) { }
 
     ngOnInit() {
-        this.topServerChart = Echarts.init(document.getElementById('graph'));
+        this.topServerChart = Echarts.init(this.graphServer.nativeElement);
         this.reportService.getTopServers().subscribe(
             report => {
                 this.reportData.push(report);
@@ -55,7 +56,7 @@ export class TopServerComponent implements OnInit {
         } else if (periode === "week") {
             begintijd = new Date();
             begintijd.setHours(0, 0, 0, 0)
-            let firstDay = begintijd.getDate() + 1 - begintijd.getDay(); // First day is the day of the month - the day of the week
+            let firstDay = begintijd.getDate() - begintijd.getDay(); // First day is the day of the month - the day of the week
             begintijd.setDate(firstDay);
             eindtijd = new Date(begintijd)
             eindtijd.setHours(23, 59, 59);
