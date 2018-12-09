@@ -42,8 +42,8 @@ namespace CoffeeAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = await _context.Users.FindAsync(id);
-
+            var user = _context.Users.Where(u => u.UserId == id).Include(u => u.UserRoles).ThenInclude(u => u.Role);
+            
             if (user == null)
             {
                 return NotFound();
@@ -65,9 +65,24 @@ namespace CoffeeAPI.Controllers
             {
                 return BadRequest();
             }
-
-            _context.Entry(user).State = EntityState.Modified;
-
+            var updatedUser = _context.Users.Where(u => u.UserId == user.UserId)
+                .Include(r => r.UserRoles)
+                .Single();
+            var newRoles = user.UserRoles.ToArray();
+            var userRoleList = updatedUser.UserRoles.ToList();
+            foreach(var UserRole in userRoleList)
+            {
+                _context.UserRoles.Remove(UserRole);
+            }
+            foreach (var rol in newRoles) {
+                var role = _context.Roles.Single(r => r.RoleName == rol.Role.RoleName);
+                var userRole = new UserRole
+                {
+                    User = updatedUser,
+                    Role = role
+                };
+                _context.UserRoles.Add(userRole);
+            }
             try
             {
                 await _context.SaveChangesAsync();
