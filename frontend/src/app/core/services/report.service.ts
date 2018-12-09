@@ -36,5 +36,34 @@ export class ReportService {
       })
     );
   }
+
+  getTopDrinkers(begintijd?, eindtijd?): Observable<Report> {
+    let apiUrl = '/reports/topdrinker';
+    if (begintijd != null || eindtijd != null) {
+      apiUrl = apiUrl + '?';
+      if (begintijd != null) {
+        apiUrl = apiUrl + 'begintijd=' + begintijd;
+      }
+      if (begintijd != null && eindtijd != null) {
+        apiUrl = apiUrl + '&';
+      }
+      if (eindtijd != null) {
+        apiUrl = apiUrl + 'eindtijd=' + eindtijd;
+      }
+    }
+
+    return this.api.get(apiUrl).pipe(
+      concatAll(),
+      map(obj => {
+        const report: Report = {
+          value: obj['aantal'],
+          name: obj['server']
+        };
+        return report;
+
+      })
+    );
+  }
+
   constructor(private api: ApiService) { }
 }

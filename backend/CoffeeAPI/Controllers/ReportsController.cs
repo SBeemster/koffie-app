@@ -62,6 +62,55 @@ namespace CoffeeAPI.Controllers
             }
             return Ok(topServer);
         }
+
+        [HttpGet]
+        [Route("topdrinkers")]
+        public IActionResult GetTopDrinkers(DateTime? begintijd = null, DateTime? eindtijd = null)
+        {
+            List<object> topDrinkers = new List<object>();
+            using (var command = _context.Database.GetDbConnection().CreateCommand())
+            {
+                string sqlCommand = getTopDrinker();
+                command.CommandText = sqlCommand;
+                DbParameter paramBeginTijd = command.CreateParameter();
+                paramBeginTijd.ParameterName = "@begintijd";
+                paramBeginTijd.DbType = DbType.DateTime;
+                paramBeginTijd.Value = (object)begintijd ?? DBNull.Value;
+
+                DbParameter paramEindTijd = command.CreateParameter();
+                paramEindTijd.ParameterName = "@eindtijd";
+                paramEindTijd.DbType = DbType.DateTime;
+                paramEindTijd.Value = (object)eindtijd ?? DBNull.Value;
+
+                command.Parameters.Add(paramBeginTijd);
+                command.Parameters.Add(paramEindTijd);
+                _context.Database.OpenConnection();
+                DbDataReader row = command.ExecuteReader();
+
+                while (row.Read())
+                {
+                    int aantal = Int32.Parse(row[0].ToString());
+                    string server = row[1].ToString();
+                    topDrinkers.Add(new { Aantal = aantal, Server = server });
+
+                }
+                row.Close();
+
+            }
+            return Ok(topDrinkers);
+        }
+
+        private string getTopDrinker()
+        {
+            string sqlCommand = "SELECT TOP 10 COUNT(OrderLineId) As Aantal, (S.Firstname + ' ' + S.LastName) " +
+                                "As Drinkers FROM OrderLines O INNER JOIN Users S ON S.UserId = O.CustomerUserId " +
+                                "WHERE (O.OrderTime > @begintijd OR @begintijd IS NULL)" +
+                                "AND (O.OrderTime < @eindtijd OR @eindtijd IS NULL)" +
+                                "GROUP BY S.FirstName, S.LastName";
+
+            return sqlCommand;
+        }
+
         public string getTopServer()
         {
             string sqlCommand = "SELECT TOP 10 COUNT(OrderLineId) As Aantal, (S.Firstname + ' ' + S.LastName) " +
