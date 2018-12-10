@@ -99,10 +99,10 @@ namespace CoffeeAPI.Controllers
             }
             return Ok(topDrinkers);
         }
-        // GET: api/OrderLines/reports/topserver
+        // GET: api/OrderLines/reports/timetillserve
 
         [HttpGet]
-        [Route("timetoserve")]
+        [Route("timetillserve")]
         public IActionResult GetTimeToServe(DateTime? begintijd = null, DateTime? eindtijd = null)
         {
             List<object> timeToServe = new List<object>();
@@ -127,9 +127,9 @@ namespace CoffeeAPI.Controllers
 
                 while (row.Read())
                 {
-                    int seconds = Int32.Parse(row[0].ToString());
+                    int minute = Int32.Parse(row[0].ToString());
                     string date = row[1].ToString();
-                    timeToServe.Add(new { Seconds = seconds, Date = date });
+                    timeToServe.Add(new { Minutes = minute, Date = date });
 
                 }
                 row.Close();
@@ -160,12 +160,12 @@ namespace CoffeeAPI.Controllers
         }
         public string getTimeToServe()
         {
-            string sqlCommand = "SELECT CAST(OrderTime AS Date) As orderdate, orderlineid, datediff(second, OrderTime, GetTime) as timespend INTO #date FROM OrderLines O " +
+            string sqlCommand = "SELECT CONVERT(date, OrderTime) As orderdate, orderlineid, datediff(mi, OrderTime, GetTime) as timespend INTO #date FROM OrderLines O " +
                                 "WHERE (O.OrderTime > @begintijd OR @begintijd IS NULL)" +
                                 "AND (O.OrderTime < @eindtijd OR @eindtijd IS NULL)" +
                                 "AND O.GetTime > O.OrderTime;" +
                                 "SELECT count(orderlineid) as aantal, orderdate, sum(timespend) as totaltime INTO #total FROM #date GROUP BY orderdate;" +
-                                "SELECT(totaltime / aantal) as averagetime, orderdate FROM #total;";
+                                "SELECT(totaltime / aantal) as averagetime, CONVERT(varchar, orderdate, 5) FROM #total;";
             return sqlCommand;
         }
     }

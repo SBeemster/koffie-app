@@ -1,8 +1,9 @@
-import { Component, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, OnInit, Output, ViewChild, ElementRef } from '@angular/core';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { DrinkPreference } from 'src/app/core/classes/drink-preference';
 import { OrderLine } from "src/app/core/classes/orderLine";
 import { OverviewComponent } from "../order/overview/overview.component";
+import * as Echarts from 'echarts';
 
 @Component({
     selector: 'app-dashboard',

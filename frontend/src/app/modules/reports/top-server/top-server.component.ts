@@ -26,14 +26,17 @@ export class TopServerComponent implements OnInit {
                 var option = {
                     title: { text: "TopServers" },
                     legend: { orient: "vertical", pageButtonPosition: "end" },
+                    tooltip : {
+                        trigger: 'item',
+                        formatter: "{b} <br/>{c}"
+                      },
                     series: [
                         {
                             name: 'TopServers',
                             type: 'pie',
                             radius: '55%',
-                            label: {
-                                show: true,
-                                formatter: '{b}: {c}'
+                            label:{
+                                show: false
                             },
                             data: this.reportData
                         }
@@ -45,6 +48,7 @@ export class TopServerComponent implements OnInit {
         );
     }
     buildReport(periode: string) {
+        this.topServerChart.resize();
         let begintijd;
         let eindtijd;
         var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
@@ -96,14 +100,17 @@ export class TopServerComponent implements OnInit {
                 var option = {
                     title: { text: "TopServers" },
                     legend: { orient: "vertical", pageButtonPosition: "end" },
+                    tooltip : {
+                        trigger: 'item',
+                        formatter: "{b} <br/>{c}"
+                      },
                     series: [
                         {
                             name: 'TopServers',
                             type: 'pie',
                             radius: '55%',
                             label: {
-                                show: true,
-                                formatter: '{b}: {c}'
+                                show: false
                             },
                             data: this.reportData
                         }

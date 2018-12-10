@@ -25,14 +25,17 @@ export class TopDrinkerComponent implements OnInit {
         var option = {
           title: { text: 'TopDrinkers' },
           legend: { orient: 'vertical', pageButtonPosition: 'end' },
+          tooltip : {
+            trigger: 'item',
+            formatter: "{b} <br/>{c}"
+          },
           series: [
             {
               name: 'TopDrinkers',
               type: 'pie',
               radius: '55%',
-              label: {
-                show: true,
-                formatter: '{b}: {c}'
+              label:{
+                show: false
               },
               data: this.reportData
             }
@@ -85,7 +88,7 @@ export class TopDrinkerComponent implements OnInit {
     const stringBegintijd = new Date(begintijd - tzoffset).toISOString().slice(0, -1);
     const stringEindtijd = new Date(eindtijd - tzoffset).toISOString().slice(0, -1);
 
-    this.reportService.getTopServers(stringBegintijd, stringEindtijd).subscribe(
+    this.reportService.getTopDrinkers(stringBegintijd, stringEindtijd).subscribe(
       report => {
         this.reportData.push(report);
       },
@@ -95,14 +98,17 @@ export class TopDrinkerComponent implements OnInit {
         var option = {
           title: { text: 'TopDrinkers' },
           legend: { orient: 'vertical', pageButtonPosition: 'end' },
+          tooltip : {
+            trigger: 'item',
+            formatter: "{b} <br/>{c}"
+          },
           series: [
             {
               name: 'TopDrinkers',
               type: 'pie',
               radius: '55%',
-              label: {
-                show: true,
-                formatter: '{b}: {c}'
+              label:{
+                show: false
               },
               data: this.reportData
             }
