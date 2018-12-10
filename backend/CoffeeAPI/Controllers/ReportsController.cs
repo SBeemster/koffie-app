@@ -99,6 +99,44 @@ namespace CoffeeAPI.Controllers
             }
             return Ok(topDrinkers);
         }
+        // GET: api/OrderLines/reports/topserver
+
+        [HttpGet]
+        [Route("timetoserve")]
+        public IActionResult GetTimeToServe(DateTime? begintijd = null, DateTime? eindtijd = null)
+        {
+            List<object> timeToServe = new List<object>();
+            using (var command = _context.Database.GetDbConnection().CreateCommand())
+            {
+                string sqlCommand = getTimeToServe();
+                command.CommandText = sqlCommand;
+                DbParameter paramBeginTijd = command.CreateParameter();
+                paramBeginTijd.ParameterName = "@begintijd";
+                paramBeginTijd.DbType = DbType.DateTime;
+                paramBeginTijd.Value = (object)begintijd ?? DBNull.Value;
+
+                DbParameter paramEindTijd = command.CreateParameter();
+                paramEindTijd.ParameterName = "@eindtijd";
+                paramEindTijd.DbType = DbType.DateTime;
+                paramEindTijd.Value = (object)eindtijd ?? DBNull.Value;
+
+                command.Parameters.Add(paramBeginTijd);
+                command.Parameters.Add(paramEindTijd);
+                _context.Database.OpenConnection();
+                DbDataReader row = command.ExecuteReader();
+
+                while (row.Read())
+                {
+                    int seconds = Int32.Parse(row[0].ToString());
+                    string date = row[1].ToString();
+                    timeToServe.Add(new { Seconds = seconds, Date = date });
+
+                }
+                row.Close();
+
+            }
+            return Ok(timeToServe);
+        }
 
         private string getTopDrinker()
         {
@@ -118,6 +156,16 @@ namespace CoffeeAPI.Controllers
                                 "WHERE (O.OrderTime > @begintijd OR @begintijd IS NULL)" +
                                 "AND (O.OrderTime < @eindtijd OR @eindtijd IS NULL)" +
                                 "GROUP BY S.FirstName, S.LastName";
+            return sqlCommand;
+        }
+        public string getTimeToServe()
+        {
+            string sqlCommand = "SELECT CAST(OrderTime AS Date) As orderdate, orderlineid, datediff(second, OrderTime, GetTime) as timespend INTO #date FROM OrderLines O " +
+                                "WHERE (O.OrderTime > @begintijd OR @begintijd IS NULL)" +
+                                "AND (O.OrderTime < @eindtijd OR @eindtijd IS NULL)" +
+                                "AND O.GetTime > O.OrderTime;" +
+                                "SELECT count(orderlineid) as aantal, orderdate, sum(timespend) as totaltime INTO #total FROM #date GROUP BY orderdate;" +
+                                "SELECT(totaltime / aantal) as averagetime, orderdate FROM #total;";
             return sqlCommand;
         }
     }
