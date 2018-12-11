@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import * as Echarts from 'echarts';
 import { ReportService } from 'src/app/core/services/report.service';
-import { Report } from 'src/app/core/classes/report';
 
 @Component({
     selector: 'app-top-server',

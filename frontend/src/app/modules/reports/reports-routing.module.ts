@@ -5,6 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { TopDrinkerComponent } from './top-drinker/top-drinker.component';
 import { TimeTillServedComponent } from './time-till-served/time-till-served.component';
 import { ReportsComponent } from './reports.component';
+import { MostDrinkedComponent } from './most-drinked/most-drinked.component';
 
 
 const routes: Routes = [
@@ -14,7 +15,8 @@ const routes: Routes = [
       children: [
           { path: 'top-server', component: TopServerComponent },
           { path: 'top-drinker', component: TopDrinkerComponent },
-          { path: 'timetillserved', component: TimeTillServedComponent }
+          { path: 'timetillserved', component: TimeTillServedComponent },
+          { path: 'most-drinked', component: MostDrinkedComponent }
       ]
   },
 ];
@@ -25,5 +27,5 @@ const routes: Routes = [
 export class ReportsRoutingModule { }
 
 export const routedComponents = [
-  ReportsComponent,TopServerComponent, TopDrinkerComponent, TimeTillServedComponent
+  ReportsComponent,TopServerComponent, TopDrinkerComponent, TimeTillServedComponent, MostDrinkedComponent
 ];

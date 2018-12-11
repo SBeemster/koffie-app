@@ -91,5 +91,32 @@ export class ReportService {
       })
     );
   }
+  getMostDrinked(begintijd?, eindtijd?): Observable<Report> {
+    let apiUrl = "/reports/mostdrinked";
+    if (begintijd != null || eindtijd != null) {
+      apiUrl = apiUrl + "?";
+      if (begintijd != null) {
+        apiUrl = apiUrl + "begintijd=" + begintijd;
+      }
+      if (begintijd != null && eindtijd != null) {
+        apiUrl = apiUrl + "&";
+      }
+      if (eindtijd != null) {
+        apiUrl = apiUrl + "eindtijd=" + eindtijd;
+      }
+    }
+
+    return this.api.get(apiUrl).pipe(
+      concatAll(),
+      map(obj => {
+        const report: Report = {
+          value: obj['aantal'],
+          name: obj['drink']
+        };
+        return report;
+
+      })
+    );
+  }
   constructor(private api: ApiService) { }
 }

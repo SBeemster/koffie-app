@@ -138,6 +138,45 @@ namespace CoffeeAPI.Controllers
             return Ok(timeToServe);
         }
 
+        // GET: api/OrderLines/reports/topserver
+
+        [HttpGet]
+        [Route("mostdrinked")]
+        public IActionResult GetMostDrinked(DateTime? begintijd = null, DateTime? eindtijd = null)
+        {
+            List<object> mostDrinked = new List<object>();
+            using (var command = _context.Database.GetDbConnection().CreateCommand())
+            {
+                string sqlCommand = getMostDrinked();
+                command.CommandText = sqlCommand;
+                DbParameter paramBeginTijd = command.CreateParameter();
+                paramBeginTijd.ParameterName = "@begintijd";
+                paramBeginTijd.DbType = DbType.DateTime;
+                paramBeginTijd.Value = (object)begintijd ?? DBNull.Value;
+
+                DbParameter paramEindTijd = command.CreateParameter();
+                paramEindTijd.ParameterName = "@eindtijd";
+                paramEindTijd.DbType = DbType.DateTime;
+                paramEindTijd.Value = (object)eindtijd ?? DBNull.Value;
+
+                command.Parameters.Add(paramBeginTijd);
+                command.Parameters.Add(paramEindTijd);
+                _context.Database.OpenConnection();
+                DbDataReader row = command.ExecuteReader();
+
+                while (row.Read())
+                {
+                    int aantal = Int32.Parse(row[0].ToString());
+                    string drink = row[1].ToString();
+                    mostDrinked.Add(new { Aantal = aantal, Drink = drink });
+
+                }
+                row.Close();
+
+            }
+            return Ok(mostDrinked);
+        }
+
         private string getTopDrinker()
         {
             string sqlCommand = "SELECT TOP 10 COUNT(OrderLineId) As Aantal, (S.Firstname + ' ' + S.LastName) " +
@@ -166,6 +205,16 @@ namespace CoffeeAPI.Controllers
                                 "AND O.GetTime > O.OrderTime;" +
                                 "SELECT count(orderlineid) as aantal, orderdate, sum(timespend) as totaltime INTO #total FROM #date GROUP BY orderdate;" +
                                 "SELECT(totaltime / aantal) as averagetime, CONVERT(varchar, orderdate, 5) FROM #total;";
+            return sqlCommand;
+        }
+        public string getMostDrinked()
+        {
+            string sqlCommand = "SELECT TOP 10 COUNT(OrderLineId) As Aantal," +
+                                "D.DrinkName As Drink FROM OrderLines O " +
+                                "INNER JOIN Drinks D ON D.DrinkId = O.DrinkId " +
+                                "WHERE(O.OrderTime > @begintijd OR @begintijd IS NULL) " +
+                                "AND(O.OrderTime < @eindtijd OR @eindtijd IS NULL) " +
+                                "GROUP BY D.DrinkName";
             return sqlCommand;
         }
     }
