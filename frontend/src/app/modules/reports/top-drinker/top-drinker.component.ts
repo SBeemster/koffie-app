@@ -68,7 +68,6 @@ export class TopDrinkerComponent implements OnInit, ChartVisible {
             },
             console.error,
             () => {
-                console.log('Done fetching report data');
                 const option = {
                     title: { text: 'TopDrinkers: ' + periode },
                     legend: { orient: 'vertical', pageButtonPosition: 'end' },

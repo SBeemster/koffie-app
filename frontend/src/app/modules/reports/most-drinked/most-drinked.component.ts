@@ -69,7 +69,6 @@ export class MostDrinkedComponent implements OnInit, ChartVisible {
             },
             console.error,
             () => {
-                console.log('Done fetching report data');
                 const option = {
                     title: { text: 'Most drinked drinks: ' + periode },
                     tooltip: {

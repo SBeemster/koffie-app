@@ -28,7 +28,6 @@ export class EditComponent implements OnInit {
     ngOnInit() {
         const userId = this.activatedRoute.snapshot.params['userId'];
         if (userId) {
-            console.log(userId);
             this.userService.getSingleUser(userId).subscribe(
                 user => {
                     this.user = user;
@@ -36,9 +35,6 @@ export class EditComponent implements OnInit {
                 },
                 console.error,
                 () => {
-                    for (let i = 0; i < this.user.userroles.length; i++) {
-                        console.log(this.user.userroles[i].role.roleName);
-                    }
                     if (this.user.userroles.find(userrole => userrole.role.roleName.toString().toLowerCase() === 'admin')) {
                         this.rolAdmin = true;
                     }
@@ -57,7 +53,7 @@ export class EditComponent implements OnInit {
     saveUser() {
         this.user.userroles = [];
         if (this.rolAdmin) {
-           const rol: Role = {
+            const rol: Role = {
                 roleName: 'Admin'
             };
             const userRole: UserRoles = {
@@ -85,7 +81,6 @@ export class EditComponent implements OnInit {
         }
         this.userService.editUser(this.user).subscribe(
             response => {
-                console.log('saved');
                 this.router.navigate(['dashboard']);
             },
             console.error

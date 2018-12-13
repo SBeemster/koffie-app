@@ -59,7 +59,6 @@ export class TimeTillServedComponent implements OnInit, ChartVisible {
             },
             console.error,
             () => {
-                console.log('Done fetching report data');
                 const option = {
                     title: {
                         text: 'TimeTillServed: ' + periode

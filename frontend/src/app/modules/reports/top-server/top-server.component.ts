@@ -67,7 +67,6 @@ export class TopServerComponent implements OnInit, ChartVisible {
             },
             console.error,
             () => {
-                console.log('Done fetching report data');
                 const option = {
                     title: { text: 'TopServers: ' + periode },
                     legend: { orient: 'vertical', pageButtonPosition: 'end' },

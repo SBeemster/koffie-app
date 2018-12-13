@@ -29,7 +29,6 @@ describe('AuthService', () => {
   it('should login correctly', async(inject([AuthService], (service: AuthService) => {
     service.login('admin', 'admin').subscribe(function (result) {
       expect(result).toContain('idToken');
-      console.log('nice', result);
     });
   })));
 });
