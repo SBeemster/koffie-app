@@ -35,7 +35,7 @@ namespace CoffeeAPI.Controllers
 
         // GET: api/Users/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetUser([FromRoute] Guid id)
+        public IActionResult GetUser([FromRoute] Guid id)
         {
             if (!ModelState.IsValid)
             {
