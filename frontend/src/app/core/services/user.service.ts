@@ -17,7 +17,8 @@ export class UserService {
         const user: User = {
           userId: obj['userId'],
           firstName: obj['firstName'],
-          lastName: obj['lastName']
+          lastName: obj['lastName'],
+          active: obj['active']
         };
         return user;
       })
@@ -31,7 +32,8 @@ export class UserService {
           userId: obj['userId'],
           firstName: obj['firstName'],
           lastName: obj['lastName'],
-          userroles: obj['userRoles']
+          userroles: obj['userRoles'],
+          active: obj['active']
         };
         return user;
       })
