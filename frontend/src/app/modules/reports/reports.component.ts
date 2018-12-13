@@ -9,6 +9,8 @@ import { ChartVisible } from './chart-visible';
 export class ReportsComponent implements OnInit {
     @ViewChildren('chart') charts: QueryList<ChartVisible>;
 
+    resizeTimeout: boolean;
+
     constructor(
         private elementRef: ElementRef
     ) { }
@@ -18,8 +20,11 @@ export class ReportsComponent implements OnInit {
             root: document.body.parentElement,
             rootMargin: "20000px"
         }
+
         const observer = new IntersectionObserver(this.isVisible.bind(this), options);
         observer.observe(this.elementRef.nativeElement);
+
+        window.addEventListener("resize", this.resizeThrottler.bind(this), false);
     }
 
     isVisible(entries, observer): void {
@@ -30,5 +35,17 @@ export class ReportsComponent implements OnInit {
                 });
             }
         });
+    }
+
+    resizeThrottler() {
+        if (!this.resizeTimeout) {
+            this.resizeTimeout = true
+            setTimeout(function () {
+                this.resizeTimeout = false;
+                this.charts.forEach(chart => {
+                    chart.onChartVisible();
+                });
+            }.bind(this), 66);
+        }
     }
 }
