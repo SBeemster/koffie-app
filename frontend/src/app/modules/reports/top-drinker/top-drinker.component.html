@@ -1,9 +1,8 @@
-<div class="col-12 mb-4">
-    <div id="graphDrinker" #graphDrinker class="pie-chart"></div>
-
-    <button class="btn btn-primary" (click)="buildReport('today')">Vandaag</button>
-    <button class="btn btn-primary" (click)="buildReport('week')">Deze week</button>
-    <button class="btn btn-primary" (click)="buildReport('month')">Deze maand</button>
-    <button class="btn btn-primary" (click)="buildReport('year')">Dit jaar</button>
-  
-  </div>
+<div class="col-12 mb-4 text-center">
+  <div id="graphDrinker" #graphDrinker class="pie-chart mb-2"></div>
+  <button class="btn btn-primary mr-2" (click)="buildReport('Vandaag')">Vandaag</button>
+  <button class="btn btn-primary mr-2" (click)="buildReport('Deze week')">Deze week</button>
+  <button class="btn btn-primary mr-2" (click)="buildReport('Deze maand')">Deze maand</button>
+  <button class="btn btn-primary mr-2" (click)="buildReport('Dit jaar')">Dit jaar</button>
+  <button class="btn btn-primary" (click)="buildReport('All time')">All time</button>
+</div>
