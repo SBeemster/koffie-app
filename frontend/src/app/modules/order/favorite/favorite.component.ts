@@ -43,7 +43,6 @@ export class FavoriteComponent implements OnInit {
                 this.userPreference = userPreference;
                 this.milkcnt = userPreference.milk;
                 this.sugarcnt = userPreference.sugar;
-                console.log(userPreference);
             },
             console.error,
             () => {
@@ -65,7 +64,6 @@ export class FavoriteComponent implements OnInit {
             milk: milk,
             sugar: sugar
         };
-        console.log(orderline);
         this.orderService.postOrderline(orderline).subscribe(
             () => {
                 this.notifyPlaced.emit();

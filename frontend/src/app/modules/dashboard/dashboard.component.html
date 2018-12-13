@@ -2,8 +2,8 @@
         <div class="card-header">
             <button class="btn btn-link" (click)="toggleOrders()">
                 <h4>
+                    <i class="fa fa-plus fa-fw fa-lg fa-rotate-0" [ngClass]="{'fa-rotate-135': showOrders}"></i>
                     Reeds bestelde drankjes
-                    <i class="fa fa-caret-left fa-fw fa-lg" [ngClass]="{'fa-rotate-270': showOrders}"></i>
                 </h4>
             </button>
         </div>
@@ -18,8 +18,8 @@
     <div class="card-header">
         <button class="btn btn-link" (click)="toggleFavorite()">
             <h4>
+                <i class="fa fa-plus fa-fw fa-lg fa-rotate-0" [ngClass]="{'fa-rotate-135': showFavorite}"></i>
                 Bestel uw favoriet
-                <i class="fa fa-caret-left fa-fw fa-lg" [ngClass]="{'fa-rotate-270': showFavorite}"></i>
             </h4>
         </button>
     </div>
@@ -34,8 +34,8 @@
     <div class="card-header">
         <button class="btn btn-link" (click)="toggleDrinks()">
             <h4>
+                <i class="fa fa-plus fa-fw fa-lg fa-rotate-0" [ngClass]="{'fa-rotate-135': showAllDrinks}"></i>
                 Kies een drank
-                <i class="fa fa-caret-left fa-fw fa-lg" [ngClass]="{'fa-rotate-270': showAllDrinks}"></i>
             </h4>
         </button>
     </div>
@@ -46,12 +46,28 @@
     </div>
 </div>
 
+<div class="card mb-3" *ngIf="isManager();">
+    <div class="card-header">
+        <button class="btn btn-link" (click)="toggleManager()">
+            <h4>
+                <i class="fa fa-plus fa-fw fa-lg fa-rotate-0" [ngClass]="{'fa-rotate-135': showManagerPanel}"></i>
+                Rapportage Panel
+            </h4>
+        </button>
+    </div>
+    <div [hidden]="!showManagerPanel">
+        <div class="card-body">
+            <app-reports></app-reports>
+        </div>
+    </div>
+</div>
+
 <div class="card" *ngIf="isAdmin();">
     <div class="card-header">
         <button class="btn btn-link" (click)="toggleAdmin()">
             <h4>
+                <i class="fa fa-plus fa-fw fa-lg fa-rotate-0" [ngClass]="{'fa-rotate-135': showAdminPanel}"></i>
                 Admin Panel
-                <i class="fa fa-caret-left fa-fw fa-lg" [ngClass]="{'fa-rotate-270': showAllDrinks}"></i>
             </h4>
         </button>
     </div>

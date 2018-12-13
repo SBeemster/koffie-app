@@ -54,21 +54,13 @@ export class ChoiceComponent implements OnInit {
             drink => {
                 this.availableCoffee = drink;
             },
-            console.error,
-            () => {
-                console.log('complete');
-            }
+            console.error
         );
         this.preferenceService.getPreference().subscribe(
             preference => {
                 this.userPreference = preference;
-                console.log(this.userPreference);
-                console.log(this.availableCoffee);
             },
-            console.error,
-            () => {
-                console.log('GetPreference complete');
-            }
+            console.error
         );
     }
 
@@ -93,7 +85,6 @@ export class ChoiceComponent implements OnInit {
         };
         this.orderService.postOrderline(orderline).subscribe(
             result => {
-                console.log(result);
                 this.router.navigate(['/dashboard']);
             },
             console.error
@@ -123,10 +114,7 @@ export class ChoiceComponent implements OnInit {
             preference => {
                 this.userPreference = preference;
             },
-            console.error,
-            () => {
-                console.log('Set preference complete');
-            }
+            console.error
         );
     }
     emptyPreference() {
@@ -134,10 +122,7 @@ export class ChoiceComponent implements OnInit {
             preference => {
                 this.userPreference = preference;
             },
-            console.error,
-            () => {
-                console.log('Set preference complete');
-            }
+            console.error
         );
     }
 }

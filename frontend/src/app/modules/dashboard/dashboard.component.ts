@@ -1,8 +1,9 @@
-import { Component, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, OnInit, Output, ViewChild, ElementRef } from '@angular/core';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { DrinkPreference } from 'src/app/core/classes/drink-preference';
-import { OrderLine } from "src/app/core/classes/orderLine";
-import { OverviewComponent } from "../order/overview/overview.component";
+import { OrderLine } from 'src/app/core/classes/orderLine';
+import { OverviewComponent } from '../order/overview/overview.component';
+import * as Echarts from 'echarts';
 
 @Component({
     selector: 'app-dashboard',
@@ -12,13 +13,14 @@ import { OverviewComponent } from "../order/overview/overview.component";
 export class DashboardComponent implements OnInit {
     @ViewChild(OverviewComponent) overview: OverviewComponent;
 
-    hasFavorite: boolean = false;
-    hasOrders: boolean = false;
-    hasOwnOrder: boolean = false;
-    showOrders: boolean = false;
-    showAllDrinks: boolean = true;
-    showAdminPanel: boolean = false;
-    showFavorite: boolean = false;
+    hasFavorite = false;
+    hasOrders = false;
+    hasOwnOrder = false;
+    showOrders = false;
+    showAllDrinks = true;
+    showManagerPanel = false;
+    showAdminPanel = false;
+    showFavorite = false;
 
     private favoriteReceived: boolean;
     private ordersReceived: boolean;
@@ -33,11 +35,16 @@ export class DashboardComponent implements OnInit {
     toggleDrinks(): void {
         this.showAllDrinks = !this.showAllDrinks;
     }
+    toggleManager(): void {
+        this.showManagerPanel = !this.showManagerPanel;
+    }
 
     toggleAdmin(): void {
         this.showAdminPanel = !this.showAdminPanel;
     }
-
+    isManager(): boolean {
+        return this.auth.hasRole('Manager');
+    }
     isAdmin(): boolean {
         return this.auth.hasRole('Admin');
     }

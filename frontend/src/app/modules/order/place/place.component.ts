@@ -9,7 +9,7 @@ import { AvailableCoffeeService } from '../../../core/services/Available-coffee.
 export class PlaceComponent implements OnInit {
     availableCoffees = [];
     constructor(
-        private availableCoffeeService: AvailableCoffeeService,
+        private availableCoffeeService: AvailableCoffeeService
     ) { }
 
     ngOnInit() {

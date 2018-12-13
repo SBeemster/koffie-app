@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace CoffeeAPI.Models
 {
@@ -8,6 +9,8 @@ namespace CoffeeAPI.Models
         public string UserName { get; set; }
         [Required]
         public string Password { get; set; }
+        [Required]
+        public ICollection<UserRole> UserRoles { get; set; }
         [Required]
         public string FirstName { get; set; }
         [Required]

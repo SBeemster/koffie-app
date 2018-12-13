@@ -3,9 +3,9 @@ import { OrderService } from '../../../core/services/order.service';
 import { AvailableCoffeeService } from '../../../core/services/Available-coffee.service';
 import { User } from '../../../core/classes/user';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { OrderLine } from "src/app/core/classes/orderLine";
-import { Drink } from "src/app/core/classes/drink";
-import { OrderStatus } from "src/app/core/classes/order-status";
+import { OrderLine } from 'src/app/core/classes/orderLine';
+import { Drink } from 'src/app/core/classes/drink';
+import { OrderStatus } from 'src/app/core/classes/order-status';
 
 @Component({
     selector: 'app-overview',
@@ -29,9 +29,9 @@ export class OverviewComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        let getCoffee = this.availableCoffeeService.getCoffee();
-        let getOrders = this.orderService.getOrders();
-        let getStatus = this.orderService.getStatussen();
+        const getCoffee = this.availableCoffeeService.getCoffee();
+        const getOrders = this.orderService.getOrders();
+        const getStatus = this.orderService.getStatussen();
 
         getCoffee.subscribe(drink => {
             this.availableCoffees.push(drink);
@@ -51,7 +51,7 @@ export class OverviewComponent implements OnInit {
 
     refreshOrders(): void {
         this.orderlines = [];
-        let getOrders = this.orderService.getOrders();
+        const getOrders = this.orderService.getOrders();
         getOrders.subscribe(orderline => {
             this.orderlines.push(orderline);
             this.showButton = true;
@@ -73,7 +73,7 @@ export class OverviewComponent implements OnInit {
                 orderline.orderStatus = this.orderStatussen.find(status => status.statusName.toString().toLowerCase() === 'finished');
 
                 this.orderService.putOrderline(orderline).subscribe(
-                    console.log,
+                    null,
                     console.error
                 );
             }

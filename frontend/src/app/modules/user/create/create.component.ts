@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ApiService } from 'src/app/core/services/api.service';
 import { Router } from '@angular/router';
+import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
     selector: 'app-create',
@@ -13,17 +14,21 @@ export class CreateComponent {
 
     userName: string;
     password: string;
+    rol = 'User';
+
+    rolAdmin = false;
+    rolManager = false;
+    rolUser = true;
+
     firstName: string;
     lastName: string;
 
     constructor(
-        private api: ApiService,
+        private userService: UserService,
         private router: Router
     ) { }
 
-    awaitingResponse(): boolean {
-        return this.api.awaitingResponse;
-    }
+
 
     togglePassword(): void {
         if (this.passType === 'password') {
@@ -34,12 +39,35 @@ export class CreateComponent {
     }
 
     createUser(): void {
-        this.api.post('/users', {
-            'UserName': this.userName,
-            'Password': this.password,
-            'FirstName': this.firstName,
-            'LastName': this.lastName
-        }).subscribe(
+        const roles = [];
+        if (this.rolAdmin) {
+            roles.push({Role:
+                            {
+                                roleName: 'Admin'
+                            }
+                        });
+        }
+        if (this.rolManager) {
+            roles.push({Role:
+                {
+                    roleName: 'Manager'
+                }
+            });
+        }
+        if (this.rolUser) {
+            roles.push({Role:
+                {
+                    roleName: 'User'
+                }
+            });
+        }
+        this.userService.saveUser(
+            this.userName,
+            this.password,
+            roles,
+            this.firstName,
+            this.lastName
+        ).subscribe(
             result => {
                 this.router.navigateByUrl('/dashboard');
             },

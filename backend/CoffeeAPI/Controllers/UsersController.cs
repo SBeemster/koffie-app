@@ -35,15 +35,15 @@ namespace CoffeeAPI.Controllers
 
         // GET: api/Users/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetUser([FromRoute] Guid id)
+        public IActionResult GetUser([FromRoute] Guid id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var user = await _context.Users.FindAsync(id);
-
+            var user = _context.Users.Where(u => u.UserId == id).Include(u => u.UserRoles).ThenInclude(u => u.Role);
+            
             if (user == null)
             {
                 return NotFound();
@@ -65,9 +65,24 @@ namespace CoffeeAPI.Controllers
             {
                 return BadRequest();
             }
-
-            _context.Entry(user).State = EntityState.Modified;
-
+            var updatedUser = _context.Users.Where(u => u.UserId == user.UserId)
+                .Include(r => r.UserRoles)
+                .Single();
+            var newRoles = user.UserRoles.ToArray();
+            var userRoleList = updatedUser.UserRoles.ToList();
+            foreach(var UserRole in userRoleList)
+            {
+                _context.UserRoles.Remove(UserRole);
+            }
+            foreach (var rol in newRoles) {
+                var role = _context.Roles.Single(r => r.RoleName == rol.Role.RoleName);
+                var userRole = new UserRole
+                {
+                    User = updatedUser,
+                    Role = role
+                };
+                _context.UserRoles.Add(userRole);
+            }
             try
             {
                 await _context.SaveChangesAsync();
@@ -114,13 +129,19 @@ namespace CoffeeAPI.Controllers
                 PasswordSalt = salt,
                 PasswordHash = AuthHelper.GenerateSaltedHash(passBytes, salt)
             };
-
-            var role = _context.Roles.Single(r => r.RoleName == "User");
-            var userRole = new UserRole
+            var list = newUser.UserRoles.ToArray();
+            for(int i=0; i < list.Length; i++)
             {
-                User = user,
-                Role = role
-            };
+                var role = _context.Roles.Single(r => r.RoleName == list[i].Role.RoleName);
+                var userRole = new UserRole
+                {
+                    User = user,
+                    Role = role
+                };
+                _context.UserRoles.Add(userRole);
+            }
+            
+           
 
             var preference = new DrinkPreference
             {
@@ -130,7 +151,7 @@ namespace CoffeeAPI.Controllers
 
             _context.Users.Add(user);
             _context.Logins.Add(login);
-            _context.UserRoles.Add(userRole);
+            
             _context.DrinkPreference.Add(preference);
             await _context.SaveChangesAsync();
 
