@@ -14,12 +14,12 @@ export class CreateComponent {
 
     userName: string;
     password: string;
-    rol: string ="User";
+    rol = 'User';
 
-    rolAdmin: boolean = false;
-    rolManager: boolean = false;
-    rolUser: boolean = true;
-    
+    rolAdmin = false;
+    rolManager = false;
+    rolUser = true;
+
     firstName: string;
     lastName: string;
 
@@ -28,7 +28,7 @@ export class CreateComponent {
         private router: Router
     ) { }
 
- 
+
 
     togglePassword(): void {
         if (this.passType === 'password') {
@@ -39,25 +39,25 @@ export class CreateComponent {
     }
 
     createUser(): void {
-        let roles = [];
-        if(this.rolAdmin){
+        const roles = [];
+        if (this.rolAdmin) {
             roles.push({Role:
                             {
-                                roleName: "Admin"
+                                roleName: 'Admin'
                             }
                         });
         }
-        if(this.rolManager){
+        if (this.rolManager) {
             roles.push({Role:
                 {
-                    roleName: "Manager"
+                    roleName: 'Manager'
                 }
             });
         }
-        if(this.rolUser){
+        if (this.rolUser) {
             roles.push({Role:
                 {
-                    roleName: "User"
+                    roleName: 'User'
                 }
             });
         }

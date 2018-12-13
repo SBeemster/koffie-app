@@ -1,8 +1,8 @@
 import { Component, OnInit, Output, ViewChild, ElementRef } from '@angular/core';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { DrinkPreference } from 'src/app/core/classes/drink-preference';
-import { OrderLine } from "src/app/core/classes/orderLine";
-import { OverviewComponent } from "../order/overview/overview.component";
+import { OrderLine } from 'src/app/core/classes/orderLine';
+import { OverviewComponent } from '../order/overview/overview.component';
 import * as Echarts from 'echarts';
 
 @Component({
@@ -13,14 +13,14 @@ import * as Echarts from 'echarts';
 export class DashboardComponent implements OnInit {
     @ViewChild(OverviewComponent) overview: OverviewComponent;
 
-    hasFavorite: boolean = false;
-    hasOrders: boolean = false;
-    hasOwnOrder: boolean = false;
-    showOrders: boolean = false;
-    showAllDrinks: boolean = true;
-    showManagerPanel: boolean = false;
-    showAdminPanel: boolean = false;
-    showFavorite: boolean = false;
+    hasFavorite = false;
+    hasOrders = false;
+    hasOwnOrder = false;
+    showOrders = false;
+    showAllDrinks = true;
+    showManagerPanel = false;
+    showAdminPanel = false;
+    showFavorite = false;
 
     private favoriteReceived: boolean;
     private ordersReceived: boolean;

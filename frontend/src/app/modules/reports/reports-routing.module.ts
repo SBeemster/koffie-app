@@ -27,5 +27,5 @@ const routes: Routes = [
 export class ReportsRoutingModule { }
 
 export const routedComponents = [
-  ReportsComponent,TopServerComponent, TopDrinkerComponent, TimeTillServedComponent, MostDrinkedComponent
+  ReportsComponent, TopServerComponent, TopDrinkerComponent, TimeTillServedComponent, MostDrinkedComponent
 ];

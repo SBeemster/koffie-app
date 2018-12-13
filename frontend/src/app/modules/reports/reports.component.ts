@@ -7,7 +7,7 @@ import { ChartVisible } from './chart-visible';
     styleUrls: ['./reports.component.scss']
 })
 export class ReportsComponent implements OnInit {
-    @ViewChildren("chart") charts: QueryList<ChartVisible>;
+    @ViewChildren('chart') charts: QueryList<ChartVisible>;
 
     constructor(
         private elementRef: ElementRef
@@ -23,7 +23,7 @@ export class ReportsComponent implements OnInit {
             if (entry.isIntersecting) {
                 this.charts.forEach(chart => {
                     chart.onChartVisible();
-                })
+                });
             }
         });
     }
