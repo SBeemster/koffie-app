@@ -10,7 +10,7 @@ import { Role } from '../classes/role';
   providedIn: 'root'
 })
 export class UserService {
-  getAll():Observable<User>{
+  getAll(): Observable<User> {
     return this.api.get('/users/').pipe(
       concatAll(),
       map(obj => {

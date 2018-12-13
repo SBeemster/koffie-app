@@ -10,17 +10,17 @@ import { getLocaleDateTimeFormat } from '@angular/common';
 })
 export class ReportService {
   getTopServers(begintijd?, eindtijd?): Observable<Report> {
-    let apiUrl = "/reports/topserver";
+    let apiUrl = '/reports/topserver';
     if (begintijd != null || eindtijd != null) {
-      apiUrl = apiUrl + "?";
+      apiUrl = apiUrl + '?';
       if (begintijd != null) {
-        apiUrl = apiUrl + "begintijd=" + begintijd;
+        apiUrl = apiUrl + 'begintijd=' + begintijd;
       }
       if (begintijd != null && eindtijd != null) {
-        apiUrl = apiUrl + "&";
+        apiUrl = apiUrl + '&';
       }
       if (eindtijd != null) {
-        apiUrl = apiUrl + "eindtijd=" + eindtijd;
+        apiUrl = apiUrl + 'eindtijd=' + eindtijd;
       }
     }
 
@@ -65,17 +65,17 @@ export class ReportService {
     );
   }
   getTimeTillServed(begintijd?, eindtijd?): Observable<Report> {
-    let apiUrl = "/reports/timetillserve";
+    let apiUrl = '/reports/timetillserve';
     if (begintijd != null || eindtijd != null) {
-      apiUrl = apiUrl + "?";
+      apiUrl = apiUrl + '?';
       if (begintijd != null) {
-        apiUrl = apiUrl + "begintijd=" + begintijd;
+        apiUrl = apiUrl + 'begintijd=' + begintijd;
       }
       if (begintijd != null && eindtijd != null) {
-        apiUrl = apiUrl + "&";
+        apiUrl = apiUrl + '&';
       }
       if (eindtijd != null) {
-        apiUrl = apiUrl + "eindtijd=" + eindtijd;
+        apiUrl = apiUrl + 'eindtijd=' + eindtijd;
       }
     }
 
@@ -92,17 +92,17 @@ export class ReportService {
     );
   }
   getMostDrinked(begintijd?, eindtijd?): Observable<Report> {
-    let apiUrl = "/reports/mostdrinked";
+    let apiUrl = '/reports/mostdrinked';
     if (begintijd != null || eindtijd != null) {
-      apiUrl = apiUrl + "?";
+      apiUrl = apiUrl + '?';
       if (begintijd != null) {
-        apiUrl = apiUrl + "begintijd=" + begintijd;
+        apiUrl = apiUrl + 'begintijd=' + begintijd;
       }
       if (begintijd != null && eindtijd != null) {
-        apiUrl = apiUrl + "&";
+        apiUrl = apiUrl + '&';
       }
       if (eindtijd != null) {
-        apiUrl = apiUrl + "eindtijd=" + eindtijd;
+        apiUrl = apiUrl + 'eindtijd=' + eindtijd;
       }
     }
 

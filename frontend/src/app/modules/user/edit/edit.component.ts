@@ -36,59 +36,56 @@ export class EditComponent implements OnInit {
                 },
                 console.error,
                 () => {
-                    for(let i=0; i < this.user.userroles.length; i++){
+                    for (let i = 0; i < this.user.userroles.length; i++) {
                         console.log(this.user.userroles[i].role.roleName);
                     }
-                    if(this.user.userroles.find(userrole => userrole.role.roleName.toString().toLowerCase() === 'admin'))
-                    {
-                        this.rolAdmin =true;
+                    if (this.user.userroles.find(userrole => userrole.role.roleName.toString().toLowerCase() === 'admin')) {
+                        this.rolAdmin = true;
                     }
-                    if(this.user.userroles.find(userrole => userrole.role.roleName.toString().toLowerCase() === 'manager'))
-                    {
-                        this.rolManager =true;
+                    if (this.user.userroles.find(userrole => userrole.role.roleName.toString().toLowerCase() === 'manager')) {
+                        this.rolManager = true;
                     }
-                    if(this.user.userroles.find(userrole => userrole.role.roleName.toString().toLowerCase() === 'user'))
-                    {
-                        this.rolUser =true;
+                    if (this.user.userroles.find(userrole => userrole.role.roleName.toString().toLowerCase() === 'user')) {
+                        this.rolUser = true;
                     }
                 }
             );
         }
     }
 
-    
+
     saveUser() {
-        this.user.userroles =[];
-        if(this.rolAdmin){
-           let rol: Role = {
-                roleName: "Admin"
+        this.user.userroles = [];
+        if (this.rolAdmin) {
+           const rol: Role = {
+                roleName: 'Admin'
             };
-            let userRole: UserRoles={
+            const userRole: UserRoles = {
                 role: rol
-            }
+            };
             this.user.userroles.push(userRole);
         }
-        if(this.rolManager){
-            let rol: Role = {
-                roleName: "Manager"
+        if (this.rolManager) {
+            const rol: Role = {
+                roleName: 'Manager'
             };
-            let userRole: UserRoles={
+            const userRole: UserRoles = {
                 role: rol
-            }
+            };
             this.user.userroles.push(userRole);
         }
-        if(this.rolUser){
-            let rol: Role = {
-                roleName: "User"
+        if (this.rolUser) {
+            const rol: Role = {
+                roleName: 'User'
             };
-            let userRole: UserRoles={
+            const userRole: UserRoles = {
                 role: rol
-            }
+            };
             this.user.userroles.push(userRole);
         }
         this.userService.editUser(this.user).subscribe(
             response => {
-                console.log("saved");
+                console.log('saved');
                 this.router.navigate(['dashboard']);
             },
             console.error
