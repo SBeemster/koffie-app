@@ -1,13 +1,14 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import * as Echarts from 'echarts';
 import { ReportService } from 'src/app/core/services/report.service';
+import { ChartVisible } from '../chart-visible';
 
 @Component({
     selector: 'app-top-server',
     templateUrl: './top-server.component.html',
     styleUrls: ['./top-server.component.scss']
 })
-export class TopServerComponent implements OnInit {
+export class TopServerComponent implements OnInit, ChartVisible {
     @ViewChild('graphServer') graphServer: ElementRef;
     reportData = [];
     topServerChart;
@@ -25,16 +26,16 @@ export class TopServerComponent implements OnInit {
                 var option = {
                     title: { text: "TopServers" },
                     legend: { orient: "vertical", pageButtonPosition: "end" },
-                    tooltip : {
+                    tooltip: {
                         trigger: 'item',
                         formatter: "{b} <br/>{c}"
-                      },
+                    },
                     series: [
                         {
                             name: 'TopServers',
                             type: 'pie',
                             radius: '55%',
-                            label:{
+                            label: {
                                 show: false
                             },
                             data: this.reportData
@@ -47,7 +48,6 @@ export class TopServerComponent implements OnInit {
         );
     }
     buildReport(periode: string) {
-        this.topServerChart.resize();
         let begintijd;
         let eindtijd;
         var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
@@ -99,10 +99,10 @@ export class TopServerComponent implements OnInit {
                 var option = {
                     title: { text: "TopServers" },
                     legend: { orient: "vertical", pageButtonPosition: "end" },
-                    tooltip : {
+                    tooltip: {
                         trigger: 'item',
                         formatter: "{b} <br/>{c}"
-                      },
+                    },
                     series: [
                         {
                             name: 'TopServers',
@@ -119,5 +119,10 @@ export class TopServerComponent implements OnInit {
 
             }
         );
+    }
+
+    onChartVisible(): void {
+        console.log("onChartVisible")
+        this.topServerChart.resize();
     }
 }
