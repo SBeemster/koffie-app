@@ -25,10 +25,7 @@ export class GroupComponent implements OnInit {
       group => {
         this.availableGroups.push(group);
       },
-      console.error,
-      () => {
-        console.log('GetGroups complete');
-      }
+      console.error
     );
   }
 
@@ -59,7 +56,7 @@ export class GroupComponent implements OnInit {
     for (let i = 0; i < this.availableGroups.length; i++) {
       if (this.availableGroups[i].groupId === group.groupId) {
         this.availableGroupsService.deleteGroup(group).subscribe(
-          console.log,
+          null,
           console.error
         );
         this.availableGroups.splice(i, 1);
@@ -94,7 +91,7 @@ export class GroupComponent implements OnInit {
       if (this.availableGroups[i] === group) {
         this.availableGroups[i].groupName = group.newName;
         this.availableGroupsService.putGroup(group).subscribe(
-          console.log,
+          null,
           console.error
         );
         group.edit = false;
