@@ -14,7 +14,11 @@ export class ReportsComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        const observer = new IntersectionObserver(this.isVisible.bind(this), { root: document.documentElement });
+        const options = {
+            root: document.body.parentElement,
+            rootMargin: "20000px"
+        }
+        const observer = new IntersectionObserver(this.isVisible.bind(this), options);
         observer.observe(this.elementRef.nativeElement);
     }
 
