@@ -69,7 +69,12 @@ export class TopServerComponent implements OnInit, ChartVisible {
             () => {
                 const option = {
                     title: { text: 'TopServers: ' + periode },
-                    legend: { orient: 'vertical', pageButtonPosition: 'end' },
+                    legend: { 
+                        orient: 'horizontal',
+                        x: 'right',
+                        top:20,
+                        pageButtonPosition: 'end' 
+                    },
                     tooltip: {
                         trigger: 'item',
                         formatter: '{b} <br/>{c}'
