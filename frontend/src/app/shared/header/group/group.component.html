@@ -1,0 +1,2 @@
+<button type="button" class="btn btn-outline-secondary" *ngIf="groupFound"
+    [attr.disabled]="awaitingResponse() ? '' : null">Groep: {{ memberGroup.groupName }}</button>

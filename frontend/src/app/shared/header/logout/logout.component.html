@@ -1,0 +1,2 @@
+<button type="button" (click)="logout()" class="btn btn-outline-danger" 
+    [attr.disabled]="awaitingResponse() ? '' : null">Logout: {{ username() }}</button>
