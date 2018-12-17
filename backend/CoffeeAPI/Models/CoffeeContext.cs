@@ -22,7 +22,6 @@ namespace CoffeeAPI.Models
 
         // intermediary tables
         public DbSet<UserRole> UserRoles { get; set; }
-        public DbSet<UserGroup> UserGroups { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // ensure indexed and unique usernames
@@ -30,14 +29,19 @@ namespace CoffeeAPI.Models
 
             // define composite keys
             modelBuilder.Entity<UserRole>().HasKey(ur => new { ur.UserId, ur.RoleId });
-            modelBuilder.Entity<UserGroup>().HasKey(ug => new { ug.UserId, ug.GroupId });
 
             // seed admin and first user data
+            var groupId = Guid.NewGuid();
+            modelBuilder.Entity<Group>().HasData(
+                new { GroupId = groupId, GroupName = "Awesome" });
+
             var adminId = Guid.NewGuid();
             var jaapId = Guid.NewGuid();
+            var drieId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(
-                new { UserId = adminId, FirstName = "Super", LastName = "Admin", Active = true },
-                new { UserId = jaapId, FirstName = "Jaap", LastName = "Schaap", Active = true });
+                new { UserId = adminId, FirstName = "Super", LastName = "Admin", Active = true, GroupMemberGroupId = groupId, GroupOwnerGroupId = groupId },
+                new { UserId = jaapId, FirstName = "Jaap", LastName = "Schaap", Active = true, GroupMemberGroupId = groupId },
+                new { UserId = drieId, FirstName = "User", LastName = "Drie", Active = true });
 
             var adminSalt = AuthHelper.GetRandom();
             var adminPassword = Encoding.UTF8.GetBytes("admin");
@@ -45,9 +49,13 @@ namespace CoffeeAPI.Models
             var jaapSalt = AuthHelper.GetRandom();
             var jaapPassword = Encoding.UTF8.GetBytes("password");
             var jaapHashed = AuthHelper.GenerateSaltedHash(jaapPassword, jaapSalt);
+            var drieSalt = AuthHelper.GetRandom();
+            var driePassword = Encoding.UTF8.GetBytes("password");
+            var drieHashed = AuthHelper.GenerateSaltedHash(driePassword, drieSalt);
             modelBuilder.Entity<Login>().HasData(
                 new { LoginId = Guid.NewGuid(), UserName = "admin", PasswordSalt = adminSalt, PasswordHash = adminHashed, UserId = adminId },
-                new { LoginId = Guid.NewGuid(), UserName = "jaap", PasswordSalt = jaapSalt, PasswordHash = jaapHashed, UserId = jaapId });
+                new { LoginId = Guid.NewGuid(), UserName = "jaap", PasswordSalt = jaapSalt, PasswordHash = jaapHashed, UserId = jaapId },
+                new { LoginId = Guid.NewGuid(), UserName = "drie", PasswordSalt = drieSalt, PasswordHash = drieHashed, UserId = drieId });
 
             var roleUserId = Guid.NewGuid();
             var roleManagerId = Guid.NewGuid();
@@ -61,12 +69,14 @@ namespace CoffeeAPI.Models
                 new { UserRoleId = Guid.NewGuid(), UserId = adminId, RoleId = roleUserId },
                 new { UserRoleId = Guid.NewGuid(), UserId = adminId, RoleId = roleAdminId },
                 new { UserRoleId = Guid.NewGuid(), UserId = jaapId, RoleId = roleUserId },
-                new { UserRoleId = Guid.NewGuid(), UserId = jaapId, RoleId = roleManagerId });
+                new { UserRoleId = Guid.NewGuid(), UserId = jaapId, RoleId = roleManagerId },
+                new { UserRoleId = Guid.NewGuid(), UserId = drieId, RoleId = roleUserId },
+                new { UserRoleId = Guid.NewGuid(), UserId = drieId, RoleId = roleManagerId });
 
             modelBuilder.Entity<DrinkPreference>().HasData(
                 new { PreferenceId = Guid.NewGuid(), UserId = adminId },
-                new { PreferenceId = Guid.NewGuid(), UserId = jaapId }
-                );
+                new { PreferenceId = Guid.NewGuid(), UserId = jaapId },
+                new { PreferenceId = Guid.NewGuid(), UserId = drieId });
 
             //seed first drinks
             String[,] drinkArray = new string[6, 3] { { "Koffie", "/assets/Images/Koffie.jpg", "true" }, { "Cappuccino", "/assets/Images/Cappuccino.jpg", "true" }, { "Latte Macchiato", "/assets/Images/Latte Macchiato.jpg", "true" }, { "Espresso", "/assets/Images/Espresso.png", "true" }, { "Thee", "/assets/Images/Thee.jpg", "true" }, { "Water", "/assets/Images/Water.jpg", "false" } };

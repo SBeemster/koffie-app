@@ -12,8 +12,10 @@ namespace CoffeeAPI.Models
         public string LastName { get; set; }
         public Drink Prefrence { get; set; }
         public bool Active { get; set; }
-        public ICollection<UserGroup> UserGroups { get; set; }
         public ICollection<UserRole> UserRoles { get; set; }
+
+        public Group GroupMember { get; set; }
+        public Group GroupOwner { get; set; }
 
         [InverseProperty("Customer")]
         public ICollection<OrderLine> OrderLinesOrdered { get; set; }

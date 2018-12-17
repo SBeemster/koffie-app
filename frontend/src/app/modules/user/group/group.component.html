@@ -1,44 +1,46 @@
-<form (ngSubmit)="newGroup(newName); newName='';">
-    <div class="form-row row">
-        <div class="col-md-4">
-            <input type="text" class="form-control" placeholder="Voer naam in" [(ngModel)]="newName" name="groupname">
-        </div>
-        <div class="col-md-3">
-            <button class="btn btn-outline-success">
-                Toevoegen
-            </button>
-        </div>
-    </div>
-</form>
-<hr>
-
 <div class="row">
-    <div class="col-sm-2">
-        <h3>Koffiegroepen</h3>
-    </div>
-</div>
+    <div class="card mx-auto mt-3" *ngIf="groupFound">
+        <div class="card-header">
+            {{ memberGroup.groupName }}
+        </div>
+        <div class="card-body">
 
-<div class="row">
-    <div class="col-sm-6">
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item" *ngFor="let availableGroup of availableGroups">
-                <span *ngIf="!availableGroup.edit">
-                    {{availableGroup.groupName}}
-                </span>
-                <span *ngIf="availableGroup.edit">
-                    <input type="text" [(ngModel)]="availableGroup.newName" name="groupname">
-                </span>
-                <button class="float-right btn btn-danger" (click)="deleteGroup(availableGroup)">
-                    <i class="fa fa-fw fa-trash"></i>
-                </button>
-                <button class="float-right btn btn-secondary mr-1" (click)="availableGroup.edit = true" *ngIf="!availableGroup.edit">
-                    <i class="fa fa-fw fa-edit"></i> 
-                </button>
-                <button class="float-right btn btn-secondary mr-1" (click)="editGroup(availableGroup)" *ngIf="availableGroup.edit">
-                    <i class="fa fa-fw fa-save"></i>
-                </button>
-            </li>
-        </ul>
+            <!-- <form (ngSubmit)="newGroup(newName); newName='';">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Voer naam in" [(ngModel)]="newName" name="groupname">
+                    <button class="btn btn-outline-success">
+                        Toevoegen
+                    </button>
+                </div>
+            </form> -->
+
+            <!-- <ul class="list-group list-group-flush">
+                <li class="list-group-item" *ngFor="let availableGroup of availableGroups">
+                    <span *ngIf="!availableGroup.edit">
+                        {{availableGroup.groupName}}
+                    </span>
+                    <span *ngIf="availableGroup.edit">
+                        <input type="text" [(ngModel)]="availableGroup.newName" name="groupname">
+                    </span>
+                    <button class="float-right btn btn-danger" (click)="deleteGroup(availableGroup)">
+                        <i class="fa fa-fw fa-trash"></i>
+                    </button>
+                    <button class="float-right btn btn-secondary mr-1" (click)="availableGroup.edit = true" *ngIf="!availableGroup.edit">
+                        <i class="fa fa-fw fa-edit"></i>
+                    </button>
+                    <button class="float-right btn btn-secondary mr-1" (click)="editGroup(availableGroup)" *ngIf="availableGroup.edit">
+                        <i class="fa fa-fw fa-save"></i>
+                    </button>
+                </li>
+            </ul> -->
+
+            <ul class="list-group shadow bg-white rounded">
+                <li class="list-group-item" *ngFor="let member of memberGroup.members">
+                    {{ member.firstName }} {{ member.lastName }}
+                </li>
+            </ul>
+
+        </div>
     </div>
 </div>
 
