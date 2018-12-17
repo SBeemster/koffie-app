@@ -44,4 +44,20 @@ export class GroupService {
             }
         }))
     }
+
+    getGroupById(groupId): Observable<Group> {
+        return this.api.get(`/groups/${groupId}`)
+        .pipe(map(obj => {
+            if (obj) {
+                const group: Group = {
+                    groupId: obj['groupId'],
+                    groupName: obj['groupName'],
+                    members: obj['members']
+                }
+                return group;
+            } else {
+                return null;
+            }
+        }))
+    }
 }

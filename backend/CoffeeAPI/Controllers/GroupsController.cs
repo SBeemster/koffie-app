@@ -74,21 +74,27 @@ namespace CoffeeAPI.Controllers
 
         // GET: api/Groups/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetGroup([FromRoute] Guid id)
+        public IActionResult GetGroup([FromRoute] Guid id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var @group = await _context.Groups.FindAsync(id);
-
-            if (@group == null)
+            Group group;
+            try
+            {
+                group = _context.Groups
+                    .Where(g => g.GroupId == id)
+                    .Include(g => g.Members)
+                    .Single();
+            }
+            catch
             {
                 return NotFound();
             }
 
-            return Ok(@group);
+            return Ok(group);
         }
 
         // PUT: api/Groups/5
