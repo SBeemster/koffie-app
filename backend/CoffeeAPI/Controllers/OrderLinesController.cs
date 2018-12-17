@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using CoffeeAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using CoffeeAPI.Models;
-using Microsoft.AspNetCore.Authorization;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace CoffeeAPI.Controllers
 {
@@ -25,13 +25,28 @@ namespace CoffeeAPI.Controllers
         [HttpGet]
         public IEnumerable<OrderLine> GetOrderLines(string orderstatus = "")
         {
+            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var groupMembers = _context.Users
+                .Where(u => u.UserId == userId)
+                .Include(u => u.GroupMember)
+                .ThenInclude(gm => gm.Members)
+                .Select(u => u.GroupMember.Members)
+                .Single();
+
+            var groupOrderLines = _context.OrderLines
+                .Where(o => groupMembers.Contains(o.Customer));
+
             if (orderstatus != "")
             {
-                return _context.OrderLines.Where(d => d.OrderStatus.StatusName.ToLower() == orderstatus.ToLower()).Include(d => d.Customer).Include(d => d.Drink).Include(d => d.OrderStatus);
+                return groupOrderLines
+                    .Where(d => d.OrderStatus.StatusName.ToLower() == orderstatus.ToLower())
+                    .Include(d => d.Customer)
+                    .Include(d => d.Drink)
+                    .Include(d => d.OrderStatus);
             }
             else
             {
-                return _context.OrderLines;
+                return groupOrderLines;
             }
         }
 
@@ -75,7 +90,7 @@ namespace CoffeeAPI.Controllers
 
             if (orderLine.Server != null)
             {
-                
+
                 User server = _context.Users
                    .Where(l => l.UserId == orderLine.Server.UserId)
                    .Single();
@@ -156,11 +171,11 @@ namespace CoffeeAPI.Controllers
                     OrderTime = orderLine.OrderTime
                 };
 
-               
+
                 _context.OrderLines.Add(newOrderLine);
                 await _context.SaveChangesAsync();
 
-               
+
             }
             return Ok();
         }
