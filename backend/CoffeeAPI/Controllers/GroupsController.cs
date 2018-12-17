@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using CoffeeAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using CoffeeAPI.Models;
-using Microsoft.AspNetCore.Authorization;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace CoffeeAPI.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController,Authorize]
+    [ApiController, Authorize]
     public class GroupsController : ControllerBase
     {
         private readonly CoffeeContext _context;
@@ -26,6 +26,50 @@ namespace CoffeeAPI.Controllers
         public IEnumerable<Group> GetGroups()
         {
             return _context.Groups;
+        }
+
+        // GET: api/Groups/member-group
+        [HttpGet("member-group")]
+        public IActionResult GetMemberGroup()
+        {
+            Group group;
+            try
+            {
+                var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                group = _context.Users
+                    .Where(u => u.UserId == userId)
+                    .Include(u => u.GroupMember)
+                    .Select(u => u.GroupMember)
+                    .Single();
+            }
+            catch
+            {
+                return NotFound();
+            }
+
+            return Ok(group);
+        }
+
+        // GET: api/Groups/my-group
+        [HttpGet("my-group")]
+        public IActionResult GetMyGroup()
+        {
+            Group group;
+            try
+            {
+                var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                group = _context.Users
+                    .Where(u => u.UserId == userId)
+                    .Include(u => u.GroupOwner)
+                    .Select(u => u.GroupOwner)
+                    .Single();
+            }
+            catch
+            {
+                return NotFound();
+            }
+
+            return Ok(group);
         }
 
         // GET: api/Groups/5
