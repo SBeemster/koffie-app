@@ -57,7 +57,7 @@ export class TopDrinkerComponent implements OnInit, ChartVisible {
             eindtijd.setMonth(11);
             eindtijd.setDate(31);
         }
-        if(begintijd != null){
+        if (begintijd != null) {
             stringBegintijd = new Date(begintijd - tzoffset).toISOString().slice(0, -1);
             stringEindtijd = new Date(eindtijd - tzoffset).toISOString().slice(0, -1);
         }
@@ -70,7 +70,12 @@ export class TopDrinkerComponent implements OnInit, ChartVisible {
             () => {
                 const option = {
                     title: { text: 'TopDrinkers: ' + periode },
-                    legend: { orient: 'vertical', pageButtonPosition: 'end' },
+                    legend: {
+                        orient: 'horizontal',
+                        x: 'right',
+                        top: 20,
+                        pageButtonPosition: 'end'
+                    },
                     tooltip: {
                         trigger: 'item',
                         formatter: '{b} <br/>{c}'
