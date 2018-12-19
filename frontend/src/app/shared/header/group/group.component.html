@@ -1,2 +1,4 @@
 <button type="button" class="btn btn-outline-secondary" *ngIf="groupFound" [routerLink]="['/user/group', memberGroup.groupId]"
-    [attr.disabled]="awaitingResponse ? '' : null">Groep: {{ memberGroup.groupName }}</button>
+    [disabled]="awaitingResponse">Groep: {{ memberGroup.groupName }}</button>
+<button type="button" class="btn btn-success" *ngIf="noGroup" [routerLink]="['/user/group']"
+    [disabled]="awaitingResponse">Koffie Groep Maken</button>
