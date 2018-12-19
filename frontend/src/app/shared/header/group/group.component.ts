@@ -17,7 +17,7 @@ export class GroupComponent implements OnInit {
 
     groupFound = false;
 
-    awaitingResponse = this.api.awaitingResponse;
+    awaitingResponse = false;
 
     constructor(
         private api: ApiService,
@@ -25,6 +25,14 @@ export class GroupComponent implements OnInit {
     ) { }
 
     ngOnInit() {
+        this.groupService.header = this;
+        this.refreshGroup();
+        this.api.awaitingResponse.subscribe(
+            state => { this.awaitingResponse = state; }
+        );
+    }
+
+    refreshGroup() {
         this.groupService.getMemberGroup().subscribe(
             response => {
                 if (response) {
@@ -32,6 +40,6 @@ export class GroupComponent implements OnInit {
                     this.groupFound = true;
                 }
             }
-        )
+        );
     }
 }
