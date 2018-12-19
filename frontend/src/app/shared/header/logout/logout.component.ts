@@ -10,6 +10,8 @@ import { Router } from '@angular/router';
 })
 export class LogoutComponent {
 
+    awaitingResponse = this.api.awaitingResponse;
+
     constructor(
         private auth: AuthService,
         private api: ApiService,
@@ -20,10 +22,6 @@ export class LogoutComponent {
         if (this.auth.isLoggedIn()) {
             return this.auth.getDecodedToken().uniqueName;
         }
-    }
-
-    awaitingResponse(): boolean {
-        return this.api.awaitingResponse;
     }
 
     logout(): void {

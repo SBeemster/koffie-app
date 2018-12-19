@@ -17,6 +17,8 @@ export class GroupComponent implements OnInit {
 
     groupFound = false;
 
+    awaitingResponse = this.api.awaitingResponse;
+
     constructor(
         private api: ApiService,
         private groupService: GroupService
@@ -31,9 +33,5 @@ export class GroupComponent implements OnInit {
                 }
             }
         )
-    }
-
-    awaitingResponse(): boolean {
-        return this.api.awaitingResponse;
     }
 }

@@ -17,7 +17,7 @@
                     <button type="button" (mousedown)="togglePassword()" (mouseup)="togglePassword()" class="btn btn-block btn-outline-secondary">Show
                         Password</button>
                     <hr>
-                    <button type="button" (click)="login()" class="btn btn-block btn-success" [attr.disabled]="awaitingResponse() ? '' : null">Login</button>
+                    <button type="button" (click)="login()" class="btn btn-block btn-success" [attr.disabled]="awaitingResponse ? '' : null">Login</button>
                 </form>
             </div>
         </div>
