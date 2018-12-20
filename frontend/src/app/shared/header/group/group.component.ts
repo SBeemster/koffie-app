@@ -11,11 +11,12 @@ import { ApiService } from 'src/app/core/services/api.service';
 export class GroupComponent implements OnInit {
 
     memberGroup: Group = {
-        groupId: "",
-        groupName: ""
-    }
+        groupId: '',
+        groupName: ''
+    };
 
     groupFound = false;
+    noGroup = false;
 
     awaitingResponse = false;
 
@@ -38,6 +39,10 @@ export class GroupComponent implements OnInit {
                 if (response) {
                     this.memberGroup = response;
                     this.groupFound = true;
+                    this.noGroup = false;
+                } else {
+                    this.groupFound = false;
+                    this.noGroup = true;
                 }
             }
         );

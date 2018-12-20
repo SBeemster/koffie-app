@@ -46,7 +46,7 @@ export class TimeTillServedComponent implements OnInit, ChartVisible {
             eindtijd.setHours(23, 59, 59);
             eindtijd.setMonth(begintijd.getMonth() + 1);
             eindtijd.setDate(0);
-        } 
+        }
         this.reportData = [];
 
 

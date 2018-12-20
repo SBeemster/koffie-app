@@ -72,6 +72,33 @@ namespace CoffeeAPI.Controllers
             return Ok(group);
         }
 
+        // GET: api/Groups/is-owner/5
+        [HttpGet("is-owner/{id}")]
+        public IActionResult IsOwner([FromRoute] Guid id)
+        {
+            var isOwner = false;
+            try
+            {
+                var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                var owner = _context.Users
+                    .Where(u => u.UserId == userId)
+                    .Include(u => u.GroupOwner)
+                    .Select(u => u.GroupOwner)
+                    .Single();
+
+                if (owner != null)
+                {
+                    isOwner = owner.GroupId == id;
+                }
+            }
+            catch
+            {
+                return NotFound();
+            }
+
+            return Ok(new { IsOwner = isOwner });
+        }
+
         // GET: api/Groups/5
         [HttpGet("{id}")]
         public IActionResult GetGroup([FromRoute] Guid id)
@@ -136,12 +163,18 @@ namespace CoffeeAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> PostGroup([FromBody] Group @group)
         {
+            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var user = _context.Users.Where(u => u.UserId == userId).Single();
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
             _context.Groups.Add(@group);
+            user.GroupMember = @group;
+            user.GroupOwner = @group;
+
             await _context.SaveChangesAsync();
 
             return Ok(group.GroupId);
@@ -149,23 +182,36 @@ namespace CoffeeAPI.Controllers
 
         // DELETE: api/Groups/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteGroup([FromRoute] Guid id)
+        public IActionResult DeleteGroup([FromRoute] Guid id)
         {
+            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var user = _context.Users.Where(u => u.UserId == userId).Single();
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var @group = await _context.Groups.FindAsync(id);
-            if (@group == null)
+            var group = _context.Groups
+                .Where(g => g.GroupId == id)
+                .Include(g => g.Members)
+                .Single();
+
+            if (group == null)
             {
                 return NotFound();
             }
 
-            _context.Groups.Remove(@group);
-            await _context.SaveChangesAsync();
+            foreach (var member in group.Members)
+            {
+                member.GroupMember = null;
+            }
+            user.GroupOwner = null;
+            _context.Groups.Remove(group);
 
-            return Ok(@group);
+            _context.SaveChanges();
+
+            return Ok();
         }
 
         private bool GroupExists(Guid id)

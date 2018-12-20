@@ -1,9 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { AvailableGroupsService } from '../../../core/services/Available-groups.service';
-import { ApiService } from '../../../core/services/api.service';
 import { Group } from '../../../core/classes/group';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GroupService } from 'src/app/core/services/group.service';
+import { merge } from 'rxjs';
 
 @Component({
     selector: 'app-group',
@@ -13,120 +12,115 @@ import { GroupService } from 'src/app/core/services/group.service';
 export class GroupComponent implements OnInit {
     @ViewChild('myModal') myModal;
 
-    availableGroups = [];
-    messageHeader;
-    message;
-    newName;
-    id;
+    messageHeader: string;
+    message: string;
 
-    memberGroup: Group = {
-        groupId: "",
-        groupName: ""
-    }
+    group: Group = {
+        groupId: '',
+        groupName: ''
+    };
 
+    noGroup = false;
     groupFound = false;
+    isOwner = false;
+    edit = false;
+    newName = '';
 
     constructor(
         private activatedRoute: ActivatedRoute,
-        private groupService: GroupService
+        private groupService: GroupService,
+        private router: Router
     ) { }
 
     ngOnInit() {
         const groupId = this.activatedRoute.snapshot.params['groupId'];
-        this.groupService.getGroupById(groupId).subscribe(
-            response => {
-                if (response) {
-                    console.log(response);
-                    this.memberGroup = response;
+        if (groupId) {
+            this.groupService.getGroupById(groupId).subscribe(
+                response => {
+                    this.group = response;
                     this.groupFound = true;
-                }
-            },
-            console.error
-        )
-        // this.availableGroupsService.getGroups().subscribe(
-        //     group => {
-        //         this.availableGroups.push(group);
-        //     },
-        //     console.error
-        // );
+                    this.completeObservable();
+                },
+                console.error
+            );
+
+            this.groupService.getIsGroupOwner(groupId).subscribe(
+                response => {
+                    this.isOwner = response;
+                    this.completeObservable();
+                },
+                console.error
+            );
+        } else {
+            this.noGroup = true;
+        }
     }
 
-    // newGroup(newName: string) {
-    //     for (let i = 0; i < this.availableGroups.length; i++) {
-    //         if (this.availableGroups[i].groupName === newName) {
-    //             this.messageHeader = 'Groep bestaat reeds';
-    //             this.message = 'Er bestaat reeds een groep met deze naam. De groep is niet aangemaakt';
-    //             this.openModal();
-    //             return;
-    //         }
-    //     }
-    //     this.availableGroupsService.postGroup(newName).subscribe(
-    //         res => { this.id = res.toString(); },
-    //         console.error
-    //     );
+    renameGroup() {
+        if (this.newName.length < 3) {
+            this.messageHeader = 'Groepsnaam te kort';
+            this.message = 'U heeft een groepsnaam opgeven die te kort is. Probeer een naam van minimaal 3 tekens.';
+            this.openModal();
+            return;
+        } else {
+            this.group.groupName = this.newName;
+            this.edit = false;
+            this.groupService.putGroup(this.group).subscribe(
+                () => {
+                    this.groupService.header.refreshGroup();
+                },
+                console.error
+            );
+        }
+    }
 
-    //     const group: Group = {
-    //         groupId: this.id,
-    //         groupName: newName
-    //     };
-    //     this.availableGroups.push(group);
-    // }
+    newGroup() {
+        if (this.newName.length < 3) {
+            this.messageHeader = 'Groepsnaam te kort';
+            this.message = 'U heeft een groepsnaam opgeven die te kort is. Probeer een naam van minimaal 3 tekens.';
+            this.openModal();
+            return;
+        } else {
+            this.groupService.postGroup(this.newName).subscribe(
+                () => {
+                    this.groupService.header.refreshGroup();
+                    this.router.navigate(['/dashboard']);
+                },
+                console.error
+            );
+        }
+    }
 
+    deleteGroup() {
+        this.groupService.deleteGroup(this.group.groupId).subscribe(
+            () => {
+                this.groupService.header.refreshGroup();
+                this.router.navigate(['/dashboard']);
+            },
+            console.error
+        );
+    }
 
-    // deleteGroup(group: Group) {
+    leaveGroup() {
 
-    //     for (let i = 0; i < this.availableGroups.length; i++) {
-    //         if (this.availableGroups[i].groupId === group.groupId) {
-    //             this.availableGroupsService.deleteGroup(group).subscribe(
-    //                 null,
-    //                 console.error
-    //             );
-    //             this.availableGroups.splice(i, 1);
-    //             return;
-    //         }
-    //     }
-    //     this.messageHeader = 'Groep niet gevonden';
-    //     this.message = 'Er bestaat geen groep met deze naam. De groep is niet verwijderd. Neem contact op met uw beheerder.';
-    //     this.openModal();
-    // }
+    }
 
+    addUser(userName: string) {
 
-    // editGroup(group: Group) {
-    //     if (group.newName === '' || group.newName == null) {
-    //         this.messageHeader = 'Groepsnaam leeg';
-    //         this.message = 'U heeft geen groepsnaam opgeven. Probeer het opnieuw.';
-    //         this.openModal();
-    //         group.edit = false;
-    //         return;
-    //     }
-    //     for (let i = 0; i < this.availableGroups.length; i++) {
-    //         if (this.availableGroups[i].groupName === group.newName && this.availableGroups[i] !== group) {
-    //             group.newName = group.groupName;
-    //             this.messageHeader = 'Groep bestaat reeds';
-    //             this.message = 'Er bestaat al een groep met deze naam. De groepsnaam is niet aangepast.';
-    //             this.openModal();
-    //             group.edit = false;
-    //             return;
-    //         }
-    //     }
-    //     for (let i = 0; i < this.availableGroups.length; i++) {
-    //         if (this.availableGroups[i] === group) {
-    //             this.availableGroups[i].groupName = group.newName;
-    //             this.availableGroupsService.putGroup(group).subscribe(
-    //                 null,
-    //                 console.error
-    //             );
-    //             group.edit = false;
-    //             return;
-    //         }
-    //     }
+    }
 
+    openModal() {
+        this.myModal.nativeElement.className = 'modal fade show';
+    }
 
-    // }
-    // openModal() {
-    //     this.myModal.nativeElement.className = 'modal fade show';
-    // }
-    // closeModal() {
-    //     this.myModal.nativeElement.className = 'modal hide';
-    // }
+    closeModal() {
+        this.myModal.nativeElement.className = 'modal hide';
+    }
+
+    private completeObservable() {
+        if (this.groupFound && this.isOwner) {
+            this.edit = false;
+            this.newName = this.group.groupName;
+        }
+    }
 }
