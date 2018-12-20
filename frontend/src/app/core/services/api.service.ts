@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError, pipe } from 'rxjs';
-import { catchError, finalize } from 'rxjs/operators';
+import { Observable, throwError, pipe, BehaviorSubject } from 'rxjs';
+import { catchError, finalize, map } from 'rxjs/operators';
 import { HttpOptions } from '../classes/http-options';
 import { Router } from '@angular/router';
 
@@ -12,26 +12,28 @@ import { Router } from '@angular/router';
 export class ApiService {
 
     apiUrl = environment.apiUrl;
-    awaitingResponse = false;
+
+    private _awaitingResponse = new BehaviorSubject<boolean>(false);
+    awaitingResponse = this._awaitingResponse.asObservable();
 
     constructor(private http: HttpClient, private router: Router) { }
 
     get(endpoint: string, options?: HttpOptions): Observable<object> {
-        this.awaitingResponse = true;
+        this._awaitingResponse.next(true);
         const httpOptions = this.addBearer(options);
         return this.http.get(this.apiUrl + endpoint, httpOptions)
             .pipe(this.catchFinally());
     }
 
     delete(endpoint: string, options?: HttpOptions): Observable<object> {
-        this.awaitingResponse = true;
+        this._awaitingResponse.next(true);
         const httpOptions = this.addBearer(options);
         return this.http.delete(this.apiUrl + endpoint, httpOptions)
             .pipe(this.catchFinally());
     }
 
     post(endpoint: string, postBody: object, options?: HttpOptions): Observable<object> {
-        this.awaitingResponse = true;
+        this._awaitingResponse.next(true);
         const httpOptions = this.addBearer(options);
         httpOptions.headers.append('Content-Type', 'application/json');
         return this.http.post(this.apiUrl + endpoint, postBody , httpOptions)
@@ -39,7 +41,7 @@ export class ApiService {
     }
 
     put(endpoint: string, putBody: object, options?: HttpOptions): Observable<object> {
-        this.awaitingResponse = true;
+        this._awaitingResponse.next(true);
         const httpOptions = this.addBearer(options);
         httpOptions.headers.append('Content-Type', 'application/json');
         return this.http.put(this.apiUrl + endpoint, putBody , httpOptions)
@@ -56,7 +58,7 @@ export class ApiService {
                 return throwError(error);
             }),
             finalize(() => {
-                this.awaitingResponse = false;
+                this._awaitingResponse.next(false);
             })
         );
     }

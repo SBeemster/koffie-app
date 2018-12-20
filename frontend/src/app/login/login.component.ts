@@ -18,6 +18,9 @@ export class LoginComponent implements OnInit {
     logout = this.auth.logout;
     returnUrl: string;
 
+    awaitingResponse = false;
+    authError = false;
+
     constructor(
         private route: ActivatedRoute,
         private router: Router,
@@ -26,10 +29,9 @@ export class LoginComponent implements OnInit {
 
     ngOnInit() {
         this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
-    }
-
-    awaitingResponse(): boolean {
-        return this.api.awaitingResponse;
+        this.api.awaitingResponse.subscribe(
+            state => { this.awaitingResponse = state; }
+        );
     }
 
     togglePassword(): void {
@@ -41,10 +43,18 @@ export class LoginComponent implements OnInit {
     }
 
     login(): void {
+        this.authError = false;
         this.auth.login(this.username, this.password).subscribe(
-            () => { // success
+            () => {
                 this.router.navigateByUrl(this.returnUrl);
+            },
+            () => {
+                this.authError = true;
             }
         );
+    }
+
+    loggedIn(): boolean {
+        return this.auth.isLoggedIn();
     }
 }

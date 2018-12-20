@@ -7,3 +7,11 @@ $grid-breakpoints: (
 );
 
 $fa-font-path: "~font-awesome/fonts";
+
+@mixin clearfix() {
+    &::after {
+        display: block;
+        content: "";
+        clear: both;
+    }
+}

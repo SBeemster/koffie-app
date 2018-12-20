@@ -16,7 +16,7 @@ export class MostDrinkedComponent implements OnInit, ChartVisible {
 
     ngOnInit() {
         this.mostDrinksChart = Echarts.init(this.graphDrinks.nativeElement);
-        this.buildReport('All time')
+        this.buildReport('All time');
     }
 
     buildReport(periode: string) {
@@ -24,7 +24,7 @@ export class MostDrinkedComponent implements OnInit, ChartVisible {
         let begintijd;
         let eindtijd;
         let stringBegintijd;
-        let stringEindtijd
+        let stringEindtijd;
         const tzoffset = (new Date()).getTimezoneOffset() * 60000; // offset in milliseconds
         if (periode === 'Vandaag') {
             begintijd = new Date();

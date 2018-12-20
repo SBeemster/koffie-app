@@ -12,6 +12,7 @@ const routes: Routes = [
         path: '',
         component: UserComponent,
         children: [
+            { path: 'group', component: GroupComponent },
             { path: 'group/:groupId', component: GroupComponent },
             { path: 'create', component: CreateComponent },
             { path: 'select', component: SelectComponent },

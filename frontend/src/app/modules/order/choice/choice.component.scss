@@ -1,26 +1,33 @@
 .card {
-  width: auto;
-  max-width: 50rem;
-  margin: auto;
-  border-color: black;
+    width: auto;
+    max-width: 50rem;
+    margin: auto;
+    border-color: black;
 }
-.card-text {
-  align-self: auto;
+
+img {
+    max-height: 15em;
+    max-width: 15em;
 }
-div {
-  margin-top: 3px;
+
+.fa-star-o,
+.fa-star {
+    color: #FFC107;
 }
-.col-center {
-  margin: auto;
-  float: none;
+
+.fa-time {
+    color: #000;
+    text-decoration: none;
+    opacity: .75;
 }
-.btn-close {
-  border: 0;
-  border-radius: 0;
+
+.close-star {
+    margin-left: 15px;
+    margin-top: 12px;
+    opacity: 1;
 }
-.btn-bestellen {
-  margin-top: 1em;
-}
-.fa {
-  color: #FFC107;
+
+.close-times {
+    margin-right: 15px;
+    margin-top: 12px;
 }

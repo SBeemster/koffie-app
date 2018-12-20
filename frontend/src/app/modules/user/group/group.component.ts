@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { AvailableGroupsService } from '../../../core/services/Available-groups.service';
-import { ApiService } from '../../../core/services/api.service';
 import { Group } from '../../../core/classes/group';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GroupService } from 'src/app/core/services/group.service';
+import { merge } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-group',
@@ -13,120 +13,157 @@ import { GroupService } from 'src/app/core/services/group.service';
 export class GroupComponent implements OnInit {
     @ViewChild('myModal') myModal;
 
-    availableGroups = [];
-    messageHeader;
-    message;
-    newName;
-    id;
+    messageHeader: string;
+    messageBody: string;
 
-    memberGroup: Group = {
-        groupId: "",
-        groupName: ""
-    }
+    group: Group = {
+        groupId: '',
+        groupName: ''
+    };
 
+    noGroup = false;
     groupFound = false;
+    isOwner = false;
+    edit = false;
+    newName = '';
+    username = '';
 
     constructor(
         private activatedRoute: ActivatedRoute,
-        private groupService: GroupService
+        private groupService: GroupService,
+        private router: Router
     ) { }
 
     ngOnInit() {
         const groupId = this.activatedRoute.snapshot.params['groupId'];
-        this.groupService.getGroupById(groupId).subscribe(
-            response => {
-                if (response) {
-                    console.log(response);
-                    this.memberGroup = response;
-                    this.groupFound = true;
-                }
-            },
-            console.error
-        )
-        // this.availableGroupsService.getGroups().subscribe(
-        //     group => {
-        //         this.availableGroups.push(group);
-        //     },
-        //     console.error
-        // );
+        if (groupId) {
+            this.populatePage(groupId);
+        } else {
+            this.noGroup = true;
+        }
     }
 
-    // newGroup(newName: string) {
-    //     for (let i = 0; i < this.availableGroups.length; i++) {
-    //         if (this.availableGroups[i].groupName === newName) {
-    //             this.messageHeader = 'Groep bestaat reeds';
-    //             this.message = 'Er bestaat reeds een groep met deze naam. De groep is niet aangemaakt';
-    //             this.openModal();
-    //             return;
-    //         }
-    //     }
-    //     this.availableGroupsService.postGroup(newName).subscribe(
-    //         res => { this.id = res.toString(); },
-    //         console.error
-    //     );
+    renameGroup() {
+        if (this.newName.length < 3) {
+            this.messageHeader = 'Groepsnaam te kort';
+            this.messageBody = 'U heeft een groepsnaam opgeven die te kort is. Probeer een naam van minimaal 3 tekens.';
+            this.openModal();
+            return;
+        } else {
+            this.group.groupName = this.newName;
+            this.edit = false;
+            this.groupService.putGroup(this.group).subscribe(
+                () => {
+                    this.groupService.header.refreshGroup();
+                },
+                console.error
+            );
+        }
+    }
 
-    //     const group: Group = {
-    //         groupId: this.id,
-    //         groupName: newName
-    //     };
-    //     this.availableGroups.push(group);
-    // }
+    newGroup() {
+        if (this.newName.length < 3) {
+            this.messageHeader = 'Groepsnaam te kort';
+            this.messageBody = 'U heeft een groepsnaam opgeven die te kort is. Probeer een naam van minimaal 3 tekens.';
+            this.openModal();
+            return;
+        } else {
+            this.groupService.postGroup(this.newName).subscribe(
+                (groupId: string) => {
+                    this.groupService.header.refreshGroup();
+                    this.noGroup = false;
+                    this.populatePage(groupId);
+                },
+                console.error
+            );
+        }
+    }
 
+    deleteGroup() {
+        this.groupService.deleteGroup(this.group.groupId).subscribe(
+            () => {
+                this.groupService.header.refreshGroup();
+                this.router.navigate(['/dashboard']);
+            },
+            console.error
+        );
+    }
 
-    // deleteGroup(group: Group) {
+    leaveGroup() {
+        this.groupService.leaveGroup(this.group.groupId).subscribe(
+            () => {
+                this.groupService.header.refreshGroup();
+                this.router.navigate(['/dashboard']);
+            },
+            console.error
+        );
+    }
 
-    //     for (let i = 0; i < this.availableGroups.length; i++) {
-    //         if (this.availableGroups[i].groupId === group.groupId) {
-    //             this.availableGroupsService.deleteGroup(group).subscribe(
-    //                 null,
-    //                 console.error
-    //             );
-    //             this.availableGroups.splice(i, 1);
-    //             return;
-    //         }
-    //     }
-    //     this.messageHeader = 'Groep niet gevonden';
-    //     this.message = 'Er bestaat geen groep met deze naam. De groep is niet verwijderd. Neem contact op met uw beheerder.';
-    //     this.openModal();
-    // }
+    addUser() {
+        this.groupService.addUser(this.group.groupId, this.username).subscribe(
+            () => {
+                this.populatePage(this.group.groupId);
+            },
+            (error: HttpErrorResponse) => {
+                if (error.status === 409) {
+                    this.messageHeader = 'Conflict';
+                    this.messageBody = 'De gebruiker die u geprobeerd heeft toe te voegen is waarschijnlijk al lid van een koffie groep.';
+                    this.openModal();
+                    return;
+                }
+                if (error.status === 404) {
+                    this.messageHeader = 'Niet Gevonden';
+                    this.messageBody = 'De gebruiker die u geprobeerd heeft toe te voegen is niet gevonden.';
+                    this.openModal();
+                    return;
+                }
+            }
+        );
+    }
 
+    openModal() {
+        this.myModal.nativeElement.className = 'modal fade show';
+        const div = document.createElement('div');
+        div.className = 'modal-backdrop fade show';
+        document.body.appendChild(div);
+    }
 
-    // editGroup(group: Group) {
-    //     if (group.newName === '' || group.newName == null) {
-    //         this.messageHeader = 'Groepsnaam leeg';
-    //         this.message = 'U heeft geen groepsnaam opgeven. Probeer het opnieuw.';
-    //         this.openModal();
-    //         group.edit = false;
-    //         return;
-    //     }
-    //     for (let i = 0; i < this.availableGroups.length; i++) {
-    //         if (this.availableGroups[i].groupName === group.newName && this.availableGroups[i] !== group) {
-    //             group.newName = group.groupName;
-    //             this.messageHeader = 'Groep bestaat reeds';
-    //             this.message = 'Er bestaat al een groep met deze naam. De groepsnaam is niet aangepast.';
-    //             this.openModal();
-    //             group.edit = false;
-    //             return;
-    //         }
-    //     }
-    //     for (let i = 0; i < this.availableGroups.length; i++) {
-    //         if (this.availableGroups[i] === group) {
-    //             this.availableGroups[i].groupName = group.newName;
-    //             this.availableGroupsService.putGroup(group).subscribe(
-    //                 null,
-    //                 console.error
-    //             );
-    //             group.edit = false;
-    //             return;
-    //         }
-    //     }
+    closeModal() {
+        this.myModal.nativeElement.className = 'modal hide';
+        const divList = document.body.getElementsByClassName('modal-backdrop');
+        for (let i = 0; i < divList.length; i++) {
+            const div = divList.item(i);
+            div.remove();
+        }
+    }
 
+    private populatePage(groupId: string) {
+        this.edit = false;
+        this.newName = '';
+        this.username = '';
 
-    // }
-    // openModal() {
-    //     this.myModal.nativeElement.className = 'modal fade show';
-    // }
-    // closeModal() {
-    //     this.myModal.nativeElement.className = 'modal hide';
-    // }
+        this.groupService.getGroupById(groupId).subscribe(
+            response => {
+                this.group = response;
+                this.groupFound = true;
+                this.completeObservable();
+            },
+            console.error
+        );
+
+        this.groupService.getIsGroupOwner(groupId).subscribe(
+            response => {
+                this.isOwner = response;
+                this.completeObservable();
+            },
+            console.error
+        );
+    }
+
+    private completeObservable() {
+        if (this.groupFound && this.isOwner) {
+            this.edit = false;
+            this.newName = this.group.groupName;
+        }
+    }
 }

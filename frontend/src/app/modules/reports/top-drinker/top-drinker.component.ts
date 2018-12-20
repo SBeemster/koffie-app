@@ -16,7 +16,7 @@ export class TopDrinkerComponent implements OnInit, ChartVisible {
 
     ngOnInit() {
         this.topDrinkerChart = Echarts.init(this.graphDrinker.nativeElement);
-        this.buildReport('All time')
+        this.buildReport('All time');
     }
 
     buildReport(periode: string) {

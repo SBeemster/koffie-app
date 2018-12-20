@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { ApiService } from 'src/app/core/services/api.service';
 import { Router } from '@angular/router';
@@ -8,7 +8,10 @@ import { Router } from '@angular/router';
     templateUrl: './logout.component.html',
     styleUrls: ['./logout.component.scss']
 })
-export class LogoutComponent {
+export class LogoutComponent implements OnInit {
+
+    awaitingResponse = false;
+    username = '';
 
     constructor(
         private auth: AuthService,
@@ -16,14 +19,11 @@ export class LogoutComponent {
         private router: Router
     ) { }
 
-    username() {
-        if (this.auth.isLoggedIn()) {
-            return this.auth.getDecodedToken().uniqueName;
-        }
-    }
-
-    awaitingResponse(): boolean {
-        return this.api.awaitingResponse;
+    ngOnInit() {
+        this.api.awaitingResponse.subscribe(
+            state => { this.awaitingResponse = state; }
+        );
+        this.username = this.auth.getDecodedToken().uniqueName;
     }
 
     logout(): void {

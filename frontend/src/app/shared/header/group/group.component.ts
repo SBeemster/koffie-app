@@ -10,12 +10,15 @@ import { ApiService } from 'src/app/core/services/api.service';
 })
 export class GroupComponent implements OnInit {
 
-    memberGroup: Group = {
-        groupId: "",
-        groupName: ""
-    }
+    myGroup: Group = {
+        groupId: '',
+        groupName: ''
+    };
 
     groupFound = false;
+    noGroup = false;
+
+    awaitingResponse = false;
 
     constructor(
         private api: ApiService,
@@ -23,17 +26,25 @@ export class GroupComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.groupService.getMemberGroup().subscribe(
-            response => {
-                if (response) {
-                    this.memberGroup = response;
-                    this.groupFound = true;
-                }
-            }
-        )
+        this.groupService.header = this;
+        this.refreshGroup();
+        this.api.awaitingResponse.subscribe(
+            state => { this.awaitingResponse = state; }
+        );
     }
 
-    awaitingResponse(): boolean {
-        return this.api.awaitingResponse;
+    refreshGroup() {
+        this.groupService.getMyGroup().subscribe(
+            response => {
+                if (response) {
+                    this.myGroup = response;
+                    this.groupFound = true;
+                    this.noGroup = false;
+                } else {
+                    this.groupFound = false;
+                    this.noGroup = true;
+                }
+            }
+        );
     }
 }

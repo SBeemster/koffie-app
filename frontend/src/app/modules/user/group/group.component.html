@@ -1,60 +1,101 @@
 <div class="row">
-    <div class="card mx-auto mt-3" *ngIf="groupFound">
-        <div class="card-header">
-            {{ memberGroup.groupName }}
-        </div>
-        <div class="card-body">
+    <div class="col-12">
+        <div class="card mt-3" *ngIf="groupFound">
+            <div class="card-header" *ngIf="!isOwner">
+                {{ group.groupName }}
+            </div>
+            <div class="card-header btn-header" *ngIf="isOwner">
+                <form (ngSubmit)="renameGroup()">
+                    <div class="input-group">
+                        <input type="text" readonly class="form-control" [ngModel]="group.groupName" name="groupname"
+                            *ngIf="!edit">
+                        <input type="text" class="form-control" [(ngModel)]="newName" name="groupname" *ngIf="edit">
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary" (click)="edit = true" *ngIf="!edit">
+                                <i class="fa fa-fw fa-edit"></i>
+                            </button>
+                            <button class="btn btn-success" type="submit" *ngIf="edit">
+                                <i class="fa fa-fw fa-save"></i>
+                            </button>
+                            <button class="btn btn-danger" (click)="deleteGroup(group)">
+                                <i class="fa fa-fw fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="card-body">
 
-            <!-- <form (ngSubmit)="newGroup(newName); newName='';">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Voer naam in" [(ngModel)]="newName" name="groupname">
-                    <button class="btn btn-outline-success">
-                        Toevoegen
-                    </button>
+                <div class="mb-3">
+                    <h5>
+                        Groepsleden
+                    </h5>
+                    <ul class="list-group shadow bg-white rounded">
+                        <li class="list-group-item" *ngFor="let member of group.members">
+                            {{ member.firstName }} {{ member.lastName }}
+                        </li>
+                    </ul>
                 </div>
-            </form> -->
 
-            <!-- <ul class="list-group list-group-flush">
-                <li class="list-group-item" *ngFor="let availableGroup of availableGroups">
-                    <span *ngIf="!availableGroup.edit">
-                        {{availableGroup.groupName}}
-                    </span>
-                    <span *ngIf="availableGroup.edit">
-                        <input type="text" [(ngModel)]="availableGroup.newName" name="groupname">
-                    </span>
-                    <button class="float-right btn btn-danger" (click)="deleteGroup(availableGroup)">
-                        <i class="fa fa-fw fa-trash"></i>
-                    </button>
-                    <button class="float-right btn btn-secondary mr-1" (click)="availableGroup.edit = true" *ngIf="!availableGroup.edit">
-                        <i class="fa fa-fw fa-edit"></i>
-                    </button>
-                    <button class="float-right btn btn-secondary mr-1" (click)="editGroup(availableGroup)" *ngIf="availableGroup.edit">
-                        <i class="fa fa-fw fa-save"></i>
-                    </button>
-                </li>
-            </ul> -->
+                <div *ngIf="!isOwner">
+                    <form>
+                        <button class="btn btn-block btn-danger" (click)="leaveGroup()">
+                            Groep Verlaten
+                        </button>
+                    </form>
+                </div>
 
-            <ul class="list-group shadow bg-white rounded">
-                <li class="list-group-item" *ngFor="let member of memberGroup.members">
-                    {{ member.firstName }} {{ member.lastName }}
-                </li>
-            </ul>
+                <div *ngIf="isOwner">
+                    <form (ngSubmit)="addUser();">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Voeg een gebruiker toe (gebruikersnaam)"
+                                [(ngModel)]="username" name="username">
+                            <div class="input-group-append">
+                                <button class="btn btn-success" type="submit">
+                                    <i class="fa fa-fw fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
 
+            </div>
         </div>
+
+        <div class="card mt-3" *ngIf="noGroup">
+            <div class="card-header">
+                <form (ngSubmit)="newGroup();">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Verzin een naam" [(ngModel)]="newName"
+                            name="groupname">
+                        <div class="input-group-append">
+                            <button class="btn btn-success" type="submit">
+                                <i class="fa fa-fw fa-save"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="card-body">
+                U bent nog geen lid van een koffie groep. <br> Verzin om te beginnen een naam voor uw koffie groep.
+            </div>
+        </div>
+
     </div>
 </div>
 
 <!-- Bootstrap modal for messages -->
-<!-- <div #myModal class="modal fade" role="dialog">
-    <div class="modal-dialog">
+<div #myModal class="modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">
-                    {{messageHeader}}
-                </h4>
+                <h5 class="modal-title">{{ messageHeader }}</h5>
+                <button type="button" class="close" (click)="closeModal()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
-                <p>{{message}}</p>
+                <p>{{ messageBody }}</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal" (click)="closeModal()">
@@ -63,4 +104,4 @@
             </div>
         </div>
     </div>
-</div> -->
+</div>

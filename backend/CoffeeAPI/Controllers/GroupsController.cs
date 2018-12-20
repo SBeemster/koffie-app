@@ -28,8 +28,8 @@ namespace CoffeeAPI.Controllers
             return _context.Groups;
         }
 
-        // GET: api/Groups/member-group
-        [HttpGet("member-group")]
+        // GET: api/Groups/my-group
+        [HttpGet("my-group")]
         public IActionResult GetMemberGroup()
         {
             Group group;
@@ -50,26 +50,13 @@ namespace CoffeeAPI.Controllers
             return Ok(group);
         }
 
-        // GET: api/Groups/my-group
-        [HttpGet("my-group")]
-        public IActionResult GetMyGroup()
+        // GET: api/Groups/is-owner/5
+        [HttpGet("is-owner/{id}")]
+        public IActionResult IsOwner([FromRoute] Guid id)
         {
-            Group group;
-            try
-            {
-                var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-                group = _context.Users
-                    .Where(u => u.UserId == userId)
-                    .Include(u => u.GroupOwner)
-                    .Select(u => u.GroupOwner)
-                    .Single();
-            }
-            catch
-            {
-                return NotFound();
-            }
+            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-            return Ok(group);
+            return Ok(new { IsOwner = IsGroupOwner(userId, id) });
         }
 
         // GET: api/Groups/5
@@ -101,6 +88,12 @@ namespace CoffeeAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutGroup([FromRoute] Guid id, [FromBody] Group @group)
         {
+            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            if (!IsGroupOwner(userId, id))
+            {
+                return Unauthorized();
+            }
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -132,16 +125,104 @@ namespace CoffeeAPI.Controllers
             return NoContent();
         }
 
+        // PUT: api/Groups/add/5
+        [HttpPut("add-to-group/{id}")]
+        public IActionResult AddToGroup([FromRoute] Guid id, [FromBody] LoginAttempt userName)
+        {
+            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            if (!IsGroupOwner(userId, id))
+            {
+                return Unauthorized();
+            }
+
+            User user;
+            Group currentGroup;
+            Group targetGroup;
+
+            // fetch user via logins table
+            try
+            {
+                user = _context.Logins
+                    .Where(l => l.UserName == userName.UserName)
+                    .Include(l => l.User)
+                    .Select(l => l.User)
+                    .Single();
+
+                currentGroup = _context.Users
+                    .Where(u => u.UserId == user.UserId)
+                    .Include(u => u.GroupMember)
+                    .Select(u => u.GroupMember)
+                    .Single();
+            }
+            catch
+            {
+                return NotFound();
+            }
+
+            // check group existence
+            try
+            {
+                targetGroup = _context.Groups
+                    .Where(g => g.GroupId == id)
+                    .Single();
+            }
+            catch
+            {
+                return NotFound();
+            }
+
+            if (currentGroup == null)
+            {
+                user.GroupMember = targetGroup;
+                _context.SaveChanges();
+            }
+            else
+            {
+                return Conflict();
+            }
+
+            return Ok();
+        }
+
+        // PUT: api/Groups/leave
+        [HttpPut("leave/{id}")]
+        public IActionResult LeaveGroup([FromRoute] Guid id)
+        {
+            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var user = _context.Users
+                .Where(u => u.UserId == userId)
+                .Include(u => u.GroupMember)
+                .Single();
+
+            if (user.GroupMember.GroupId == id)
+            {
+                user.GroupMember = null;
+                _context.SaveChanges();
+            }
+            else
+            {
+                return Conflict();
+            }
+
+            return Ok();
+        }
+
         // POST: api/Groups
         [HttpPost]
         public async Task<IActionResult> PostGroup([FromBody] Group @group)
         {
+            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var user = _context.Users.Where(u => u.UserId == userId).Single();
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
             _context.Groups.Add(@group);
+            user.GroupMember = @group;
+            user.GroupOwner = @group;
+
             await _context.SaveChangesAsync();
 
             return Ok(group.GroupId);
@@ -149,28 +230,51 @@ namespace CoffeeAPI.Controllers
 
         // DELETE: api/Groups/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteGroup([FromRoute] Guid id)
+        public IActionResult DeleteGroup([FromRoute] Guid id)
         {
+            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            if (!IsGroupOwner(userId, id))
+            {
+                return Unauthorized();
+            }
+
+            var user = _context.Users.Where(u => u.UserId == userId).Single();
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var @group = await _context.Groups.FindAsync(id);
-            if (@group == null)
+            var group = _context.Groups
+                .Where(g => g.GroupId == id)
+                .Include(g => g.Members)
+                .Single();
+
+            if (group == null)
             {
                 return NotFound();
             }
 
-            _context.Groups.Remove(@group);
-            await _context.SaveChangesAsync();
+            foreach (var member in group.Members)
+            {
+                member.GroupMember = null;
+            }
+            user.GroupOwner = null;
+            _context.Groups.Remove(group);
 
-            return Ok(@group);
+            _context.SaveChanges();
+
+            return Ok();
         }
 
         private bool GroupExists(Guid id)
         {
             return _context.Groups.Any(e => e.GroupId == id);
+        }
+
+        private bool IsGroupOwner(Guid userId, Guid groupId)
+        {
+            return _context.Users.Any(u => u.UserId == userId && u.GroupOwner.GroupId == groupId);
         }
     }
 }
