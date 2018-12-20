@@ -69,9 +69,10 @@ export class GroupComponent implements OnInit {
             return;
         } else {
             this.groupService.postGroup(this.newName).subscribe(
-                () => {
+                (groupId: string) => {
                     this.groupService.header.refreshGroup();
-                    this.router.navigate(['/dashboard']);
+                    this.noGroup = false;
+                    this.populatePage(groupId);
                 },
                 console.error
             );
@@ -137,9 +138,6 @@ export class GroupComponent implements OnInit {
     }
 
     private populatePage(groupId: string) {
-        this.noGroup = false;
-        this.groupFound = false;
-        this.isOwner = false;
         this.edit = false;
         this.newName = '';
         this.username = '';

@@ -28,8 +28,8 @@ namespace CoffeeAPI.Controllers
             return _context.Groups;
         }
 
-        // GET: api/Groups/member-group
-        [HttpGet("member-group")]
+        // GET: api/Groups/my-group
+        [HttpGet("my-group")]
         public IActionResult GetMemberGroup()
         {
             Group group;
@@ -40,28 +40,6 @@ namespace CoffeeAPI.Controllers
                     .Where(u => u.UserId == userId)
                     .Include(u => u.GroupMember)
                     .Select(u => u.GroupMember)
-                    .Single();
-            }
-            catch
-            {
-                return NotFound();
-            }
-
-            return Ok(group);
-        }
-
-        // GET: api/Groups/my-group
-        [HttpGet("my-group")]
-        public IActionResult GetMyGroup()
-        {
-            Group group;
-            try
-            {
-                var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-                group = _context.Users
-                    .Where(u => u.UserId == userId)
-                    .Include(u => u.GroupOwner)
-                    .Select(u => u.GroupOwner)
                     .Single();
             }
             catch

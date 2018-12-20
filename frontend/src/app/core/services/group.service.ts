@@ -22,23 +22,7 @@ export class GroupService {
         }
     }
 
-    getMemberGroup(): Observable<Group> {
-        return this.api.get('/Groups/member-group')
-            .pipe(map(obj => {
-                if (obj) {
-                    const group: Group = {
-                        groupId: obj['groupId'],
-                        groupName: obj['groupName'],
-                        members: obj['members']
-                    };
-                    return group;
-                } else {
-                    return null;
-                }
-            }));
-    }
-
-    getOwnedGroup(): Observable<Group> {
+    getMyGroup(): Observable<Group> {
         return this.api.get('/Groups/my-group')
             .pipe(map(obj => {
                 if (obj) {

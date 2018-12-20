@@ -10,7 +10,7 @@ import { ApiService } from 'src/app/core/services/api.service';
 })
 export class GroupComponent implements OnInit {
 
-    memberGroup: Group = {
+    myGroup: Group = {
         groupId: '',
         groupName: ''
     };
@@ -34,10 +34,10 @@ export class GroupComponent implements OnInit {
     }
 
     refreshGroup() {
-        this.groupService.getMemberGroup().subscribe(
+        this.groupService.getMyGroup().subscribe(
             response => {
                 if (response) {
-                    this.memberGroup = response;
+                    this.myGroup = response;
                     this.groupFound = true;
                     this.noGroup = false;
                 } else {

@@ -5,28 +5,21 @@
                 {{ group.groupName }}
             </div>
             <div class="card-header btn-header" *ngIf="isOwner">
-                <form class="inline-form" (ngSubmit)="renameGroup()">
-                    <div class="row">
-                        <div class="col-8">
-                            <span *ngIf="!edit">
-                                <input type="text" readonly class="form-control" [ngModel]="group.groupName" name="groupname">
-                            </span>
-                            <span *ngIf="edit">
-                                <input type="text" class="form-control" [(ngModel)]="newName" name="groupname">
-                            </span>
-                        </div>
-                        <div class="col clearfix">
-                            <div class="float-right">
-                                <button class="btn btn-secondary mr-1" (click)="edit = true" *ngIf="!edit">
-                                    <i class="fa fa-fw fa-edit"></i>
-                                </button>
-                                <button class="btn btn-secondary mr-1" type="submit" *ngIf="edit">
-                                    <i class="fa fa-fw fa-save"></i>
-                                </button>
-                                <button class="btn btn-danger" (click)="deleteGroup(group)">
-                                    <i class="fa fa-fw fa-trash"></i>
-                                </button>
-                            </div>
+                <form (ngSubmit)="renameGroup()">
+                    <div class="input-group">
+                        <input type="text" readonly class="form-control" [ngModel]="group.groupName" name="groupname"
+                            *ngIf="!edit">
+                        <input type="text" class="form-control" [(ngModel)]="newName" name="groupname" *ngIf="edit">
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary" (click)="edit = true" *ngIf="!edit">
+                                <i class="fa fa-fw fa-edit"></i>
+                            </button>
+                            <button class="btn btn-success" type="submit" *ngIf="edit">
+                                <i class="fa fa-fw fa-save"></i>
+                            </button>
+                            <button class="btn btn-danger" (click)="deleteGroup(group)">
+                                <i class="fa fa-fw fa-trash"></i>
+                            </button>
                         </div>
                     </div>
                 </form>
@@ -58,7 +51,9 @@
                             <input type="text" class="form-control" placeholder="Voeg een gebruiker toe (gebruikersnaam)"
                                 [(ngModel)]="username" name="username">
                             <div class="input-group-append">
-                                <button class="btn btn-outline-success" type="submit">Toevoegen</button>
+                                <button class="btn btn-success" type="submit">
+                                    <i class="fa fa-fw fa-plus"></i>
+                                </button>
                             </div>
                         </div>
                     </form>
@@ -69,18 +64,20 @@
 
         <div class="card mt-3" *ngIf="noGroup">
             <div class="card-header">
-                U bent nog geen lid van een koffie groep
-            </div>
-            <div class="card-body">
                 <form (ngSubmit)="newGroup();">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Voer een naam in" [(ngModel)]="newName"
+                        <input type="text" class="form-control" placeholder="Verzin een naam" [(ngModel)]="newName"
                             name="groupname">
                         <div class="input-group-append">
-                            <button class="btn btn-outline-success" type="submit">Maak Koffie Groep</button>
+                            <button class="btn btn-success" type="submit">
+                                <i class="fa fa-fw fa-save"></i>
+                            </button>
                         </div>
                     </div>
                 </form>
+            </div>
+            <div class="card-body">
+                U bent nog geen lid van een koffie groep. <br> Verzin om te beginnen een naam voor uw koffie groep.
             </div>
         </div>
 
