@@ -76,6 +76,7 @@ export class AuthService {
     }
 
     private setSession(authResult): void {
+        this.decodedToken = null;
         localStorage.setItem('id_token', authResult.idToken);
     }
 }

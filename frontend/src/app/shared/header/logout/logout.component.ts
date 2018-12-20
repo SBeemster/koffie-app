@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 export class LogoutComponent implements OnInit {
 
     awaitingResponse = false;
+    username = "";
 
     constructor(
         private auth: AuthService,
@@ -22,12 +23,7 @@ export class LogoutComponent implements OnInit {
         this.api.awaitingResponse.subscribe(
             state => { this.awaitingResponse = state; }
         );
-    }
-
-    username() {
-        if (this.auth.isLoggedIn()) {
-            return this.auth.getDecodedToken().uniqueName;
-        }
+        this.username = this.auth.getDecodedToken().uniqueName;
     }
 
     logout(): void {
