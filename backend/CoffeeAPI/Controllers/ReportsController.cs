@@ -204,7 +204,7 @@ namespace CoffeeAPI.Controllers
                                 "AND (O.OrderTime < @eindtijd OR @eindtijd IS NULL)" +
                                 "AND O.GetTime > O.OrderTime;" +
                                 "SELECT count(orderlineid) as aantal, orderdate, sum(timespend) as totaltime INTO #total FROM #date GROUP BY orderdate;" +
-                                "SELECT(totaltime / aantal) as averagetime, CONVERT(varchar, orderdate, 5) FROM #total;";
+                                "SELECT(totaltime / aantal) as averagetime, CONVERT(varchar, orderdate, 5) as orderdate FROM #total ORDER BY orderdate ASC;";
             return sqlCommand;
         }
         public string getMostDrinked()
