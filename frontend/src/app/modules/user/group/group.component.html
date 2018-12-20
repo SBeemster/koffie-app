@@ -5,7 +5,7 @@
                 {{ group.groupName }}
             </div>
             <div class="card-header btn-header" *ngIf="isOwner">
-                <form (ngSubmit)="renameGroup()">
+                <form>
                     <div class="input-group">
                         <input type="text" readonly class="form-control" [ngModel]="group.groupName" name="groupname"
                             *ngIf="!edit">
@@ -14,7 +14,7 @@
                             <button class="btn btn-secondary" (click)="edit = true" *ngIf="!edit">
                                 <i class="fa fa-fw fa-edit"></i>
                             </button>
-                            <button class="btn btn-success" type="submit" *ngIf="edit">
+                            <button class="btn btn-success" type="submit" (click)="renameGroup()" *ngIf="edit">
                                 <i class="fa fa-fw fa-save"></i>
                             </button>
                             <button class="btn btn-danger" (click)="deleteGroup(group)">
