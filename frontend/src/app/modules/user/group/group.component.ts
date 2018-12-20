@@ -95,7 +95,7 @@ export class GroupComponent implements OnInit {
                 this.router.navigate(['/dashboard']);
             },
             console.error
-        )
+        );
     }
 
     addUser() {
@@ -104,34 +104,34 @@ export class GroupComponent implements OnInit {
                 this.populatePage(this.group.groupId);
             },
             (error: HttpErrorResponse) => {
-                if (error.status == 409) {
+                if (error.status === 409) {
                     this.messageHeader = 'Conflict';
                     this.messageBody = 'De gebruiker die u geprobeerd heeft toe te voegen is waarschijnlijk al lid van een koffie groep.';
                     this.openModal();
                     return;
                 }
-                if (error.status == 404) {
+                if (error.status === 404) {
                     this.messageHeader = 'Niet Gevonden';
                     this.messageBody = 'De gebruiker die u geprobeerd heeft toe te voegen is niet gevonden.';
                     this.openModal();
                     return;
                 }
             }
-        )
+        );
     }
 
     openModal() {
         this.myModal.nativeElement.className = 'modal fade show';
-        let div = document.createElement('div');
+        const div = document.createElement('div');
         div.className = 'modal-backdrop fade show';
         document.body.appendChild(div);
     }
 
     closeModal() {
         this.myModal.nativeElement.className = 'modal hide';
-        let divList = document.body.getElementsByClassName('modal-backdrop');
+        const divList = document.body.getElementsByClassName('modal-backdrop');
         for (let i = 0; i < divList.length; i++) {
-            let div = divList.item(i);
+            const div = divList.item(i);
             div.remove();
         }
     }

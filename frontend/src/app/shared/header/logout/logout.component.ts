@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 export class LogoutComponent implements OnInit {
 
     awaitingResponse = false;
-    username = "";
+    username = '';
 
     constructor(
         private auth: AuthService,

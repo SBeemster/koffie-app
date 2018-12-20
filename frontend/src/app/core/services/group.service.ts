@@ -81,10 +81,10 @@ export class GroupService {
         return this.api.put(`/Groups/leave/${groupId}`, {});
     }
 
-    addUser(groupId:string, username: string): Observable<object> {
+    addUser(groupId: string, username: string): Observable<object> {
         return this.api.put(`/Groups/add-to-group/${groupId}`, {
             'UserName': username,
-        })
+        });
     }
 
     putGroup(group: Group): Observable<Object> {
