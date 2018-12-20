@@ -3,6 +3,7 @@ import { Group } from '../../../core/classes/group';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GroupService } from 'src/app/core/services/group.service';
 import { merge } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-group',
@@ -13,7 +14,7 @@ export class GroupComponent implements OnInit {
     @ViewChild('myModal') myModal;
 
     messageHeader: string;
-    message: string;
+    messageBody: string;
 
     group: Group = {
         groupId: '',
@@ -25,6 +26,7 @@ export class GroupComponent implements OnInit {
     isOwner = false;
     edit = false;
     newName = '';
+    username = '';
 
     constructor(
         private activatedRoute: ActivatedRoute,
@@ -35,22 +37,7 @@ export class GroupComponent implements OnInit {
     ngOnInit() {
         const groupId = this.activatedRoute.snapshot.params['groupId'];
         if (groupId) {
-            this.groupService.getGroupById(groupId).subscribe(
-                response => {
-                    this.group = response;
-                    this.groupFound = true;
-                    this.completeObservable();
-                },
-                console.error
-            );
-
-            this.groupService.getIsGroupOwner(groupId).subscribe(
-                response => {
-                    this.isOwner = response;
-                    this.completeObservable();
-                },
-                console.error
-            );
+            this.populatePage(groupId);
         } else {
             this.noGroup = true;
         }
@@ -59,7 +46,7 @@ export class GroupComponent implements OnInit {
     renameGroup() {
         if (this.newName.length < 3) {
             this.messageHeader = 'Groepsnaam te kort';
-            this.message = 'U heeft een groepsnaam opgeven die te kort is. Probeer een naam van minimaal 3 tekens.';
+            this.messageBody = 'U heeft een groepsnaam opgeven die te kort is. Probeer een naam van minimaal 3 tekens.';
             this.openModal();
             return;
         } else {
@@ -77,7 +64,7 @@ export class GroupComponent implements OnInit {
     newGroup() {
         if (this.newName.length < 3) {
             this.messageHeader = 'Groepsnaam te kort';
-            this.message = 'U heeft een groepsnaam opgeven die te kort is. Probeer een naam van minimaal 3 tekens.';
+            this.messageBody = 'U heeft een groepsnaam opgeven die te kort is. Probeer een naam van minimaal 3 tekens.';
             this.openModal();
             return;
         } else {
@@ -102,19 +89,77 @@ export class GroupComponent implements OnInit {
     }
 
     leaveGroup() {
-
+        this.groupService.leaveGroup(this.group.groupId).subscribe(
+            () => {
+                this.groupService.header.refreshGroup();
+                this.router.navigate(['/dashboard']);
+            },
+            console.error
+        )
     }
 
-    addUser(userName: string) {
-
+    addUser() {
+        this.groupService.addUser(this.group.groupId, this.username).subscribe(
+            () => {
+                this.populatePage(this.group.groupId);
+            },
+            (error: HttpErrorResponse) => {
+                if (error.status == 409) {
+                    this.messageHeader = 'Conflict';
+                    this.messageBody = 'De gebruiker die u geprobeerd heeft toe te voegen is waarschijnlijk al lid van een koffie groep.';
+                    this.openModal();
+                    return;
+                }
+                if (error.status == 404) {
+                    this.messageHeader = 'Niet Gevonden';
+                    this.messageBody = 'De gebruiker die u geprobeerd heeft toe te voegen is niet gevonden.';
+                    this.openModal();
+                    return;
+                }
+            }
+        )
     }
 
     openModal() {
         this.myModal.nativeElement.className = 'modal fade show';
+        let div = document.createElement('div');
+        div.className = 'modal-backdrop fade show';
+        document.body.appendChild(div);
     }
 
     closeModal() {
         this.myModal.nativeElement.className = 'modal hide';
+        let divList = document.body.getElementsByClassName('modal-backdrop');
+        for (let i = 0; i < divList.length; i++) {
+            let div = divList.item(i);
+            div.remove();
+        }
+    }
+
+    private populatePage(groupId: string) {
+        this.noGroup = false;
+        this.groupFound = false;
+        this.isOwner = false;
+        this.edit = false;
+        this.newName = '';
+        this.username = '';
+
+        this.groupService.getGroupById(groupId).subscribe(
+            response => {
+                this.group = response;
+                this.groupFound = true;
+                this.completeObservable();
+            },
+            console.error
+        );
+
+        this.groupService.getIsGroupOwner(groupId).subscribe(
+            response => {
+                this.isOwner = response;
+                this.completeObservable();
+            },
+            console.error
+        );
     }
 
     private completeObservable() {

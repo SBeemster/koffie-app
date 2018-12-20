@@ -77,6 +77,16 @@ export class GroupService {
             }));
     }
 
+    leaveGroup(groupId: string): Observable<object> {
+        return this.api.put(`/Groups/leave/${groupId}`, {});
+    }
+
+    addUser(groupId:string, username: string): Observable<object> {
+        return this.api.put(`/Groups/add-to-group/${groupId}`, {
+            'UserName': username,
+        })
+    }
+
     putGroup(group: Group): Observable<Object> {
         return this.api.put(`/Groups/${group.groupId}`, {
             'groupId': group.groupId,

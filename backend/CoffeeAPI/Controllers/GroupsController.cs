@@ -159,6 +159,82 @@ namespace CoffeeAPI.Controllers
             return NoContent();
         }
 
+        // PUT: api/Groups/add/5
+        [HttpPut("add-to-group/{id}")]
+        public IActionResult AddToGroup([FromRoute] Guid id, [FromBody] LoginAttempt userName)
+        {
+            User user;
+            Group currentGroup;
+            Group targetGroup;
+
+            // fetch user via logins table
+            try
+            {
+                user = _context.Logins
+                    .Where(l => l.UserName == userName.UserName)
+                    .Include(l => l.User)
+                    .Select(l => l.User)
+                    .Single();
+
+                currentGroup = _context.Users
+                    .Where(u => u.UserId == user.UserId)
+                    .Include(u => u.GroupMember)
+                    .Select(u => u.GroupMember)
+                    .Single();
+            }
+            catch
+            {
+                return NotFound();
+            }
+
+            // check group existence
+            try
+            {
+                targetGroup = _context.Groups
+                    .Where(g => g.GroupId == id)
+                    .Single();
+            }
+            catch
+            {
+                return NotFound();
+            }
+
+            if (currentGroup == null)
+            {
+                user.GroupMember = targetGroup;
+                _context.SaveChanges();
+            }
+            else
+            {
+                return Conflict();
+            }
+
+            return Ok();
+        }
+
+        // PUT: api/Groups/leave
+        [HttpPut("leave/{id}")]
+        public IActionResult LeaveGroup([FromRoute] Guid id)
+        {
+            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var user = _context.Users
+                .Where(u => u.UserId == userId)
+                .Include(u => u.GroupMember)
+                .Single();
+
+            if (user.GroupMember.GroupId == id)
+            {
+                user.GroupMember = null;
+                _context.SaveChanges();
+            }
+            else
+            {
+                return Conflict();
+            }
+
+            return Ok();
+        }
+
         // POST: api/Groups
         [HttpPost]
         public async Task<IActionResult> PostGroup([FromBody] Group @group)
