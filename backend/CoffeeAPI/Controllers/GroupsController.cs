@@ -76,27 +76,9 @@ namespace CoffeeAPI.Controllers
         [HttpGet("is-owner/{id}")]
         public IActionResult IsOwner([FromRoute] Guid id)
         {
-            var isOwner = false;
-            try
-            {
-                var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-                var owner = _context.Users
-                    .Where(u => u.UserId == userId)
-                    .Include(u => u.GroupOwner)
-                    .Select(u => u.GroupOwner)
-                    .Single();
+            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-                if (owner != null)
-                {
-                    isOwner = owner.GroupId == id;
-                }
-            }
-            catch
-            {
-                return NotFound();
-            }
-
-            return Ok(new { IsOwner = isOwner });
+            return Ok(new { IsOwner = IsGroupOwner(userId, id) });
         }
 
         // GET: api/Groups/5
@@ -128,6 +110,12 @@ namespace CoffeeAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutGroup([FromRoute] Guid id, [FromBody] Group @group)
         {
+            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            if (!IsGroupOwner(userId, id))
+            {
+                return Unauthorized();
+            }
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -163,6 +151,12 @@ namespace CoffeeAPI.Controllers
         [HttpPut("add-to-group/{id}")]
         public IActionResult AddToGroup([FromRoute] Guid id, [FromBody] LoginAttempt userName)
         {
+            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            if (!IsGroupOwner(userId, id))
+            {
+                return Unauthorized();
+            }
+
             User user;
             Group currentGroup;
             Group targetGroup;
@@ -261,6 +255,11 @@ namespace CoffeeAPI.Controllers
         public IActionResult DeleteGroup([FromRoute] Guid id)
         {
             var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            if (!IsGroupOwner(userId, id))
+            {
+                return Unauthorized();
+            }
+
             var user = _context.Users.Where(u => u.UserId == userId).Single();
 
             if (!ModelState.IsValid)
@@ -293,6 +292,11 @@ namespace CoffeeAPI.Controllers
         private bool GroupExists(Guid id)
         {
             return _context.Groups.Any(e => e.GroupId == id);
+        }
+
+        private bool IsGroupOwner(Guid userId, Guid groupId)
+        {
+            return _context.Users.Any(u => u.UserId == userId && u.GroupOwner.GroupId == groupId);
         }
     }
 }
