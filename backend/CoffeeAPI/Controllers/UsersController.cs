@@ -68,6 +68,7 @@ namespace CoffeeAPI.Controllers
             var updatedUser = _context.Users.Where(u => u.UserId == user.UserId)
                 .Include(r => r.UserRoles)
                 .Single();
+            updatedUser.Active = user.Active;
             var newRoles = user.UserRoles.ToArray();
             var userRoleList = updatedUser.UserRoles.ToList();
             foreach(var UserRole in userRoleList)
