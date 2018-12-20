@@ -19,6 +19,7 @@ export class LoginComponent implements OnInit {
     returnUrl: string;
 
     awaitingResponse = false;
+    authError = false;
 
     constructor(
         private route: ActivatedRoute,
@@ -42,10 +43,18 @@ export class LoginComponent implements OnInit {
     }
 
     login(): void {
+        this.authError = false;
         this.auth.login(this.username, this.password).subscribe(
-            () => { // success
+            () => {
                 this.router.navigateByUrl(this.returnUrl);
+            },
+            () => {
+                this.authError = true;
             }
         );
+    }
+
+    loggedIn(): boolean {
+        return this.auth.isLoggedIn();
     }
 }
