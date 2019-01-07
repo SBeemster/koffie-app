@@ -5,6 +5,26 @@
   </PropertyGroup>
 
   <ItemGroup>
+
+    <Compile Remove="Migrations\20181206173316_sp_TopDrinker.cs" />
+    <Compile Remove="Migrations\20181206173316_sp_TopDrinker.Designer.cs" />
+
+    <Compile Remove="Migrations\20181130141824_sp_GetTopServer.cs" />
+    <Compile Remove="Migrations\20181130141824_sp_GetTopServer.Designer.cs" />
+    <Compile Remove="Migrations\20181213160235_Groups.cs" />
+    <Compile Remove="Migrations\20181213160235_Groups.Designer.cs" />
+    <Compile Remove="Migrations\20181213161931_Groups.cs" />
+    <Compile Remove="Migrations\20181213161931_Groups.Designer.cs" />
+    <Compile Remove="Migrations\20181213190111_Groups.cs" />
+    <Compile Remove="Migrations\20181213190111_Groups.Designer.cs" />
+    <Compile Remove="Migrations\20181213192211_groups.cs" />
+    <Compile Remove="Migrations\20181213192211_groups.Designer.cs" />
+    <Compile Remove="Migrations\20181217132818_groups.cs" />
+    <Compile Remove="Migrations\20181217132818_groups.Designer.cs" />
+
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

@@ -1,3 +1,16 @@
+@import '../../../../styles-variables.scss';
+
 .show{
     display:block;
+}
+
+.btn-header {
+    line-height: 38px;
+    input {
+        line-height: 32px;
+    }
+}
+
+.clearfix {
+    @include clearfix;
 }

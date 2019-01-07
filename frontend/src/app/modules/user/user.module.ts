@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
         UserRoutingModule,
         FormsModule
     ],
-    declarations: [...routedComponents]
+    declarations: [...routedComponents],
+    exports: [...routedComponents]
 })
 export class UserModule { }

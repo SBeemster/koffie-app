@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from "../core/services/auth.service";
-import { ApiService } from "../core/services/api.service";
-import { ActivatedRoute, Router } from "@angular/router";
+import { AuthService } from '../core/services/auth.service';
+import { ApiService } from '../core/services/api.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
     selector: 'app-login',
@@ -10,42 +10,51 @@ import { ActivatedRoute, Router } from "@angular/router";
 })
 export class LoginComponent implements OnInit {
 
-    passType: string = "password";
+    passType = 'password';
 
-    username: string = "admin";
-    password: string = "admin";
+    username = '';
+    password = '';
 
+    logout = this.auth.logout;
     returnUrl: string;
+
+    awaitingResponse = false;
+    authError = false;
 
     constructor(
         private route: ActivatedRoute,
         private router: Router,
-        private api: ApiService, 
+        private api: ApiService,
         private auth: AuthService) { }
 
     ngOnInit() {
-        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-    }
-
-    awaitingResponse(): boolean {
-        return this.api.awaitingResponse;
+        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
+        this.api.awaitingResponse.subscribe(
+            state => { this.awaitingResponse = state; }
+        );
     }
 
     togglePassword(): void {
-        if (this.passType === "password") {
-            this.passType = "text"
+        if (this.passType === 'password') {
+            this.passType = 'text';
         } else {
-            this.passType = "password"
+            this.passType = 'password';
         }
     }
 
     login(): void {
+        this.authError = false;
         this.auth.login(this.username, this.password).subscribe(
-            () => { //success
+            () => {
                 this.router.navigateByUrl(this.returnUrl);
+            },
+            () => {
+                this.authError = true;
             }
-        )
+        );
     }
 
-    logout = this.auth.logout;
+    loggedIn(): boolean {
+        return this.auth.isLoggedIn();
+    }
 }

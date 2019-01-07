@@ -1,24 +1,39 @@
-import { TestBed, inject } from "@angular/core/testing";
+import { TestBed, inject, async } from '@angular/core/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpClientModule, } from '@angular/common/http';
+import { RouterTestingModule } from '@angular/router/testing';
+import { AvailableCoffeeService } from './Available-coffee.service';
 
-import { AvailableCoffeeService } from "./available-coffee.service";
 
-describe("AvailableCoffeeService", () => {
+describe('AvailableCoffeeService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [
+        HttpClientModule, HttpClientTestingModule, RouterTestingModule
+      ],
       providers: [AvailableCoffeeService]
     });
   });
 
-  it("should be created", inject(
+  it('should be created', inject(
     [AvailableCoffeeService],
     (service: AvailableCoffeeService) => {
       expect(service).toBeTruthy();
     }
   ));
 
-  it("should be de same as count from API GET methode", () => {
-    //TODO code aanpassen voor test API
-    const result = AvailableCoffeeService;
-    expect(result).not.toBeNull();
-  });
+  it('get coffee shouldnt be empty or null', async(inject(
+    [AvailableCoffeeService],
+    (service: AvailableCoffeeService) => {
+      const result = service.getCoffee();
+      expect(service.getCoffee).not.toBe('');
+      expect(service.getCoffee).not.toBeNull();
+
+    })));
+
+  it('should be a get method', async(inject(
+    [AvailableCoffeeService],
+    (service: AvailableCoffeeService) => {
+      expect(service.getCoffee()).toContain('GET');
+    })));
 });

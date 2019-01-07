@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CoffeeAPI.Models
 {
@@ -10,6 +11,7 @@ namespace CoffeeAPI.Models
         [Required]
         public string GroupName { get; set; }
 
-        public ICollection<UserGroup> UserGroups { get; set; }
+        [InverseProperty("GroupMember")]
+        public ICollection<User> Members { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,9 +22,9 @@ namespace CoffeeAPI.Controllers
 
         // GET: api/Drinks
         [HttpGet]
-        public IEnumerable<Drink> GetDrinks(bool? available)
+        public IEnumerable<Drink> GetDrinks(bool? Available)
         {
-            switch (available)
+            switch (Available)
             {
                 case true:
                     return _context.Drinks.Where(d => d.Available == true);
@@ -35,7 +36,7 @@ namespace CoffeeAPI.Controllers
 
         // GET: api/Drinks/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetDrink([FromRoute] int id)
+        public async Task<IActionResult> GetDrink([FromRoute] Guid id)
         {
             if (!ModelState.IsValid)
             {

@@ -1,44 +1,94 @@
 <div class="row">
-    <div class="col-sm-4 col-center">
+    <div class="col-sm-5 mx-auto">
         <div class="card">
-            <p>
-                <button type="button" class="btn btn-dark float-right btn-close" routerLink="../../">X</button>
-            </p>
-            <img class="card-img-top" src="{{availableCoffee.imageUrl}}" alt="Card image cap">
-            <div class="card-body">
-                <h3 class="card-title">{{availableCoffee.drinkName}}</h3>
-                <p class="card-text">Een overheerlijk bakje {{availableCoffee.drinkName}}!</p>
 
+            <div class="row">
+                <div class="col-12">
+                    <button type="button" class="close close-star float-left" (click)="submitPreference(availableCoffee, milkcnt, sugarcnt)"
+                        *ngIf="userPreference.drink == null || userPreference.drink.drinkId != availableCoffee.drinkId">
+                        <i class="fa fa-star-o fa-lg" aria-hidden="true"></i>
+                    </button>
+                    <button type="button" class="close close-star float-left" (click)="emptyPreference()" *ngIf="userPreference.drink != null && userPreference.drink.drinkId == availableCoffee.drinkId">
+                        <i class="fa fa-star fa-lg" aria-hidden="true"></i>
+                    </button>
+                    <button type="button" class="close close-times" aria-label="Close" [routerLink]="['/dashboard']">
+                        <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+
+            <img class="card-img-top mx-auto" src="{{availableCoffee.imageUrl}}" alt="Card image cap" />
+
+            <div class="card-body">
                 <div class="row">
-                    <div class="col-lg-12">
-                        <button class="btn btn-primary btn-lg float-left" (click)="drinkCountDown()">-</button>
-                        <p align="center">Aantal {{newAantal}}
-                            <button class="btn btn-primary btn-lg float-right" (click)="drinkCountUp()">+</button>
-                        </p>
+                    <div class="col-12 mb-3">
+                        <h3 class="card-title text-center">{{ availableCoffee.drinkName }}</h3>
+                        <div class="card-text text-center">Een overheerlijk bakje {{ availableCoffee.drinkName }}!</div>
+                    </div>
+
+                    <div class="col-12">
+                        <form>
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Aantal</label>
+                                <div class="col-sm-9 input-group">
+                                    <div class="input-group-prepend">
+                                        <button type="button" class="btn btn-primary" (click)="drinkCountDown()">
+                                            -
+                                        </button>
+                                    </div>
+                                    <input type="number" class="form-control text-center" value="{{ newAantal }}">
+                                    <div class="input-group-append">
+                                        <button type="button" class="btn btn-primary" (click)="drinkCountUp()">
+                                            +
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row" *ngIf="availableCoffee.additions">
+                                <label class="col-sm-3 col-form-label">Melk</label>
+                                <div class="col-sm-9 input-group">
+                                    <div class="input-group-prepend">
+                                        <button type="button" class="btn btn-primary" (click)="milkCountDown()">
+                                            -
+                                        </button>
+                                    </div>
+                                    <input type="number" class="form-control text-center" value="{{ milkcnt }}">
+                                    <div class="input-group-append">
+                                        <button type="button" class="btn btn-primary" (click)="milkCountUp()">
+                                            +
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row" *ngIf="availableCoffee.additions">
+                                <label class="col-sm-3 col-form-label">Suiker</label>
+                                <div class="col-sm-9 input-group">
+                                    <div class="input-group-prepend">
+                                        <button type="button" class="btn btn-primary" (click)="sugarCountDown()">
+                                            -
+                                        </button>
+                                    </div>
+                                    <input type="number" class="form-control text-center" value="{{ sugarcnt }}">
+                                    <div class="input-group-append">
+                                        <button type="button" class="btn btn-primary" (click)="sugarCountUp()">
+                                            +
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-0">
+                                <button class="btn btn-success btn-lg btn-block btn-bestellen" (click)="addToOrder(availableCoffee, newAantal, milkcnt, sugarcnt);">
+                                    Bestellen!
+                                </button>
+                            </div>
+
+                        </form>
                     </div>
                 </div>
-                <ng-container *ngIf="availableCoffee.additions">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <button class="btn btn-primary btn-lg float-left" (click)="melkCountDown()">-</button>
-                            <p align="center">Melk {{melkcnt}}
-                                <button class="btn btn-primary btn-lg float-right" (click)="melkCountUp()">+</button>
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <button class="btn btn-primary btn-lg float-left" (click)="suikerCountDown()">-</button>
-                            <p align="center">Suiker {{suikercnt}}
-                                <button class="btn btn-primary btn-lg float-right" (click)="suikerCountUp()">+</button>
-                            </p>
-                        </div>
-                    </div>
-                </ng-container>
-                <button class="btn btn-success btn-lg btn-block btn-bestellen" (click)="addToOrder(availableCoffee, newAantal, 'Verbruiker', melkcnt, suikercnt);">Bestellen!</button>
             </div>
-            
         </div>
     </div>
 </div>

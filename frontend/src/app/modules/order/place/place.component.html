@@ -1,56 +1,12 @@
-<!-- <div class="row">
-    <div class="col-sm-12">
-        <h3>Kies uw drank</h3>
+<div class="row">
+    <div class="col-sm-6 mb-4" *ngFor="let availableCoffee of availableCoffees">
+        <a [routerLink]="[ '/order/coffees/', availableCoffee.drinkId ]">
+            <div class="card row-overzicht shadow bg-white rounded">
+                <img class="card-img-top mx-auto" src="{{ availableCoffee.imageUrl }}">
+                <div class="card-body">
+                    <h4 class="card-title text-center">{{ availableCoffee.drinkName }}</h4>
+                </div>
+            </div>
+        </a>
     </div>
 </div>
-
-<div class="row">
-    <div class="d-flex justify-content-between">
-        <div class="col-sm-12">
-            <button class="btn btn-outline-success mr-1" *ngFor="let availableCoffee of availableCoffees" (click)="addToOrder(availableCoffee, newAantal, 'Wilrik');">
-                {{availableCoffee.drinkName}}
-            </button>
-        </div>
-    </div>
-</div>
-<hr>
-
-<div class="row">
-    <div class="col-sm-2">
-        <h3>Bestelling</h3>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-sm-12 col-lg-5">
-        <ul class="list-group list-group-flush">
-            <ng-container *ngFor="let order of orders">
-                <li class="list-group-item" *ngIf="!order.verwerkt">
-                    {{order.aantal}} x {{order.name}}
-                    <button class="float-right btn btn-danger" (click)="deleteFromOrder(order)">
-                        <i class="fa fa-fw fa-trash"></i>
-                    </button>
-                </li>
-            </ng-container>
-        </ul>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-sm-2">
-        <button class="btn btn-lg btn-outline-danger" (click)="clearCart('Wilrik');">
-            Legen
-        </button>
-    </div>
-</div> -->
-
-<div class="row">
-    <div class="col-sm-5 mb-5 card" *ngFor="let availableCoffee of availableCoffees">
-        <h4>{{availableCoffee.drinkName}}</h4>
-        <div class="image align-bottom">
-            <a [routerLink]="[availableCoffee.drinkId]">
-                <img src="{{availableCoffee.imageUrl}}" class="img-fluid" alt="Responsive image" title="The title of this image">
-            </a>
-        </div>
-    </div>
-</div>​

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from "src/app/core/services/api.service";
+import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
     selector: 'app-select',
@@ -11,18 +11,18 @@ export class SelectComponent implements OnInit {
     users: object[] = [];
 
     constructor(
-        private api: ApiService
+        private userService: UserService
     ) { }
 
     ngOnInit() {
-        this.api.get("/users").subscribe(
-            (res: Array<object>) => {
-                this.users = res;
+        this.userService.getAll().subscribe(
+            user => {
+                this.users.push(user);
             },
             error => {
                 console.error(error);
             }
-        )
+        );
     }
 
 }

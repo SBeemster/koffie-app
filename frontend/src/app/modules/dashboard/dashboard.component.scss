@@ -1,0 +1,28 @@
+.pointer {
+    cursor: pointer;
+}
+
+h4 {
+    margin: 0;
+}
+
+.fa {
+    -webkit-transition: all .3s ease-out; /* Safari */
+    transition: all .3s ease-out;
+}
+
+.fa-rotate-0 {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+}
+
+.fa-rotate-135 {
+    -webkit-transform: rotate(135deg);
+    -moz-transform: rotate(135deg);
+    -ms-transform: rotate(135deg);
+    -o-transform: rotate(135deg);
+    transform: rotate(135deg);
+}

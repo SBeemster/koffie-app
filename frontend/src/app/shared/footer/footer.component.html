@@ -1,4 +1,4 @@
-<div class="footer">
+<div class="footer" *ngIf="loggedIn()">
     <nav class="navbar navbar-light bg-light mt-3">
         <div class="container">
             <h6 class="text-left mb-0">
@@ -7,11 +7,11 @@
             <h6 class="text-center mb-0">
                 Gemaakt met <i class="fa fa-heart"></i> door Business as Unusual
             </h6>
-            <button class="btn btn-light" href="https://github.com/SBeemster/koffie-app/tree/develop/frontend">
+            <a target="_blank" class="btn btn-light" href="https://github.com/SBeemster/koffie-app/tree/develop/frontend">
                 <h6 class="text-right mb-0">
                     Source <i class="fa fa-lg fa-github"></i>
                 </h6>
-            </button>
+            </a>
         </div>
     </nav>
 </div>

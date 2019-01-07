@@ -1,7 +1,11 @@
-<nav class="navbar navbar-light bg-light mb-3">
+<nav class="navbar navbar-light bg-light mb-3" *ngIf="loggedIn()">
     <div class="container">
-        <app-menu></app-menu>
-        <button type="button" (click)="logout()" class="btn btn-outline-danger float-right" *ngIf="loggedIn()"
-            [attr.disabled]="awaitingResponse() ? '' : null"> Logout: {{ username() }}</button>
+        <a class="btn btn-light" [routerLink]="['/dashboard']">
+                <i class="fa fa-lg fa-coffee"></i> Dashboard
+        </a>
+        <div class="float-right">
+            <app-header-group class="mr-2"></app-header-group>
+            <app-header-logout></app-header-logout>
+        </div>
     </div>
 </nav>

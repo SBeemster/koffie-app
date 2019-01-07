@@ -7,25 +7,25 @@ export class MenuItem {
 
 export const MENU_ITEMS: MenuItem[] = [
   {
-    title: "Plaats Order",
-    link: "order/coffees"
+    title: 'Plaats Order',
+    link: 'order/coffees'
   },
   {
-    title: "Order Overzicht",
-    link: "order/overview"
+    title: 'Order Overzicht',
+    link: 'order/overview'
   },
   {
-    title: "Groepen",
-    link: "user/group"
+    title: 'Groepen',
+    link: 'user/group'
   },
   {
-    title: "Nieuwe Gebruiker",
-    link: "user/create",
-    role: "Admin"
+    title: 'Nieuwe Gebruiker',
+    link: 'user/create',
+    role: 'Admin'
   },
   {
-    title: "Bewerk Gebruiker",
-    link: "user/select",
-    role: "Admin"
+    title: 'Bewerk Gebruiker',
+    link: 'user/select',
+    role: 'Admin'
   }
 ];

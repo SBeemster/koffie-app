@@ -1,5 +1,4 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ChoiceComponent } from './choice.component';
 
 describe('ChoiceComponent', () => {
@@ -8,9 +7,9 @@ describe('ChoiceComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ChoiceComponent ]
+      declarations: [ChoiceComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -21,5 +20,15 @@ describe('ChoiceComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('Should increment the sugar count', () => {
+    component.sugarCountUp();
+    expect(component.sugarcnt).toBe(1);
+  });
+
+  it('Should decrement the sugar count', () => {
+    component.sugarCountDown();
+    expect(component.sugarcnt).toBe(0);
   });
 });

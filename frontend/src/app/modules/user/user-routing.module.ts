@@ -13,6 +13,7 @@ const routes: Routes = [
         component: UserComponent,
         children: [
             { path: 'group', component: GroupComponent },
+            { path: 'group/:groupId', component: GroupComponent },
             { path: 'create', component: CreateComponent },
             { path: 'select', component: SelectComponent },
             { path: 'edit/:userId', component: EditComponent },
@@ -34,4 +35,4 @@ export const routedComponents = [
     CreateComponent,
     EditComponent,
     SelectComponent
-]
+];
