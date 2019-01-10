@@ -6,11 +6,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CoffeeAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CoffeeAPI.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
+    [ApiController, Authorize]
     public class OrderStatusController : ControllerBase
     {
         private readonly CoffeeContext _context;
