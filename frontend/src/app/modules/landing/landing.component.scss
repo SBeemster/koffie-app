@@ -81,6 +81,9 @@ p {
 .intro {
     position: relative;
 }
+.intro-button{
+    padding-bottom:2em;
+}
 
 @media (min-width: 992px) {
     .intro .intro-img {
@@ -98,6 +101,9 @@ p {
         left: 0;
         position: absolute;
         bottom: -2rem;
+    }
+    .intro-button{
+        padding-bottom:0;
     }
 }
 
