@@ -1,0 +1,4 @@
+#Mon Jan 14 20:14:21 CET 2019
+base.0=C\:\\Users\\Joris\\source\\repos\\koffie-app\\frontend\\platforms\\android\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\0
+path.0=classes.dex
+renamed.0=classes.dex
