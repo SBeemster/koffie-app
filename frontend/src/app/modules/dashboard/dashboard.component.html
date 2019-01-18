@@ -1,28 +1,85 @@
-<div class="card mb-3" [hidden]="!hasOrders">
-        <div class="card-header">
-            <button class="btn btn-link" (click)="toggleOrders()">
-                <h4>
-                    <i class="fa fa-plus fa-fw fa-lg fa-rotate-0" [ngClass]="{'fa-rotate-135': showOrders}"></i>
-                    Reeds bestelde drankjes
-                </h4>
-            </button>
-        </div>
-        <div [hidden]="!showOrders">
-            <div class="card-body">
-                <app-overview (notify)="onNotifyOrders($event)"></app-overview>
+<div class="menu">
+    <div class="menu-icon" id="menu-favorit" *ngIf="hasFavorite" (click)="toggleFavorite()">
+        <div>
+            <div>
+                <div class="menu-image">
+                    <img src="./assets/Images/favorit.png">
+                </div>
+                <div class="menu-label">Favoriet</div>
             </div>
         </div>
     </div>
-
-<div class="card mb-3" [hidden]="!hasFavorite">
-    <div class="card-header">
-        <button class="btn btn-link" (click)="toggleFavorite()">
-            <h4>
-                <i class="fa fa-plus fa-fw fa-lg fa-rotate-0" [ngClass]="{'fa-rotate-135': showFavorite}"></i>
-                Bestel uw favoriet
-            </h4>
-        </button>
+    <div class="menu-icon" id="menu-drinks" (click)="toggleDrinks()">
+        <div>
+            <div>
+                <div class="menu-image">
+                    <img src="./assets/Images/coffee-icon.png">
+                </div>
+                <div class="menu-label">Bestellen</div>
+            </div>
+        </div>
     </div>
+    <div class="menu-icon" id="menu-order" *ngIf="hasOrders" (click)="toggleOrders()">
+        <div>
+            <div>
+                <div class="menu-image">
+                    <img src="./assets/Images/getting.png">
+                </div>
+                <div class="menu-label">Halen</div>
+            </div>
+        </div>
+    </div>
+    <div class="menu-icon" id="menu-manager" *ngIf="isManager();" (click)="toggleManager()">
+        <div>
+            <div>
+                <div class="menu-image">
+                    <img src="./assets/Images/chart.png">
+                </div>
+                <div class="menu-label">Statistieken</div>
+            </div>
+        </div>
+    </div>
+    <div class="menu-icon" id="menu-group"  (click)="toggleGroup()">
+            <div>
+                <div>
+                    <div class="menu-image">
+                        <img src="./assets/Images/group.png">
+                    </div>
+                    <div class="menu-label">Groep</div>
+                </div>
+            </div>
+        </div>
+    <div class="menu-icon" id="menu-admin" *ngIf="isAdmin();" (click)="toggleAdmin()">
+            <div>
+                <div>
+                    <div class="menu-image">
+                        <img src="./assets/Images/admin.png">
+                    </div>
+                    <div class="menu-label">Admin</div>
+                </div>
+            </div>
+        </div>
+        <div class="menu-icon" id="menu-logout" (click)="logOut()">
+                <div>
+                    <div>
+                        <div class="menu-image">
+                            <img src="./assets/Images/logout.png">
+                        </div>
+                        <div class="menu-label">Uitloggen</div>
+                    </div>
+                </div>
+            </div>
+</div>
+<div class="card" [hidden]="!hasOrders">
+    <div [hidden]="!showOrders">
+        <div class="card-body">
+            <app-overview (notify)="onNotifyOrders($event)"></app-overview>
+        </div>
+    </div>
+</div>
+
+<div class="card" *ngIf="hasFavorite" [hidden]="!hasFavorite">
+    
     <div [hidden]="!showFavorite">
         <div class="card-body">
             <app-favorite (notifyFavorite)="onNotifyFavorite($event)" (notifyPlaced)="onNotifyPlaced()"></app-favorite>
@@ -30,15 +87,8 @@
     </div>
 </div>
 
-<div class="card mb-3">
-    <div class="card-header">
-        <button class="btn btn-link" (click)="toggleDrinks()">
-            <h4>
-                <i class="fa fa-plus fa-fw fa-lg fa-rotate-0" [ngClass]="{'fa-rotate-135': showAllDrinks}"></i>
-                Kies een drank
-            </h4>
-        </button>
-    </div>
+<div class="card">
+    
     <div [hidden]="!showAllDrinks">
         <div class="card-body">
             <app-place></app-place>
@@ -46,15 +96,17 @@
     </div>
 </div>
 
-<div class="card mb-3" *ngIf="isManager();">
-    <div class="card-header">
-        <button class="btn btn-link" (click)="toggleManager()">
-            <h4>
-                <i class="fa fa-plus fa-fw fa-lg fa-rotate-0" [ngClass]="{'fa-rotate-135': showManagerPanel}"></i>
-                Rapportage Panel
-            </h4>
-        </button>
+<div class="card">
+    
+        <div [hidden]="!showGroup">
+            <div class="card-body">
+                <app-group></app-group>
+            </div>
+        </div>
     </div>
+
+<div class="card" *ngIf="isManager();">
+   
     <div [hidden]="!showManagerPanel">
         <div class="card-body">
             <app-reports></app-reports>
@@ -63,17 +115,10 @@
 </div>
 
 <div class="card" *ngIf="isAdmin();">
-    <div class="card-header">
-        <button class="btn btn-link" (click)="toggleAdmin()">
-            <h4>
-                <i class="fa fa-plus fa-fw fa-lg fa-rotate-0" [ngClass]="{'fa-rotate-135': showAdminPanel}"></i>
-                Admin Panel
-            </h4>
-        </button>
-    </div>
+    
     <div [hidden]="!showAdminPanel">
         <div class="card-body">
-            <button class="btn btn-block btn-success mb-3" [routerLink]="['/user/create']">Nieuwe Gebruiker</button>
+            <button class="btn btn-block btn-primary mb-3" [routerLink]="['/user/create']">Nieuwe Gebruiker</button>
             <app-select></app-select>
         </div>
     </div>

@@ -30,3 +30,96 @@ app-root {
 app-footer {
   flex-shrink: 0;
 }
+.btn-success{
+    background-color: #e6a756;
+    border-color: #e6a756;
+}
+
+.btn-success:hover,
+.btn-success:focus,
+.btn-success:active {
+    background-color: #df902a;
+    border-color: #df902a;
+}
+.card-body{
+  border:3px #df902a solid;
+  border-radius: 10px;
+  background: #fff;
+}
+.card{
+  max-width:900px;
+  border-radius: 10px !important;
+  background:transparent;
+}
+.btn-primary{
+  background-color: #4f7194;
+  border-color: #4f7194;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+  background-color: #344b62;
+  border-color: #344b62;
+}
+.drink-right{
+  margin-left:-8em;
+}
+@media (max-width: 991px){
+  .card{
+    max-width:640px;
+  }
+  .drink-right{
+    margin-left:-4em;
+  }
+  .card-body h4{
+    position: relative;
+    display: block;
+    top:0;
+    left:3em;
+    width:100%;
+  }
+  .card .col-form-label{
+    min-width:5em;
+  }
+  .card .input-group{
+    max-width: 12em;
+  }
+}
+@media (max-width: 767px){
+  .card{
+    max-width:380px;
+  }
+  .card-body{
+    min-height:450px;
+    margin-bottom:5em;
+  }
+  .card-body h4{
+    position: relative;
+    display: block;
+    top:0;
+    width:100%;
+    left:0;
+  }
+  .card-body img{
+    position: relative;
+    width:15em;
+    left:2.5em;
+    top:3em;
+  }
+  .drink-right p{
+    left: -5em;
+    position: absolute;
+    width: 18em;
+  }
+  .drink-right .form-group{
+    position: relative;
+    top:17em;
+    left:-5em;
+    width:20em;
+  }
+  .drink-right .btn{
+    position: relative;
+    left:-2.2em;
+  }
+}

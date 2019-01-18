@@ -1,7 +1,48 @@
-<div class="container">
+<h1 class="site-heading text-center text-white d-none d-lg-block">
+    <span class="site-heading-upper text-primary mb-3">de lekkerste koffie van nederland</span>
+    <span class="site-heading-lower">business as unusual</span>
+</h1>
+
+<section class="page-section clearfix">
+    <div class="container">
+        <div class="intro">
+            <img class="intro-img img-fluid mb-3 mb-lg-0 rounded" src="/assets/Images/landing_intro.jpg" alt="">
+            <div class="intro-text left-0 text-center bg-faded p-5 rounded">
+                <h2 class="section-heading mb-4">
+                    <span class="section-heading-upper">het drinken waard</span>
+                    <span class="section-heading-lower">verse koffie</span>
+                </h2>
+                <div class="mb-2 mx-auto p-4" *ngIf="!loggedIn()">
+                    <div class="form-group" (keydown.enter)="login()">
+                        <input type="text" class="form-control mb-1" name="username" (input)="username = $event.target.value"
+                            autocomplete="username" placeholder="Gebruikersnaam">
+                        <div class="input-group">
+                            <input type="{{ passType }}" class="form-control input-password" name="password" (input)="password = $event.target.value"
+                                autocomplete="current-password" placeholder="Wachtwoord" data-toggle="password">
+                            <div class="input-group-addon" id="show_hide_password">
+                                <i (click)="togglePassword()" class="fa fa-eye-slash btn-showpassword" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    
+                    <div *ngIf="authError">
+                            <div class="alert alert-danger mx-auto mt-1">
+                                 Gebruikersnaam of wachtwoord onjuist.
+                                </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="intro-button mx-auto">
+                    <a class="btn btn-primary btn-xl" (click)="login()">Inloggen!</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- <div class="container">
     <div class="row" *ngIf="!loggedIn()">
-        <div class="col-12">
-            <div class="card mx-auto mt-4">
+        <div class="col-6">
+            <div class="card mx-auto mt-4 back-yellow">
                 <div class="card-header">
                     Login
                 </div>
@@ -20,7 +61,7 @@
                         <button type="button" (click)="togglePassword()" class="btn btn-block btn-outline-secondary">Show
                             Password</button>
                         <hr>
-                        <button type="button" (click)="login()" class="btn btn-block btn-success" [disabled]="awaitingResponse">Login</button>
+                        <button type="button" (click)="login()" class="btn btn-block btn-yellow" [disabled]="awaitingResponse">Login</button>
                     </form>
                 </div>
             </div>
@@ -40,4 +81,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->

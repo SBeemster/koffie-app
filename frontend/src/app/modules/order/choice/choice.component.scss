@@ -2,9 +2,11 @@
     width: auto;
     max-width: 50rem;
     margin: auto;
-    border-color: black;
+    border: 0;
 }
-
+.card-body{
+    text-align: center;
+}
 img {
     max-height: 15em;
     max-width: 15em;
@@ -30,4 +32,17 @@ img {
 .close-times {
     margin-right: 15px;
     margin-top: 12px;
+}
+@media (max-width: 767px){
+    .card-body{
+        min-width:20em;
+    }
+    .card-body img{
+        width:80%;
+        left:0;
+        top:0;
+    }
+    .card .input-group{
+        max-width:100%;
+    }
 }
