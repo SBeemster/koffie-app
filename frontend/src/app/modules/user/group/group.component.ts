@@ -35,12 +35,28 @@ export class GroupComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        const groupId = this.activatedRoute.snapshot.params['groupId'];
-        if (groupId) {
+        this.groupService.getMyGroup().subscribe(
+            response => {
+                if (response) {
+                    this.group = response;
+                    this.groupFound = true;
+                    this.noGroup = false;
+                } else {
+                    this.groupFound = false;
+                    this.noGroup = true;
+                }
+            },
+            console.error
+            ,() => {
+            var groupId = this.group.groupId;
+            if(groupId){
             this.populatePage(groupId);
-        } else {
+            }else{
             this.noGroup = true;
-        }
+            }
+    }
+        );
+        
     }
 
     renameGroup() {
@@ -85,7 +101,10 @@ export class GroupComponent implements OnInit {
                 this.groupService.header.refreshGroup();
                 this.router.navigate(['/dashboard']);
             },
-            console.error
+            console.error,
+            () => {
+                this.refreshGroup();
+            }
         );
     }
 
@@ -95,7 +114,10 @@ export class GroupComponent implements OnInit {
                 this.groupService.header.refreshGroup();
                 this.router.navigate(['/dashboard']);
             },
-            console.error
+            console.error,
+            () => {
+                this.refreshGroup();
+            }
         );
     }
 
@@ -135,6 +157,20 @@ export class GroupComponent implements OnInit {
             const div = divList.item(i);
             div.remove();
         }
+    }
+    refreshGroup() {
+        this.groupService.getMyGroup().subscribe(
+            response => {
+                if (response) {
+                    this.group = response;
+                    this.groupFound = true;
+                    this.noGroup = false;
+                } else {
+                    this.groupFound = false;
+                    this.noGroup = true;
+                }
+            }
+        );
     }
 
     private populatePage(groupId: string) {

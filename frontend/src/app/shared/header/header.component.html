@@ -1,11 +1,3 @@
-<nav class="navbar navbar-light bg-light mb-3" *ngIf="loggedIn()">
-    <div class="container">
-        <a class="btn btn-light" [routerLink]="['/dashboard']">
-                <i class="fa fa-lg fa-coffee"></i> Dashboard
-        </a>
-        <div class="float-right">
-            <app-header-group class="mr-2"></app-header-group>
-            <app-header-logout></app-header-logout>
-        </div>
-    </div>
+<nav class="navbar navbar-light mb-3" *ngIf="loggedIn()">
+    <app-header-group></app-header-group>
 </nav>

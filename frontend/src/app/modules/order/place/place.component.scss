@@ -6,3 +6,11 @@ img {
 .row {
     margin-bottom: -24px;
 }
+.card-body{
+    border:0 !important;
+}
+@media (max-width: 991px){
+    .card-body h4{
+        left:0;
+    }
+}

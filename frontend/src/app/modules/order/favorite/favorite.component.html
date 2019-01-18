@@ -4,14 +4,16 @@
             <i class="fa fa-star fa-lg"></i>
         </button>
     </div>
-    <div class="col-6">
-        <img class="m-auto d-block" src="{{ userPreference.drink.imageUrl }}">
-    </div>
-    <div class="col-6">
-        <div class="row">
-            <div class="col-12">
+</div>
+<div class="row">
+        <div class="col-12">
                 <h4 class="text-center">Uw favoriete drank!</h4>
             </div>
+    <div class="col-6">
+        <img class="m-auto" src="{{ userPreference.drink.imageUrl }}">
+    </div>
+    <div class="col-6 drink-right">
+            
             <div class="col-12">
                 <p class="text-center">
                     Bestel met één druk op de knop uw {{ userPreference.drink.drinkName }}!
@@ -57,12 +59,11 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <button type="button" class="btn btn-block btn-success btn-lg" (click)="addToOrder(userPreference.drink, milkcnt, sugarcnt)">
+                        <button type="button" class="btn btn-block btn-success btn-lg btn-order" (click)="addToOrder(userPreference.drink, milkcnt, sugarcnt)">
                             Bestellen!
                         </button>
                     </div>
                 </form>
             </div>
-        </div>
     </div>
 </div>
