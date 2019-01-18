@@ -52,8 +52,6 @@ export class DashboardComponent implements OnInit {
         if (this.hasOrders) {
             document.getElementById('menu-order').className = "menu-icon";
         }
-        document.getElementById('menu-manager').className = "menu-icon";
-        document.getElementById('menu-admin').className = "menu-icon";
         document.getElementById('menu-group').className = "menu-icon";
     }
     toggleDrinks(): void {
