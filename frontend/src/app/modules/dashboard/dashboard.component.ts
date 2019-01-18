@@ -14,7 +14,7 @@ import * as Echarts from 'echarts';
 export class DashboardComponent implements OnInit {
     @ViewChild(OverviewComponent) overview: OverviewComponent;
 
-    hasFavorite = false;
+    hasFavorite = true;
     hasOrders = false;
     hasOwnOrder = false;
     showOrders = false;

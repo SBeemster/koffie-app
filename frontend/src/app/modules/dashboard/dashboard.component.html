@@ -1,5 +1,5 @@
 <div class="menu">
-    <div class="menu-icon" id="menu-favorit" [hidden]="!hasFavorite" (click)="toggleFavorite()">
+    <div class="menu-icon" id="menu-favorit" *ngIf="hasFavorite" (click)="toggleFavorite()">
         <div>
             <div>
                 <div class="menu-image">
@@ -78,11 +78,11 @@
     </div>
 </div>
 
-<div id="card-favorite" class="card-favorite card" *ngIf="hasFavorite">
+<div id="card-favorite" class="card-favorite card" [hidden]="!hasFavorite">
     
     <div [hidden]="!showFavorite">
         <div class="card-body card-favorite">
-            <app-favorite (notifyFavorite)="onNotifyFavorite($event)" (notifyPlaced)="onNotifyPlaced()"></app-favorite>
+            <app-favorite (notifyFavorite)="onNotifyFavorite($event)" (notifyPlaced)="onNotifyPlaced()" *ngIf="hasFavorite"></app-favorite>
         </div>
     </div>
 </div>

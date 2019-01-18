@@ -35,12 +35,28 @@ export class GroupComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        const groupId = this.activatedRoute.snapshot.params['groupId'];
-        if (groupId) {
+        this.groupService.getMyGroup().subscribe(
+            response => {
+                if (response) {
+                    this.group = response;
+                    this.groupFound = true;
+                    this.noGroup = false;
+                } else {
+                    this.groupFound = false;
+                    this.noGroup = true;
+                }
+            },
+            console.error
+            ,() => {
+            var groupId = this.group.groupId;
+            if(groupId){
             this.populatePage(groupId);
-        } else {
+            }else{
             this.noGroup = true;
-        }
+            }
+    }
+        );
+        
     }
 
     renameGroup() {
@@ -54,7 +70,7 @@ export class GroupComponent implements OnInit {
             this.edit = false;
             this.groupService.putGroup(this.group).subscribe(
                 () => {
-                    //this.groupService.header.refreshGroup();
+                    this.groupService.header.refreshGroup();
                 },
                 console.error
             );
@@ -70,7 +86,7 @@ export class GroupComponent implements OnInit {
         } else {
             this.groupService.postGroup(this.newName).subscribe(
                 (groupId: string) => {
-                    //this.groupService.header.refreshGroup();
+                    this.groupService.header.refreshGroup();
                     this.noGroup = false;
                     this.populatePage(groupId);
                 },
@@ -82,20 +98,26 @@ export class GroupComponent implements OnInit {
     deleteGroup() {
         this.groupService.deleteGroup(this.group.groupId).subscribe(
             () => {
-                //this.groupService.header.refreshGroup();
+                this.groupService.header.refreshGroup();
                 this.router.navigate(['/dashboard']);
             },
-            console.error
+            console.error,
+            () => {
+                this.refreshGroup();
+            }
         );
     }
 
     leaveGroup() {
         this.groupService.leaveGroup(this.group.groupId).subscribe(
             () => {
-                //this.groupService.header.refreshGroup();
+                this.groupService.header.refreshGroup();
                 this.router.navigate(['/dashboard']);
             },
-            console.error
+            console.error,
+            () => {
+                this.refreshGroup();
+            }
         );
     }
 
@@ -135,6 +157,20 @@ export class GroupComponent implements OnInit {
             const div = divList.item(i);
             div.remove();
         }
+    }
+    refreshGroup() {
+        this.groupService.getMyGroup().subscribe(
+            response => {
+                if (response) {
+                    this.group = response;
+                    this.groupFound = true;
+                    this.noGroup = false;
+                } else {
+                    this.groupFound = false;
+                    this.noGroup = true;
+                }
+            }
+        );
     }
 
     private populatePage(groupId: string) {
