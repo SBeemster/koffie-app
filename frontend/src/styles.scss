@@ -66,42 +66,42 @@ app-footer {
   margin-left:-8em;
 }
 @media (max-width: 991px){
-  .card{
+  .card-favorite{
     max-width:640px;
   }
   .drink-right{
     margin-left:-4em;
   }
-  .card-body h4{
+  .card-favorite h4{
     position: relative;
     display: block;
     top:0;
     left:3em;
     width:100%;
   }
-  .card .col-form-label{
+  .card-favorite .col-form-label{
     min-width:5em;
   }
-  .card .input-group{
+  .card-favorite .input-group{
     max-width: 12em;
   }
 }
 @media (max-width: 767px){
-  .card{
+  .card-favorite{
     max-width:380px;
   }
-  .card-body{
+  .card-favorite{
     min-height:450px;
     margin-bottom:5em;
   }
-  .card-body h4{
+  .card-favorite h4{
     position: relative;
     display: block;
     top:0;
     width:100%;
     left:0;
   }
-  .card-body img{
+  .card-favorite img{
     position: relative;
     width:15em;
     left:2.5em;
@@ -118,8 +118,9 @@ app-footer {
     left:-5em;
     width:20em;
   }
-  .drink-right .btn{
-    position: relative;
-    left:-2.2em;
+  @media (max-width: 575px){
+    .card-favorite{
+      min-height:530px;
+    }
   }
 }

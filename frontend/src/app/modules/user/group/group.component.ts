@@ -54,7 +54,7 @@ export class GroupComponent implements OnInit {
             this.edit = false;
             this.groupService.putGroup(this.group).subscribe(
                 () => {
-                    this.groupService.header.refreshGroup();
+                    //this.groupService.header.refreshGroup();
                 },
                 console.error
             );
@@ -70,7 +70,7 @@ export class GroupComponent implements OnInit {
         } else {
             this.groupService.postGroup(this.newName).subscribe(
                 (groupId: string) => {
-                    this.groupService.header.refreshGroup();
+                    //this.groupService.header.refreshGroup();
                     this.noGroup = false;
                     this.populatePage(groupId);
                 },
@@ -82,7 +82,7 @@ export class GroupComponent implements OnInit {
     deleteGroup() {
         this.groupService.deleteGroup(this.group.groupId).subscribe(
             () => {
-                this.groupService.header.refreshGroup();
+                //this.groupService.header.refreshGroup();
                 this.router.navigate(['/dashboard']);
             },
             console.error
@@ -92,7 +92,7 @@ export class GroupComponent implements OnInit {
     leaveGroup() {
         this.groupService.leaveGroup(this.group.groupId).subscribe(
             () => {
-                this.groupService.header.refreshGroup();
+                //this.groupService.header.refreshGroup();
                 this.router.navigate(['/dashboard']);
             },
             console.error

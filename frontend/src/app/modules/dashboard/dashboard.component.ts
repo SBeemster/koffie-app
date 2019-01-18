@@ -46,6 +46,7 @@ export class DashboardComponent implements OnInit {
     setAllInactive(): void {
         if (this.hasFavorite) {
             document.getElementById('menu-favorit').className = "menu-icon";
+            document.getElementById('card-favorite').className = "card";
         }
         document.getElementById('menu-drinks').className = "menu-icon";
         if (this.hasOrders) {
@@ -112,12 +113,15 @@ export class DashboardComponent implements OnInit {
     toggleFavorite(): void {
         this.closeAll();
         var div = document.getElementById('menu-favorit');
-
+        
         this.showFavorite = !this.showFavorite;
         if (this.showFavorite === true) {
+            var divCard = document.getElementById('card-favorite');
+            divCard.className = "card-favorit";
             div.className = "menu-icon menu-icon-active";
         }
         else {
+            divCard.className = "card"
             div.className = "menu-icon";
         }
     }

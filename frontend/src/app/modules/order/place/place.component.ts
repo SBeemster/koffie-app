@@ -16,7 +16,6 @@ export class PlaceComponent implements OnInit {
         this.availableCoffeeService.getCoffee().subscribe(
             drink => {
                 this.availableCoffees.push(drink);
-                console.log("toegevoegd");
             },
             console.error,
             () => {
