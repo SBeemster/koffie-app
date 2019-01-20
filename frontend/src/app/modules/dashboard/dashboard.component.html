@@ -1,4 +1,8 @@
-<div class="menu">
+<div class="menu-hamburger">
+    <img (click)="showMenu()" src="./assets/Images/hamburger.png" width="40px">
+</div>
+<div id="showContent" (click)="showMenu()" class="showContent"></div>
+<div id="menu" class="menu">
     <div class="menu-icon" id="menu-favorit" *ngIf="hasFavorite" (click)="toggleFavorite()">
         <div>
             <div>
@@ -19,7 +23,7 @@
             </div>
         </div>
     </div>
-    <div class="menu-icon" id="menu-order"  [hidden]="!hasOrders" (click)="toggleOrders()">
+    <div class="menu-icon" id="menu-order" [hidden]="!hasOrders" (click)="toggleOrders()">
         <div>
             <div>
                 <div class="menu-image">
@@ -39,65 +43,66 @@
             </div>
         </div>
     </div>
-    <div class="menu-icon" id="menu-group"  (click)="toggleGroup()">
+    <div class="menu-icon" id="menu-group" (click)="toggleGroup()">
+        <div>
             <div>
-                <div>
-                    <div class="menu-image">
-                        <img src="./assets/Images/group.png">
-                    </div>
-                    <div class="menu-label">Groep</div>
+                <div class="menu-image">
+                    <img src="./assets/Images/group.png">
                 </div>
+                <div class="menu-label">Groep</div>
             </div>
         </div>
+    </div>
     <div class="menu-icon" id="menu-admin" *ngIf="isAdmin();" (click)="toggleAdmin()">
+        <div>
             <div>
-                <div>
-                    <div class="menu-image">
-                        <img src="./assets/Images/admin.png">
-                    </div>
-                    <div class="menu-label">Admin</div>
+                <div class="menu-image">
+                    <img src="./assets/Images/admin.png">
                 </div>
+                <div class="menu-label">Admin</div>
             </div>
         </div>
-        <div class="menu-icon" id="menu-logout" (click)="logOut()">
-                <div>
-                    <div>
-                        <div class="menu-image">
-                            <img src="./assets/Images/logout.png">
-                        </div>
-                        <div class="menu-label">Uitloggen</div>
-                    </div>
+    </div>
+    <div class="menu-icon" id="menu-logout" (click)="logOut()">
+        <div>
+            <div>
+                <div class="menu-image">
+                    <img src="./assets/Images/logout.png">
                 </div>
+                <div class="menu-label">Uitloggen</div>
             </div>
-</div>
-<div class="card" [hidden]="!hasOrders">
-    <div [hidden]="!showOrders">
-        <div class="card-body">
-            <app-overview (notify)="onNotifyOrders($event)"></app-overview>
         </div>
     </div>
 </div>
-
-<div id="card-favorite" class="card-favorite card" [hidden]="!hasFavorite">
-    
-    <div [hidden]="!showFavorite">
-        <div class="card-body card-favorite">
-            <app-favorite (notifyFavorite)="onNotifyFavorite($event)" (notifyPlaced)="onNotifyPlaced()" *ngIf="hasFavorite"></app-favorite>
+<div class="content">
+    <div class="card" [hidden]="!hasOrders">
+        <div [hidden]="!showOrders">
+            <div class="card-body">
+                <app-overview (notify)="onNotifyOrders($event)"></app-overview>
+            </div>
         </div>
     </div>
-</div>
 
-<div class="card">
-    
-    <div [hidden]="!showAllDrinks">
-        <div class="card-body">
-            <app-place></app-place>
+    <div id="card-favorite" class="card-favorite card" [hidden]="!hasFavorite">
+
+        <div [hidden]="!showFavorite">
+            <div class="card-body card-favorite">
+                <app-favorite (notifyFavorite)="onNotifyFavorite($event)" (notifyPlaced)="onNotifyPlaced()" *ngIf="hasFavorite"></app-favorite>
+            </div>
         </div>
     </div>
-</div>
 
-<div class="card">
-    
+    <div class="card">
+
+        <div [hidden]="!showAllDrinks">
+            <div class="card-body">
+                <app-place></app-place>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+
         <div [hidden]="!showGroup">
             <div class="card-body">
                 <app-group></app-group>
@@ -105,21 +110,22 @@
         </div>
     </div>
 
-<div class="card" *ngIf="isManager();">
-   
-    <div [hidden]="!showManagerPanel">
-        <div class="card-body">
-            <app-reports></app-reports>
+    <div class="card" *ngIf="isManager();">
+
+        <div [hidden]="!showManagerPanel">
+            <div class="card-body">
+                <app-reports></app-reports>
+            </div>
         </div>
     </div>
-</div>
 
-<div class="card" *ngIf="isAdmin();">
-    
-    <div [hidden]="!showAdminPanel">
-        <div class="card-body">
-            <button class="btn btn-block btn-primary mb-3" [routerLink]="['/user/create']">Nieuwe Gebruiker</button>
-            <app-select></app-select>
+    <div class="card" *ngIf="isAdmin();">
+
+        <div [hidden]="!showAdminPanel">
+            <div class="card-body">
+                <button class="btn btn-block btn-primary mb-3" [routerLink]="['/user/create']">Nieuwe Gebruiker</button>
+                <app-select></app-select>
+            </div>
         </div>
     </div>
 </div>

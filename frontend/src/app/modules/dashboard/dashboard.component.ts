@@ -23,7 +23,7 @@ export class DashboardComponent implements OnInit {
     showAdminPanel = false;
     showFavorite = false;
     showGroup = false;
-
+    showMobileMenu = false;
     private favoriteReceived: boolean;
     private ordersReceived: boolean;
 
@@ -66,6 +66,7 @@ export class DashboardComponent implements OnInit {
         else {
             div.className = "menu-icon";
         }
+        this.showMenu();
     }
     toggleGroup(): void {
         var div = document.getElementById('menu-group');
@@ -77,6 +78,7 @@ export class DashboardComponent implements OnInit {
         else {
             div.className = "menu-icon";
         }
+        this.showMenu();
     }
     toggleManager(): void {
         var div = document.getElementById('menu-manager');
@@ -89,6 +91,7 @@ export class DashboardComponent implements OnInit {
         else {
             div.className = "menu-icon";
         }
+        this.showMenu();
     }
 
     toggleAdmin(): void {
@@ -102,6 +105,7 @@ export class DashboardComponent implements OnInit {
         else {
             div.className = "menu-icon";
         }
+        this.showMenu();
     }
     isManager(): boolean {
         return this.auth.hasRole('Manager');
@@ -124,6 +128,7 @@ export class DashboardComponent implements OnInit {
             divCard.className = "card"
             div.className = "menu-icon";
         }
+        this.showMenu();
     }
 
     toggleOrders(): void {
@@ -137,8 +142,21 @@ export class DashboardComponent implements OnInit {
         else {
             div.className = "menu-icon";
         }
+        this.showMenu();
     }
-
+    showMenu():void{
+        var div = document.getElementById('menu');
+        var divShow = document.getElementById('showContent');
+        if(this.showMobileMenu){
+            div.className = 'menu';
+            divShow.className = 'showContent';
+            this.showMobileMenu = false;
+        }else{
+            this.showMobileMenu = true;
+            div.className = 'activeMenu';
+            divShow.className = 'hideContent'; 
+        }
+    }
     onNotifyFavorite(drinkPreference: DrinkPreference): void {
         this.hasFavorite = drinkPreference.drink != null;
         this.setState(true, null);
@@ -154,6 +172,7 @@ export class DashboardComponent implements OnInit {
     logOut(): void {
         this.auth.logout();
         this.router.navigate(['/']);
+        this.showMenu();
     }
     onNotifyPlaced(): void {
         this.overview.refreshOrders();
